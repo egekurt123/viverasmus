@@ -1,0 +1,37 @@
+:host { display:block; color:var(--ink); background:var(--surface); }
+.about-hero { position:relative; display:grid; grid-template-columns:1.05fr .95fr; min-height:470px; overflow:hidden; background:var(--brand-soft); }
+.hero-copy { position:relative; z-index:1; align-self:center; max-width:670px; padding:70px 30px 80px clamp(34px,9vw,138px); }
+.eyebrow { color:var(--brand-accent); font-size:10px; font-weight:750; letter-spacing:1.7px; }
+h1, h2, p { margin-top:0; }
+h1 { margin:20px 0 17px; color:var(--brand-navy); font-size:clamp(52px,6.2vw,78px); font-weight:550; letter-spacing:-3.5px; line-height:.98; }
+h1 em, h2 em { color:var(--brand-accent); font-family:Georgia,'Times New Roman',serif; font-weight:400; }
+.hero-copy>p { max-width:460px; margin-bottom:25px; color:var(--muted); font-size:15px; line-height:1.75; }
+.about-button { display:inline-flex; align-items:center; justify-content:space-between; gap:25px; min-height:46px; padding:0 17px; border-radius:4px; background:var(--brand-navy); color:white; text-decoration:none; font-size:12px; font-weight:650; transition:background .18s ease,transform .18s ease; }
+.about-button:hover { background:var(--brand-cobalt); transform:translateY(-1px); }.about-button span,.about-text-link span { font-size:17px; }
+.hero-image { min-height:470px; background:linear-gradient(90deg,var(--brand-soft) 0%,rgba(233,237,248,.2) 28%,transparent 60%),url('/assets/setas.png') center/cover; }
+.hero-caption { position:absolute; right:28px; bottom:22px; color:white; font-size:10px; letter-spacing:.4px; text-shadow:0 1px 9px #10173599; }
+.story-section { display:grid; grid-template-columns:170px minmax(0,690px); gap:50px; align-items:start; width:min(1030px,calc(100% - 64px)); margin:0 auto; padding:98px 0 105px; }
+.story-mark { display:grid; place-items:center; width:112px; height:112px; margin-top:4px; border:1px solid #bbc6e7; border-radius:50%; color:var(--brand-navy); font-family:Georgia,serif; font-size:51px; }
+.story-copy h2,.section-heading h2,.values-copy h2 { margin:13px 0 17px; color:var(--brand-navy); font-size:clamp(30px,3.6vw,43px); font-weight:540; letter-spacing:-1.5px; line-height:1.16; }
+.story-copy p { margin:0 0 14px; color:var(--muted); font-size:13px; line-height:1.85; }
+.team-section { padding:80px 0 91px; background:#eef1fa; }
+.section-heading { width:min(1030px,calc(100% - 64px)); margin:0 auto 30px; }.section-heading h2 { max-width:700px; margin-bottom:10px; }.section-heading p { max-width:650px; margin:0; color:var(--muted); font-size:13px; line-height:1.7; }
+.team-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; width:min(1030px,calc(100% - 64px)); margin:0 auto; }
+.team-card { position:relative; min-height:250px; padding:26px 24px 23px; border:1px solid #dfe4f1; background:#fff; }
+.team-number { position:absolute; top:21px; right:22px; color:#8995b9; font-family:Georgia,serif; font-size:13px; }
+.team-icon { display:grid; place-items:center; width:43px; height:43px; margin-bottom:22px; border:1px solid #d3dcf3; border-radius:50%; color:var(--brand-cobalt); font-size:22px; }.city-icon { font-size:25px; }.care-icon { font-size:26px; }
+.team-card h3 { margin:0 0 9px; color:var(--brand-navy); font-size:16px; font-weight:650; }.team-card p { margin:0; color:var(--muted); font-size:12px; line-height:1.75; }
+.about-values { display:grid; grid-template-columns:1fr 1fr; min-height:490px; }
+.values-image { min-height:420px; background:url('/assets/Plaza%20de%20espana.png') center/cover; }
+.values-copy { align-self:center; max-width:600px; padding:65px clamp(28px,7vw,100px); }.values-copy h2 { max-width:430px; margin:13px 0 25px; }
+.values-copy ul { display:grid; gap:17px; margin:0 0 26px; padding:0; list-style:none; }.values-copy li { display:flex; gap:13px; align-items:flex-start; }.values-copy li>span { display:grid; place-items:center; flex:0 0 27px; height:27px; border-radius:50%; background:#e6ebf9; color:var(--brand-cobalt); font-size:13px; font-weight:700; }.values-copy li div { display:grid; gap:4px; }.values-copy li strong { color:#313a60; font-size:12px; font-weight:650; }.values-copy li small { color:var(--muted); font-size:11px; line-height:1.5; }
+.about-text-link { display:inline-flex; align-items:center; gap:13px; color:var(--brand-cobalt); text-decoration:none; font-size:12px; font-weight:700; }.about-text-link span { color:var(--brand-accent); }
+.about-cta { display:flex; align-items:center; justify-content:space-between; gap:25px; padding:52px clamp(30px,10vw,150px); background:var(--brand-navy); color:white; }.about-cta .eyebrow { color:#c2ccef; }.about-cta h2 { margin:9px 0 7px; font-size:clamp(30px,3.7vw,42px); font-weight:530; letter-spacing:-1.1px; }.about-cta p { margin:0; color:#d0d6ec; font-size:12px; }.light-button { flex-shrink:0; background:white; color:var(--brand-navy); }.light-button:hover { background:#e9edf8; }
+@media(max-width:800px) { .about-hero { grid-template-columns:1fr 0.8fr; }.hero-copy { padding-left:6vw; }.story-section { grid-template-columns:100px minmax(0,1fr); gap:30px; }.story-mark { width:86px;height:86px;font-size:40px; }.values-copy { padding:50px 35px; } }
+@media(max-width:640px) {
+  .about-hero { display:flex; flex-direction:column; min-height:0; }.hero-copy { padding:48px 22px 27px; }.hero-copy h1 { font-size:clamp(46px,13vw,62px); letter-spacing:-2.5px; }.hero-copy>p { font-size:13px; }.hero-image { min-height:245px; width:100%; background:linear-gradient(180deg,var(--brand-soft) 0%,rgba(233,237,248,.08) 25%,transparent 50%),url('/assets/setas.png') center/cover; }.hero-caption { right:15px; bottom:13px; }
+  .story-section { display:block; width:calc(100% - 44px); padding:62px 0 68px; }.story-mark { width:66px;height:66px;margin:0 0 22px;font-size:32px; }.story-copy h2,.section-heading h2,.values-copy h2 { font-size:33px; }.story-copy p { font-size:12px; }
+  .team-section { padding:58px 0 63px; }.section-heading,.team-grid { width:calc(100% - 44px); }.section-heading { margin-bottom:23px; }.team-grid { grid-template-columns:1fr; gap:10px; }.team-card { min-height:0; padding:21px; }.team-icon { margin-bottom:15px; }
+  .about-values { grid-template-columns:1fr; }.values-image { min-height:270px; }.values-copy { padding:48px 23px 55px; }.values-copy h2 { margin-bottom:20px; }
+  .about-cta { align-items:flex-start; flex-direction:column; padding:43px 23px; }.about-cta h2 { font-size:33px; }.about-cta p { line-height:1.6; }
+}

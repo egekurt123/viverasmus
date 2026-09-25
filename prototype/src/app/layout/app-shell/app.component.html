@@ -1,0 +1,13 @@
+
+    <header class="site-header">
+      <a class="brand" routerLink="/" aria-label="Vive home"><img class="brand-logo" src="assets/viverasmus%20logo.png" alt="Vive Erasmus"></a>
+      <nav class="main-nav" aria-label="Main navigation"><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a><a routerLink="/properties" routerLinkActive="active">Find a place</a><a routerLink="/about" routerLinkActive="active">About</a></nav>
+      <div class="header-actions"><a class="login-link" routerLink="/login">Log in</a><a class="button button-dark header-contact" routerLink="/contact">Contact <span>↗</span></a></div>
+      <button class="menu-toggle" type="button" (click)="menuOpen.set(!menuOpen())" [attr.aria-expanded]="menuOpen()" aria-label="Toggle menu">☰</button>
+    </header>
+    @if (menuOpen()) { <div class="mobile-menu"><a routerLink="/" (click)="menuOpen.set(false)">Home</a><a routerLink="/properties" (click)="menuOpen.set(false)">Find a place</a><a routerLink="/about" (click)="menuOpen.set(false)">About the team</a><a routerLink="/login" (click)="menuOpen.set(false)">Log in</a><a routerLink="/contact" (click)="menuOpen.set(false)">Contact</a></div> }
+    <main><router-outlet /></main>
+    <footer class="site-footer">
+      <div class="footer-top"><a class="brand brand-footer" routerLink="/" aria-label="Vive home"><img class="brand-logo" src="assets/viverasmus%20logo.png" alt="Vive Erasmus"></a><div class="footer-links"><span>© 2026 viverasmus</span></div></div>
+    </footer>
+  

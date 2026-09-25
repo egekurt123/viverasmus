@@ -1,0 +1,27 @@
+<section class="contact-page">
+  <div class="contact-panel">
+    <div class="contact-copy">
+      <span class="eyebrow">GET IN TOUCH</span>
+      <h1>Contact viverasmus.</h1>
+      <p>Questions about a home, a listing, or Sevilla? Get in touch with the viverasmus team.</p>
+      <div class="contact-points">
+      </div>
+      <a class="back-link" routerLink="/">← Back to home page</a>
+    </div>
+    <div class="contact-card">
+      @if (sent) {
+        <div class="sent-state" role="status"><span>✓</span><h2>Message ready.</h2><p>This prototype does not send messages yet, but your enquiry is captured locally.</p><button class="submit-button" type="button" (click)="sent=false;submitted=false">Send another</button></div>
+      } @else {
+        <h2>Send a message</h2>
+        <form (ngSubmit)="submit()">
+          <label>Your name<input [(ngModel)]="name" name="name" required autocomplete="name" placeholder="Your name"><small class="error" *ngIf="submitted && !name.trim()">Please enter your name.</small></label>
+          <label>Email address<input [(ngModel)]="email" name="email" required type="email" autocomplete="email" placeholder="you@example.com"><small class="error" *ngIf="submitted && !email.includes('@')">Enter a valid email address.</small></label>
+          <label>Subject<input [(ngModel)]="subject" name="subject" required placeholder="How can we help?"><small class="error" *ngIf="submitted && !subject.trim()">Please add a subject.</small></label>
+          <label>Your message<textarea [(ngModel)]="message" name="message" rows="6" required></textarea><small class="error" *ngIf="submitted && !message.trim()">Please add a message.</small></label>
+          <button class="submit-button" type="submit">Contact us <span>↗</span></button>
+        </form>
+        <small class="prototype-note">Prototype only — no message will be sent.</small>
+      }
+    </div>
+  </div>
+</section>

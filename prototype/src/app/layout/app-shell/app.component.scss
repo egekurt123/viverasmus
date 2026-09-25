@@ -1,0 +1,33 @@
+:host { display: flex; flex-direction: column; min-height: 100vh; }
+.site-header { height: 76px; padding: 0 clamp(22px, 6.2vw, 100px); display: flex; align-items: center; justify-content: space-between; background: #fffdf9; border-bottom: 1px solid var(--line); position: relative; z-index: 10; flex-shrink: 0; }
+.brand { display: inline-flex; align-items: center; text-decoration: none; }
+.brand-logo { display: block; width: auto; height: 65px; object-fit: contain; }
+.main-nav { display: flex; gap: 36px; margin-left: 75px; }
+.main-nav a, .login-link { color: #53617f; text-decoration: none; font-size: 14px; font-weight: 550; }
+.main-nav a.active { color: var(--brand-navy); }
+.header-actions { display: flex; align-items: center; gap: 26px; }
+.button { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 14px; padding: 0 20px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 650; transition: transform .16s ease, background .16s ease; }
+.button:hover { transform: translateY(-1px); }
+.button-dark { color: #ffffff; background: var(--brand-navy); }
+.button-dark:hover { background: var(--brand-cobalt); }
+.button span { font-size: 17px; font-weight: 400; }
+.menu-toggle, .mobile-menu { display: none; }
+.site-footer { background: var(--brand-navy); color: #e5e9f6; padding: 15px clamp(18px, 5vw, 80px) 12px; margin-top: auto; }
+.footer-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand-footer .brand-logo { filter: none; padding: 2px; background: #ffffff; border-radius: 50%; }
+.brand-footer .brand-logo { height: 54px; }
+.footer-top p { margin: 0 0 0 18px; color: #c3cce5; font-size: 11px; }
+.footer-links { display: flex; align-items: center; gap: 12px; }
+.footer-links a, .footer-links span { color: #cdd1e1; text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: .01em; }
+.footer-bottom { display: flex; justify-content: space-between; padding-top: 8px; color: #aeb9da; }
+@media (max-width: 760px) {
+  .site-header { height: 68px; padding: 0 20px; }
+  .main-nav, .header-actions { display: none; }
+  .menu-toggle { display: block; border: 0; background: transparent; color: var(--brand-navy); font-size: 24px; cursor: pointer; }
+  .mobile-menu { position: absolute; top: 68px; right: 12px; left: 12px; display: grid; z-index: 12; padding: 12px; gap: 4px; background: white; border: 1px solid var(--line); box-shadow: 0 12px 32px #262e541a; }
+  .mobile-menu a { padding: 13px; color: var(--brand-navy); text-decoration: none; }
+  .footer-top { align-items: flex-start; flex-wrap: wrap; gap: 10px; }
+  .footer-top p { margin: 5px 0 0; width: 100%; order: 2; }
+  .footer-links { width: 100%; flex-wrap: wrap; gap: 8px 12px; order: 3; }
+  .footer-bottom { gap: 8px; flex-wrap: wrap; }
+}

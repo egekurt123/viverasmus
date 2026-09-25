@@ -1,0 +1,35 @@
+<section class="auth-page">
+  <div class="auth-image" role="img" aria-label="A bridge at sunset in Sevilla">
+  </div>
+
+  <div class="auth-side">
+    <div class="auth-card">
+      <span class="eyebrow">TEAM-ISSUED ACCESS</span>
+      <h1>Welcome back.</h1>
+      <p class="auth-subtitle">Log in with the details you received from the viverasmus team.</p>
+
+      @if (successMessage) {
+        <div class="success-message" role="status">{{ successMessage }}</div>
+      }
+
+      <form (ngSubmit)="submit()" novalidate>
+        <label for="login-email">Email address</label>
+        <input id="login-email" name="email" [(ngModel)]="email" required email type="email" autocomplete="email" placeholder="you@example.com">
+        <small class="error" *ngIf="submitted && !validEmail()">Enter a valid email address.</small>
+
+        <label for="login-password">Password</label>
+        <input id="login-password" name="password" [(ngModel)]="password" required minlength="8" type="password" autocomplete="current-password" placeholder="Your password">
+        <small class="error" *ngIf="submitted && password.length < 8">Enter a password of at least 8 characters.</small>
+
+        <button class="submit-button" type="submit">Log in <span aria-hidden="true">↗</span></button>
+      </form>
+
+      <div class="access-note">
+        <strong>Need login details?</strong>
+        <p>Our team provides access after you get in touch. Send us a message and we’ll help you get started.</p>
+        <a routerLink="/contact">Contact the viverasmus team <span aria-hidden="true">↗</span></a>
+      </div>
+      <p class="prototype-note">Login is a visual prototype and does not verify credentials yet.</p>
+    </div>
+  </div>
+</section>

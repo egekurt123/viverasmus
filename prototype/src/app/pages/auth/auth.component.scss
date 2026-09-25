@@ -1,0 +1,206 @@
+:host {
+  display: block;
+}
+
+.auth-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 700px;
+  background: var(--surface);
+}
+
+.auth-image {
+  position: relative;
+  min-height: 650px;
+  background: linear-gradient(0deg, #242d5683, #242d5608 75%), url('/assets/brigde%20sunset.png') center/cover;
+
+  > div {
+    position: absolute;
+    left: clamp(30px, 8vw, 120px);
+    bottom: 62px;
+    color: #fff;
+  }
+
+  span {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  p {
+    margin: 13px 0 0;
+    font-family: Georgia, serif;
+    font-size: 42px;
+    line-height: 1.15;
+  }
+
+  em {
+    color: #c0c7eb;
+    font-weight: 400;
+  }
+}
+
+.auth-side {
+  display: grid;
+  place-items: center;
+  padding: 50px 24px;
+}
+
+.auth-card {
+  width: min(410px, 100%);
+
+  h1 {
+    margin: 11px 0 8px;
+    color: var(--brand-navy);
+    font-size: 33px;
+    line-height: 1.18;
+    font-weight: 550;
+    letter-spacing: -1px;
+  }
+
+  form {
+    display: grid;
+    gap: 9px;
+  }
+
+  label {
+    margin-top: 7px;
+    color: #393f5e;
+    font-size: 11px;
+    font-weight: 650;
+  }
+
+  input {
+    min-height: 45px;
+    padding: 0 12px;
+    border: 1px solid #dddcd4;
+    border-radius: 3px;
+    outline-color: #58618f;
+    background: #fff;
+    color: #2d334d;
+    font: inherit;
+    font-size: 12px;
+
+    &::placeholder {
+      color: #a5aaa2;
+      font-weight: 400;
+    }
+  }
+}
+
+.eyebrow {
+  color: var(--brand-accent);
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  font-weight: 750;
+}
+
+.auth-subtitle {
+  margin: 0 0 27px;
+  color: #7b857d;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.error {
+  color: #b4233c;
+  font-size: 10px;
+  font-weight: 450;
+}
+
+.submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 49px;
+  margin-top: 10px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--brand-navy);
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--brand-cobalt);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-accent);
+    outline-offset: 3px;
+  }
+
+  span {
+    font-size: 16px;
+  }
+}
+
+.access-note {
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid #e1e3ed;
+  background: #f5f6fa;
+  color: var(--brand-navy);
+  font-size: 11px;
+  line-height: 1.6;
+
+  p {
+    margin: 5px 0 9px;
+    color: #727a8d;
+  }
+
+  a {
+    color: var(--brand-accent);
+    font-weight: 700;
+    text-decoration: none;
+  }
+}
+
+.prototype-note {
+  margin: 18px 0 0;
+  color: #959b92;
+  text-align: center;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.success-message {
+  margin: 0 0 15px;
+  padding: 11px 12px;
+  border: 1px solid #cfd2e2;
+  background: #eceef7;
+  color: #434a6e;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+  .auth-page {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .auth-image {
+    min-height: 220px;
+    background-position: center 54%;
+
+    > div {
+      left: 23px;
+      bottom: 21px;
+    }
+
+    p {
+      font-size: 29px;
+    }
+  }
+
+  .auth-side {
+    padding: 38px 23px 55px;
+  }
+
+  .auth-card h1 {
+    font-size: 28px;
+  }
+}
