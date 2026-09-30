@@ -14,8 +14,9 @@ export class HomeComponent {
   private service = inject(PropertyService);
   private router = inject(Router);
   areas = ['Alameda', 'Centro', 'Los Remedios', 'Macarena', 'Nervión', 'San Bernardo', 'Triana'];
-  total = this.service.getProperties().length;
-  featured = this.service.getProperties().filter(property => ['paris','tores-studio','amsterdam','torre-del-oro'].includes(property.id));
+  totalApartments = this.service.getProperties().length;
+  totalRooms = this.service.getProperties().flatMap(flat => flat.rooms ?? []).length;
+  get featured() { return this.service.getPopularProperties(); }
   moveInOptions = MOVE_IN_OPTIONS;
   neighborhood = ''; moveIn = ''; budget = '';
   search() { void this.router.navigateByUrl(this.searchUrl()); }

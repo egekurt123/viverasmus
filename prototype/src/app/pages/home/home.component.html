@@ -12,12 +12,12 @@
       </p>
       <div class="stats">
         <div>
-          <strong>{{ total }}</strong>
+          <strong>{{ totalApartments }}</strong>
           <span>Homes listed</span>
         </div>
         <div>
-          <strong>100%</strong>
-          <span>Erasmus-friendly</span>
+          <strong>{{ totalRooms }}</strong>
+          <span>Rooms available</span>
         </div>
       </div>
     </div>
@@ -161,24 +161,9 @@
       </div>
     </div>
 
-    <a class="button button-dark" routerLink="/properties">
-      Browse homes
+    <a class="button button-dark" routerLink="/contact">
+      Contact the Team
       <span>↗</span>
     </a>
   </div>
-</section>
-
-<section class="closing-cta section-wrap">
-  <div>
-    <div class="eyebrow">YOUR PLACE IS OUT THERE</div>
-    <h2>
-      Come for the semester.
-      <br />
-      <em>Stay for the feeling.</em>
-    </h2>
-  </div>
-  <a class="button button-light" routerLink="/properties">
-    Start exploring
-    <span>↗</span>
-  </a>
 </section>

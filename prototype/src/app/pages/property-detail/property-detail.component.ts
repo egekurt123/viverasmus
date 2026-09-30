@@ -8,8 +8,6 @@ import { Property, Room } from '../../core/models/property.model';
 import { AuthService } from '../../core/services/auth.service';
 import { flagFor } from '../../core/config/countries';
 import { RoomAdminComponent } from '../../shared/room-admin/room-admin.component';
-import { TeamProfilesComponent } from '../../shared/team-profiles/team-profiles.component';
-import { OFFICE } from '../../core/config/team';
 import { CoverPickerComponent } from '../../shared/cover-picker/cover-picker.component';
 import { PhotoViewerComponent } from '../../shared/photo-viewer/photo-viewer.component';
 import { RoomTileComponent } from '../../shared/room-tile/room-tile.component';
@@ -17,13 +15,13 @@ import { PropertyCardComponent } from '../../shared/property-card/property-card.
 import { SevillaMapComponent } from '../../shared/sevilla-map/sevilla-map.component';
 
 @Component({
-  standalone: true, imports:[DatePipe, RouterLink, FormsModule, PropertyCardComponent, SevillaMapComponent, RoomAdminComponent, TeamProfilesComponent, CoverPickerComponent, PhotoViewerComponent, RoomTileComponent],
+  standalone: true, imports:[DatePipe, RouterLink, FormsModule, PropertyCardComponent, SevillaMapComponent, RoomAdminComponent, CoverPickerComponent, PhotoViewerComponent, RoomTileComponent],
   templateUrl: './property-detail.component.html',
   styleUrl:'./property-detail.component.scss'
 })
 export class PropertyDetailComponent {
   private route = inject(ActivatedRoute); private service = inject(PropertyService); private destroyRef = inject(DestroyRef);
-  auth = inject(AuthService); flagFor = flagFor; office = OFFICE;
+  auth = inject(AuthService); flagFor = flagFor;
   private propertyId = ''; private roomId = '';
   /** Looked up live, so flats the office added appear once their photos have loaded. */
   get property(): Property | undefined { return this.service.getProperty(this.propertyId); }

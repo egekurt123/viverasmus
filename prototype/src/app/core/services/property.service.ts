@@ -9,6 +9,8 @@ const ROOM_STORAGE_KEY = 'viverasmus.rooms';
 const HOUSEHOLD_STORAGE_KEY = 'viverasmus.households';
 const FLAT_STORAGE_KEY = 'viverasmus.flats';
 const COVER_STORAGE_KEY = 'viverasmus.covers';
+const POPULAR_PROPERTY_IDS_KEY = 'viverasmus.popularProperties';
+const DEFAULT_POPULAR_PROPERTY_IDS = ['paris', 'tores-studio', 'amsterdam', 'torre-del-oro'];
 
 /** Approximate centre of each neighborhood, used to pin flats the office adds. */
 const NEIGHBORHOOD_CENTERS: Record<string, [number, number]> = {
@@ -30,10 +32,27 @@ export class PropertyService {
   version = 0;
   /** Object URL → stored reference, so uploaded photos can be saved again. */
   private imageRefs = new Map<string, string>();
-  constructor() { this.restoreRoomChanges(); this.restoreHouseholds(); this.restoreCovers(); void this.restoreCustomFlats(); }
+  private popularPropertyIds = [...DEFAULT_POPULAR_PROPERTY_IDS];
+  constructor() {
+    this.restoreRoomChanges();
+    this.restoreHouseholds();
+    this.restoreCovers();
+    this.popularPropertyIds = this.readJson(POPULAR_PROPERTY_IDS_KEY, DEFAULT_POPULAR_PROPERTY_IDS);
+    void this.restoreCustomFlats();
+  }
 
   getProperties(): Property[] { return PROPERTIES; }
   getProperty(id: string): Property | undefined { return PROPERTIES.find(property => property.id === id); }
+  getPopularProperties(): Property[] { return PROPERTIES.filter(property => this.popularPropertyIds.includes(property.id)); }
+  isPopular(propertyId: string): boolean { return this.popularPropertyIds.includes(propertyId); }
+  togglePopular(propertyId: string): void {
+    if (!this.getProperty(propertyId)) return;
+    this.popularPropertyIds = this.isPopular(propertyId)
+      ? this.popularPropertyIds.filter(id => id !== propertyId)
+      : [...this.popularPropertyIds, propertyId];
+    this.writeJson(POPULAR_PROPERTY_IDS_KEY, this.popularPropertyIds);
+  }
+
   findRoom(roomId: string): { property: Property; room: Room } | undefined {
     for (const property of PROPERTIES) {
       const room = property.rooms?.find(item => item.id === roomId);
@@ -151,6 +170,8 @@ export class PropertyService {
     const index = PROPERTIES.findIndex(property => property.id === propertyId && property.custom);
     if (index < 0) return;
     const [removed] = PROPERTIES.splice(index, 1);
+    this.popularPropertyIds = this.popularPropertyIds.filter(id => id !== propertyId);
+    this.writeJson(POPULAR_PROPERTY_IDS_KEY, this.popularPropertyIds);
     this.version++;
     this.saveCustomFlats();
     await deleteImages([...removed.images, ...(removed.rooms ?? []).flatMap(room => room.images ?? [])].map(url => this.imageRefs.get(url) ?? url));

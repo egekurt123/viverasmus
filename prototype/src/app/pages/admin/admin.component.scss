@@ -9,6 +9,8 @@
 .add-flat:hover { background: var(--gold-hover); }
 .flat-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
 .flat-tools select { padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: #ffffff; color: var(--ink); font-size: 11px; }
+.popular-toggle { padding: 5px 12px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: #ffffff; color: var(--brand-cobalt); font-size: 11px; font-weight: 650; cursor: pointer; }
+.popular-toggle[aria-pressed="true"] { background: var(--brand-soft); }
 .remove { padding: 5px 12px; border: 1px solid #e3b7b3; border-radius: var(--radius-pill); background: #ffffff; color: #b3261e; font-size: 11px; font-weight: 650; cursor: pointer; }
 .admin-head h1 { margin: 8px 0 6px; color: var(--brand-navy); font-size: 34px; letter-spacing: -.6px; }
 .admin-head p { margin: 0; color: var(--muted); font-size: 13px; }

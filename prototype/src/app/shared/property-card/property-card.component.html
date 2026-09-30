@@ -6,14 +6,6 @@
       [attr.aria-label]="'View ' + property.title">
       <img [src]="property.images[0]" [alt]="property.title" loading="lazy" />
     </a>
-    <button
-      class="save"
-      type="button"
-      [attr.aria-label]="saved ? 'Remove saved listing' : 'Save listing'"
-      [attr.aria-pressed]="saved"
-      (click)="saved = !saved">
-      {{ saved ? "♥" : "♡" }}
-    </button>
   </div>
   <div class="card-copy">
     <div class="pills">

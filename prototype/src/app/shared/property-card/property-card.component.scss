@@ -1,12 +1,10 @@
 :host { display: block; min-width: 0; }
 .property-card { height: 100%; display: flex; flex-direction: column; overflow: hidden; padding: 8px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); transition: box-shadow .2s ease, transform .2s ease; }
 .property-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); }
-.card-image { position: relative; height: 200px; overflow: hidden; border-radius: calc(var(--radius) - 6px); background: #dadde9; }
+.card-image { height: 200px; overflow: hidden; border-radius: calc(var(--radius) - 6px); background: #dadde9; }
 .image-link { display: block; height: 100%; }
 .card-image img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .35s ease; }
 .property-card:hover .card-image img { transform: scale(1.04); }
-.save { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; border: 0; width: 36px; height: 36px; border-radius: 50%; background: #ffffffe8; color: var(--brand-accent); font-size: 19px; cursor: pointer; box-shadow: 0 2px 8px #20206022; transition: transform .16s ease; }
-.save:hover { transform: scale(1.08); }
 .card-copy { flex: 1; display: flex; flex-direction: column; padding: 14px 8px 6px; }
 .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
 .pills span { padding: 4px 10px; border-radius: var(--radius-pill); background: var(--surface); border: 1px solid var(--line); color: var(--muted); font-size: 10px; font-weight: 650; }

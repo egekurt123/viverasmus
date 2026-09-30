@@ -2,10 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { TeamProfilesComponent } from '../../shared/team-profiles/team-profiles.component';
 
 @Component({
-  standalone: true, imports: [FormsModule, RouterLink, CommonModule, TeamProfilesComponent],
+  standalone: true, imports: [FormsModule, RouterLink, CommonModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
 })
