@@ -179,29 +179,6 @@
           individually
         </small>
       </div>
-      <div class="filter-group">
-        <span class="filter-label">Furnished</span>
-        <div class="segmented">
-          <button
-            type="button"
-            [class.chosen]="furnished === null"
-            (click)="setFurnished(null)">
-            Any
-          </button>
-          <button
-            type="button"
-            [class.chosen]="furnished === true"
-            (click)="setFurnished(true)">
-            Yes
-          </button>
-          <button
-            type="button"
-            [class.chosen]="furnished === false"
-            (click)="setFurnished(false)">
-            No
-          </button>
-        </div>
-      </div>
       <button
         type="button"
         class="apply-mobile"
@@ -279,12 +256,6 @@
         @if (flatmates) {
           <button (click)="flatmates = ''; applyFilters()">
             {{ flatmateLabel }}
-            <span>×</span>
-          </button>
-        }
-        @if (furnished !== null) {
-          <button (click)="furnished = null; applyFilters()">
-            {{ furnished ? "Furnished" : "Unfurnished" }}
             <span>×</span>
           </button>
         }

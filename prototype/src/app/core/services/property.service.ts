@@ -85,8 +85,6 @@ export class PropertyService {
       if (filters.propertyType && property.propertyType !== filters.propertyType) return false;
       const flatmates = FLATMATE_OPTIONS.find(option => option.value === filters.flatmates);
       if (flatmates && (flatmateCount(property) < flatmates.min || flatmateCount(property) > flatmates.max)) return false;
-      if (filters.furnished === true && !property.furnished) return false;
-      if (filters.furnished === false && property.furnished) return false;
       if (property.rooms) return this.matchingRooms(property, filters).length > 0;
       if (filters.maxRent && property.monthlyRent > filters.maxRent) return false;
       if (filters.availableFrom && property.availableFrom > filters.availableFrom) return false;

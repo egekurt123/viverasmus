@@ -60,6 +60,5 @@ export interface PropertyFilters {
   propertyType?: string;
   /** A FLATMATE_OPTIONS value. */
   flatmates?: string;
-  furnished?: boolean | null;
   availableFrom?: string;
 }

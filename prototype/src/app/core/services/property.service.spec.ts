@@ -32,13 +32,6 @@ describe('PropertyService', () => {
     expect(room.tenant).toBeUndefined();
   });
 
-  it('filters by furnished status', () => {
-    const results = service.searchProperties({ furnished:true });
-    expect(results.length).toBeGreaterThan(0);
-    expect(results.every(property => property.furnished)).toBeTrue();
-    expect(service.searchProperties({ furnished:false }).length).toBe(0);
-  });
-
   it('finds a flat by its name, ignoring case and accents', () => {
     expect(service.searchProperties({ query:'paris' }).map(property => property.title)).toEqual(['Paris']);
     expect(service.searchProperties({ query:'nervion' }).length).toBeGreaterThan(1);
