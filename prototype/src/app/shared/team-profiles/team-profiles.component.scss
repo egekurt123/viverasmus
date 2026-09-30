@@ -1,0 +1,13 @@
+.team { display: grid; gap: 10px; }
+.team.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.member { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius); background: var(--surface); }
+.compact .member { gap: 8px; padding: 8px; }
+.member img, .initial { flex-shrink: 0; width: 46px; height: 46px; border-radius: 50%; object-fit: cover; }
+.compact .member img, .compact .initial { width: 34px; height: 34px; }
+.initial { display: grid; place-items: center; background: var(--brand-navy); color: #ffffff; font-size: 18px; font-weight: 700; }
+.compact .initial { font-size: 14px; }
+.member div { display: grid; gap: 3px; min-width: 0; }
+.member strong { color: var(--brand-navy); font-size: 14px; }
+.compact .member strong { font-size: 12px; }
+.member small { color: var(--muted); font-size: 11px; }
+.compact .member small { font-size: 9px; }

@@ -1,22 +1,318 @@
-
-    <section class="listing-page">
-      <div class="search-strip"><div class="crumb"><a routerLink="/">Home</a><span>›</span><strong>Find a place</strong></div><div class="quick-search"><label><span>NEIGHBORHOOD</span><select [(ngModel)]="neighborhood" (ngModelChange)="applyFilters()" aria-label="Neighborhood"><option value="">Anywhere in Sevilla</option>@for (area of areas; track area) { <option [value]="area">{{ area }}</option> }</select></label><i></i><label><span>MAX. MONTHLY RENT</span><select [(ngModel)]="maxRent" (ngModelChange)="applyFilters()" aria-label="Maximum monthly rent"><option [ngValue]="null">Any budget</option><option [ngValue]="400">Under €400</option><option [ngValue]="600">€400–€600</option><option [ngValue]="800">€600–€800</option><option [ngValue]="1000">€800–€1,000</option><option [ngValue]="2000">€1,000+</option></select></label><i></i><label><span>MOVE-IN BY</span><input type="date" [(ngModel)]="availableFrom" (ngModelChange)="applyFilters()" aria-label="Move-in by date"></label><button type="button" class="strip-button" (click)="mobileFilters = !mobileFilters">☷ <span>Filters</span>@if (activeFilterCount) { <b>{{ activeFilterCount }}</b> }</button></div></div>
-      <div class="results-layout">
-        <aside class="filters" [class.mobile-open]="mobileFilters" aria-label="Filter properties"><div class="filter-head"><div><span class="eyebrow">MAKE IT YOURS</span><h2>Filters</h2></div><button type="button" class="clear" (click)="clearFilters()">Clear all</button></div>
-          <div class="filter-group"><label class="filter-label" for="area-filter">Neighborhood</label><select id="area-filter" [(ngModel)]="neighborhood" (ngModelChange)="applyFilters()"><option value="">All of Sevilla</option>@for (area of areas; track area) { <option [value]="area">{{ area }}</option> }</select></div>
-          <div class="filter-group"><label class="filter-label" for="rent-filter">Maximum monthly rent</label><div class="select-wrap"><span>€</span><select id="rent-filter" [(ngModel)]="maxRent" (ngModelChange)="applyFilters()"><option [ngValue]="null">No max</option><option [ngValue]="400">Under €400</option><option [ngValue]="600">€400 – €600</option><option [ngValue]="800">€600 – €800</option><option [ngValue]="1000">€800 – €1,000</option><option [ngValue]="2000">€1,000+</option></select></div></div>
-          <div class="filter-group"><span class="filter-label">What are you looking for?</span><div class="type-options">@for (type of types; track type) { <button type="button" [class.chosen]="propertyType === type" (click)="toggleType(type)">{{ type }}</button> }</div></div>
-          <div class="filter-group"><label class="filter-label" for="bed-filter">Bedrooms</label><select id="bed-filter" [(ngModel)]="bedrooms" (ngModelChange)="applyFilters()"><option [ngValue]="null">Any number</option><option [ngValue]="1">1+</option><option [ngValue]="2">2+</option><option [ngValue]="3">3+</option><option [ngValue]="4">4+</option></select></div>
-          <div class="filter-group"><label class="filter-label" for="date-filter">Available by</label><input id="date-filter" type="date" [(ngModel)]="availableFrom" (ngModelChange)="applyFilters()"></div>
-          <div class="filter-group"><span class="filter-label">Furnished</span><div class="segmented"><button type="button" [class.chosen]="furnished === null" (click)="setFurnished(null)">Any</button><button type="button" [class.chosen]="furnished === true" (click)="setFurnished(true)">Yes</button><button type="button" [class.chosen]="furnished === false" (click)="setFurnished(false)">No</button></div></div>
-          <div class="filter-group amenity-group"><span class="filter-label">Everyday essentials</span>@for (amenity of amenityOptions; track amenity) { <label class="check-option"><input type="checkbox" [checked]="selectedAmenities.includes(amenity)" (change)="toggleAmenity(amenity)"><span>{{ amenity }}</span></label> }</div>
-          <button type="button" class="apply-mobile" (click)="mobileFilters = false">Show {{ results.length }} places</button>
-        </aside>
-        <section class="results" aria-live="polite"><div class="results-header"><div><div class="eyebrow">YOUR NEXT CHAPTER, HERE</div><h1>Places to <em>call home.</em></h1><p>{{ results.length }} homes for your Sevilla stay</p></div><label class="sort-label">Sort by <select [(ngModel)]="sortBy" aria-label="Sort listings"><option value="recommended">Recommended</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="newest">Available soonest</option></select></label></div>
-          <div class="map-panel"><div class="map-art"><div class="map-river"></div><span class="map-label label-triana">TRIANA</span><span class="map-label label-centro">CENTRO</span><span class="map-label label-alameda">ALAMEDA</span><span class="map-label label-nervion">NERVIÓN</span><span class="map-label label-macarena">MACARENA</span><span class="map-city">Sevilla</span>@for (property of results.slice(0, 8); track property.id; let i = $index) { <button type="button" class="map-pin" [style.left.%]="pin(i).x" [style.top.%]="pin(i).y" [class.selected]="selectedPin === property.id" (click)="selectedPin = selectedPin === property.id ? '' : property.id" [attr.aria-label]="'€' + property.monthlyRent + ' per month in ' + property.neighborhood">€{{ property.monthlyRent }}</button> }</div><div class="map-note"><span>⌖</span> Approximate neighborhood locations <b>·</b> Rent per month</div></div>
-          <div class="active-chips">@if(neighborhood) { <button (click)="neighborhood='';applyFilters()">{{ neighborhood }} <span>×</span></button> }@if(maxRent) { <button (click)="maxRent=null;applyFilters()">Up to €{{ maxRent }} <span>×</span></button> }@if(propertyType) { <button (click)="propertyType='';applyFilters()">{{ propertyType }} <span>×</span></button> }@if(furnished !== null) { <button (click)="furnished=null;applyFilters()">{{ furnished ? 'Furnished' : 'Unfurnished' }} <span>×</span></button> }@for (amenity of selectedAmenities; track amenity) { <button (click)="toggleAmenity(amenity)">{{ amenity }} <span>×</span></button> }</div>
-          @if (results.length) { <div class="property-grid">@for (property of results; track property.id) { <app-property-card [property]="property" /> }</div> } @else { <div class="empty-state"><span>☼</span><h2>No places match just yet</h2><p>Try widening your search or removing a filter to see more Sevilla homes.</p><button type="button" class="button button-dark" (click)="clearFilters()">Clear filters</button></div> }
-        </section>
+<section class="listing-page">
+  <div class="search-strip">
+    <div class="crumb">
+      <a routerLink="/">Home</a>
+      <span>›</span>
+      <strong>Find a place</strong>
+    </div>
+    <div class="quick-search">
+      <label>
+        <span>FLAT NAME</span>
+        <input
+          type="search"
+          [(ngModel)]="query"
+          (ngModelChange)="applyFilters()"
+          placeholder="e.g. Paris"
+          aria-label="Search by flat name" />
+      </label>
+      <i></i>
+      <label>
+        <span>NEIGHBORHOOD</span>
+        <select
+          [(ngModel)]="neighborhood"
+          (ngModelChange)="applyFilters()"
+          aria-label="Neighborhood">
+          <option value="">Anywhere in Sevilla</option>
+          @for (area of areas; track area) {
+            <option [value]="area">{{ area }}</option>
+          }
+        </select>
+      </label>
+      <i></i>
+      <label>
+        <span>MAX. MONTHLY RENT</span>
+        <select
+          [(ngModel)]="maxRent"
+          (ngModelChange)="applyFilters()"
+          aria-label="Maximum monthly rent">
+          <option [ngValue]="null">Any budget</option>
+          <option [ngValue]="400">Under €400</option>
+          <option [ngValue]="600">€400–€600</option>
+          <option [ngValue]="800">€600–€800</option>
+          <option [ngValue]="1000">€800–€1,000</option>
+          <option [ngValue]="2000">€1,000+</option>
+        </select>
+      </label>
+      <i></i>
+      <label>
+        <span>MOVE-IN</span>
+        <select
+          [(ngModel)]="availableFrom"
+          (ngModelChange)="applyFilters()"
+          aria-label="Move-in date">
+          <option value="">Any date</option>
+          @for (option of moveInOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+      </label>
+      <button
+        type="button"
+        class="strip-button"
+        (click)="mobileFilters = !mobileFilters">
+        ☷
+        <span>Filters</span>
+        @if (activeFilterCount) {
+          <b>{{ activeFilterCount }}</b>
+        }
+      </button>
+    </div>
+  </div>
+  <div class="results-layout">
+    <aside
+      class="filters"
+      [class.mobile-open]="mobileFilters"
+      aria-label="Filter properties">
+      <div class="filter-head">
+        <div>
+          <span class="eyebrow">MAKE IT YOURS</span>
+          <h2>Filters</h2>
+        </div>
+        <button type="button" class="clear" (click)="clearFilters()">
+          Clear all
+        </button>
       </div>
+      <div class="filter-group">
+        <span class="filter-label">Flat share for</span>
+        <div class="segmented">
+          <button
+            type="button"
+            [class.chosen]="household === ''"
+            (click)="setHousehold('')">
+            Doesn’t matter
+          </button>
+          <button
+            type="button"
+            [class.chosen]="household === 'women'"
+            (click)="setHousehold('women')">
+            Women only
+          </button>
+          <button
+            type="button"
+            [class.chosen]="household === 'men'"
+            (click)="setHousehold('men')">
+            Men only
+          </button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" for="area-filter">Neighborhood</label>
+        <select
+          id="area-filter"
+          [(ngModel)]="neighborhood"
+          (ngModelChange)="applyFilters()">
+          <option value="">All of Sevilla</option>
+          @for (area of areas; track area) {
+            <option [value]="area">{{ area }}</option>
+          }
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" for="rent-filter">
+          Maximum monthly rent
+        </label>
+        <div class="select-wrap">
+          <span>€</span>
+          <select
+            id="rent-filter"
+            [(ngModel)]="maxRent"
+            (ngModelChange)="applyFilters()">
+            <option [ngValue]="null">No max</option>
+            <option [ngValue]="400">Under €400</option>
+            <option [ngValue]="600">€400 – €600</option>
+            <option [ngValue]="800">€600 – €800</option>
+            <option [ngValue]="1000">€800 – €1,000</option>
+            <option [ngValue]="2000">€1,000+</option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">What are you looking for?</span>
+        <div class="type-options">
+          @for (type of types; track type.value) {
+            <button
+              type="button"
+              [class.chosen]="propertyType === type.value"
+              (click)="toggleType(type.value)">
+              {{ type.label }}
+            </button>
+          }
+        </div>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" for="flatmate-filter">
+          Number of flatmates
+        </label>
+        <select
+          id="flatmate-filter"
+          [(ngModel)]="flatmates"
+          (ngModelChange)="applyFilters()">
+          <option value="">Doesn’t matter</option>
+          @for (option of flatmateOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" for="date-filter">Move-in</label>
+        <select
+          id="date-filter"
+          [(ngModel)]="availableFrom"
+          (ngModelChange)="applyFilters()">
+          <option value="">Any date</option>
+          @for (option of moveInOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+        <small class="filter-hint">
+          1 Sep or 1 Feb, min. 5 months · July &amp; August bookable
+          individually
+        </small>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Furnished</span>
+        <div class="segmented">
+          <button
+            type="button"
+            [class.chosen]="furnished === null"
+            (click)="setFurnished(null)">
+            Any
+          </button>
+          <button
+            type="button"
+            [class.chosen]="furnished === true"
+            (click)="setFurnished(true)">
+            Yes
+          </button>
+          <button
+            type="button"
+            [class.chosen]="furnished === false"
+            (click)="setFurnished(false)">
+            No
+          </button>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="apply-mobile"
+        (click)="mobileFilters = false">
+        Show {{ results.length }} places
+      </button>
+    </aside>
+    <section class="results" aria-live="polite">
+      <div class="results-header">
+        <div>
+          <div class="eyebrow">YOUR NEXT CHAPTER, HERE</div>
+          <h1>
+            Places to
+            <em>call home.</em>
+          </h1>
+          <p>
+            {{ results.length }} homes for your Sevilla stay · flat shares show
+            the rooms within your budget
+          </p>
+        </div>
+        <label class="sort-label">
+          Sort by
+          <select [(ngModel)]="sortBy" aria-label="Sort listings">
+            <option value="recommended">Recommended</option>
+            <option value="low">Price: low to high</option>
+            <option value="high">Price: high to low</option>
+            <option value="newest">Available soonest</option>
+          </select>
+        </label>
+      </div>
+      <div class="map-panel">
+        <div class="map-art">
+          <app-sevilla-map [properties]="results" [rents]="rents" />
+        </div>
+        <div class="map-note">
+          <span>⌖</span>
+          Approximate locations
+          <b>·</b>
+          Rent per month
+          <b>·</b>
+          Tap a pin for details
+        </div>
+      </div>
+      <div class="active-chips">
+        @if (query.trim()) {
+          <button (click)="query = ''; applyFilters()">
+            “{{ query.trim() }}”
+            <span>×</span>
+          </button>
+        }
+        @if (household) {
+          <button (click)="setHousehold('')">
+            {{ household === "women" ? "Women-only flat" : "Men-only flat" }}
+            <span>×</span>
+          </button>
+        }
+        @if (neighborhood) {
+          <button (click)="neighborhood = ''; applyFilters()">
+            {{ neighborhood }}
+            <span>×</span>
+          </button>
+        }
+        @if (maxRent) {
+          <button (click)="maxRent = null; applyFilters()">
+            Up to €{{ maxRent }}
+            <span>×</span>
+          </button>
+        }
+        @if (propertyType) {
+          <button (click)="propertyType = ''; applyFilters()">
+            {{ propertyType === "Studio" ? "Studio" : "Room in a flat share" }}
+            <span>×</span>
+          </button>
+        }
+        @if (flatmates) {
+          <button (click)="flatmates = ''; applyFilters()">
+            {{ flatmateLabel }}
+            <span>×</span>
+          </button>
+        }
+        @if (furnished !== null) {
+          <button (click)="furnished = null; applyFilters()">
+            {{ furnished ? "Furnished" : "Unfurnished" }}
+            <span>×</span>
+          </button>
+        }
+      </div>
+      @if (results.length) {
+        <div class="property-grid">
+          @for (property of results; track property.id) {
+            <app-property-card
+              [property]="property"
+              [rooms]="roomsFor(property)" />
+          }
+        </div>
+      } @else {
+        <div class="empty-state">
+          <span>☼</span>
+          <h2>No places match just yet</h2>
+          <p>
+            Try widening your search or removing a filter to see more Sevilla
+            homes.
+          </p>
+          <button
+            type="button"
+            class="button button-dark"
+            (click)="clearFilters()">
+            Clear filters
+          </button>
+        </div>
+      }
     </section>
-  
+  </div>
+</section>

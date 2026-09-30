@@ -1,17 +1,518 @@
-
-    @if (property) {
-      <section class="detail-page"><div class="detail-wrap"><div class="breadcrumb"><a routerLink="/properties">← Back to homes</a><span> / {{ property.neighborhood }}, Sevilla</span></div>
-        <div class="gallery"><button class="main-photo" type="button" (click)="activeImage=0"><img [src]="property.images[activeImage]" [alt]="property.title + ' interior photo'"><span class="photo-count">{{ activeImage + 1 }} / {{ property.images.length }} photos</span></button><div class="side-photos">@for (image of property.images.slice(0,2); track image; let i=$index) { <button type="button" (click)="activeImage=i"><img [src]="image" [alt]="property.title + ' interior view ' + (i+1)"></button> }<button class="gallery-last" type="button" (click)="activeImage=2"><img [src]="property.images[2]" alt="Additional room view"><span>+{{ property.images.length - 2 }} photos</span></button></div></div>
-        <div class="detail-columns"><div class="main-detail"><div class="title-row"><div><span class="type-label">{{ property.propertyType }} · {{ property.neighborhood }}</span><h1>{{ property.title }}</h1><p class="address">⌖ {{ property.address }}, Sevilla</p></div><div class="detail-price"><strong>€{{ property.monthlyRent }}</strong><span>{{ property.propertyType === 'Private room' ? '/ room / month' : property.propertyType === 'Shared room' ? '/ person / month' : '/ month' }}</span></div></div>
-          <div class="facts"> <div><span>⌂</span><strong>{{ property.bedrooms }} {{ property.bedrooms === 1 ? 'bedroom' : 'bedrooms' }}</strong></div><div><span>◫</span><strong>{{ property.bathrooms }} {{ property.bathrooms === 1 ? 'bathroom' : 'bathrooms' }}</strong></div><div><span>↗</span><strong>{{ property.area }} m²</strong></div><div><span>⌑</span><strong>{{ property.furnished ? 'Furnished' : 'Unfurnished' }}</strong></div></div>
-          <section class="info-section"><h2>A little about this place</h2><p>{{ property.description }}</p><p class="data-note">This listing uses sample information for the prototype. Confirm details and terms directly with the host before making arrangements.</p></section>
-          <section class="info-section"><h2>What’s included</h2><div class="amenity-list">@for (amenity of property.amenities; track amenity) { <div><span>✓</span>{{ amenity }}</div> }@if (property.furnished) { <div><span>✓</span>Furnished</div> }</div></section>
-          <section class="info-section rental-info"><h2>Rental details</h2><div class="rental-grid"><div><span>Monthly rent</span><strong>€{{ property.monthlyRent }} <small>{{ property.propertyType === 'Private room' ? '/ room / month' : property.propertyType === 'Shared room' ? '/ person / month' : '/ month' }}</small></strong></div><div><span>Deposit</span><strong>€{{ property.deposit }}</strong></div><div><span>Available from</span><strong>{{ property.availableFrom | date:'MMMM d, y' }}</strong></div><div><span>Minimum stay</span><strong>{{ property.minimumStayMonths }} months</strong></div><div><span>Utilities</span><strong>{{ property.utilitiesIncluded ? 'Included in rent' : 'Paid separately' }}</strong></div><div><span>Occupancy</span><strong>Up to {{ property.occupants }} people</strong></div></div><p class="contract-note">Contract terms, fees and utility arrangements should be confirmed with the host. Sample listing details shown for demonstration.</p></section>
-          <section class="info-section location-section"><h2>Find your bearings</h2><p>{{ property.neighborhood }} <span>·</span> Sevilla, Spain</p><div class="detail-map"><div class="map-road road-a"></div><div class="map-road road-b"></div><div class="map-river"></div><span class="map-area">{{ property.neighborhood.toUpperCase() }}</span><span class="map-pin">⌖</span><span class="map-sevilla">Sevilla</span><small>Approximate area, not an exact address</small></div></section>
-          <section class="host-card"><img [src]="property.agent.avatar" [alt]="property.agent.name"><div class="host-copy"><span>YOUR HOST</span><strong>{{ property.agent.name }}</strong><small>{{ property.agent.company }} · {{ property.agent.response }}</small></div><button type="button" class="button-outline" (click)="contactOpen=true">Ask about this place</button></section>
-        </div><aside class="contact-aside"><div class="aside-sticky"><span class="eyebrow">A PLACE TO START</span><strong>€{{ property.monthlyRent }}<small>{{ property.propertyType === 'Private room' ? ' / room / month' : property.propertyType === 'Shared room' ? ' / person / month' : ' / month' }}</small></strong><p>{{ property.propertyType === 'Private room' ? 'Price per room' : property.propertyType === 'Shared room' ? 'Price per person' : 'Monthly rent' }} · {{ property.neighborhood }}</p><button class="contact-button" type="button" (click)="contactOpen=true">Contact the host <span>↗</span></button><div class="contact-host"><img [src]="property.agent.avatar" [alt]="property.agent.name"><div><strong>{{ property.agent.name }}</strong><span>{{ property.agent.company }}</span></div></div><div class="response-note">↳ {{ property.agent.response }}</div><p class="no-fee">No booking fee to send an enquiry.</p></div></aside></div>
-        <section class="similar"><div class="similar-head"><div><span class="eyebrow">MORE AROUND THE CITY</span><h2>Other places you might like</h2></div><a routerLink="/properties">View all homes ↗</a></div><div class="similar-grid">@for (item of similar; track item.id) { <app-property-card [property]="item" /> }</div></section>
-      </div></section>
-      @if(contactOpen) { <div class="modal-backdrop" (click)="contactOpen=false"><section class="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-title" (click)="$event.stopPropagation()"><button class="modal-close" type="button" aria-label="Close" (click)="contactOpen=false">×</button>@if(!sent) { <span class="eyebrow">SAY HOLA</span><h2 id="contact-title">Ask about this place.</h2><p class="modal-intro">Send {{ property.agent.name }} a note about your stay in Sevilla.</p><form (ngSubmit)="sendMessage()"><label>Your name<input required [(ngModel)]="guestName" name="guestName" autocomplete="name"></label><label>Email address<input required type="email" [(ngModel)]="guestEmail" name="guestEmail" autocomplete="email"></label><label>Your message<textarea required [(ngModel)]="message" name="message" rows="4"></textarea></label><button class="contact-button" type="submit">Send enquiry <span>↗</span></button></form><small class="prototype-note">Prototype only — no message will be sent.</small> } @else { <div class="sent-state"><span>✓</span><h2>Message ready.</h2><p>Your enquiry has been noted in this prototype. {{ property.agent.name }} would be in touch here.</p><button class="contact-button" type="button" (click)="contactOpen=false">Done</button></div> }</section></div> }
-    } @else { <section class="not-found"><h1>This place is no longer here.</h1><p>Browse the homes currently available in Sevilla.</p><a class="contact-button" routerLink="/properties">Explore homes ↗</a></section> }
-  
+@if (property) {
+  <section class="detail-page">
+    <div class="detail-wrap">
+      <div class="breadcrumb">
+        @if (room) {
+          <a [routerLink]="['/properties', property.id]">
+            ← All rooms in {{ property.title }}
+          </a>
+          <span>/ {{ room.name }}</span>
+        } @else {
+          <a routerLink="/properties">← Back to homes</a>
+          <span>/ {{ property.neighborhood }}, Sevilla</span>
+        }
+      </div>
+      <div class="gallery" [class.single]="gallery.length < 3">
+        <button class="main-photo" type="button" (click)="openViewer(0)">
+          <img
+            [src]="gallery[0]"
+            [alt]="
+              (room ? room.name + ' in ' : '') + property.title + ' photo'
+            " />
+          <span class="photo-count">
+            {{ gallery.length }}
+            {{ gallery.length === 1 ? "photo" : "photos" }} · tap to enlarge
+          </span>
+        </button>
+        @if (gallery.length >= 3) {
+          <div class="side-photos" [class.two]="gallery.length === 3">
+            <button type="button" (click)="openViewer(1)">
+              <img [src]="gallery[1]" [alt]="property.title + ' photo 2'" />
+            </button>
+            <button type="button" (click)="openViewer(2)">
+              <img [src]="gallery[2]" [alt]="property.title + ' photo 3'" />
+            </button>
+            @if (gallery.length > 3) {
+              <button
+                class="gallery-last"
+                type="button"
+                (click)="openViewer(3)">
+                <img [src]="gallery[3]" [alt]="property.title + ' photo 4'" />
+                <span>
+                  {{
+                    gallery.length > 4
+                      ? "+" + (gallery.length - 4) + " photos"
+                      : "View photo 4"
+                  }}
+                </span>
+              </button>
+            }
+          </div>
+        }
+      </div>
+      @if (viewerIndex !== null) {
+        <app-photo-viewer
+          [photos]="gallery"
+          [start]="viewerIndex"
+          [title]="room ? property.title + ' · ' + room.name : property.title"
+          (closed)="viewerIndex = null" />
+      }
+      @if (auth.isAdmin() && coverChoices.length > 1) {
+        <app-cover-picker
+          [photos]="coverChoices"
+          [label]="room ? 'ROOM PHOTOS' : 'FLAT PHOTOS'"
+          [hint]="
+            room
+              ? 'Choose the photo shown first on this room page.'
+              : 'Choose the photo shown first on the listing card and this page.'
+          "
+          (cover)="setCover($event)" />
+      }
+      <div class="detail-columns">
+        <div class="main-detail">
+          @if (room) {
+            <div class="title-row">
+              <div>
+                <span class="type-label">
+                  Room in {{ property.title }} · {{ property.neighborhood }}
+                </span>
+                <h1>{{ property.title }} · {{ room.name }}</h1>
+                <p class="address">⌖ {{ property.address }}, Sevilla</p>
+              </div>
+              <div class="detail-price">
+                <strong>€{{ room.monthlyRent }}</strong>
+                <span>/ month</span>
+              </div>
+            </div>
+            <div class="facts">
+              <div>
+                <span>↗</span>
+                <strong>{{ room.area }} m² room</strong>
+              </div>
+              <div>
+                <span>⌂</span>
+                <strong>{{ property.rooms!.length - 1 }} flatmates</strong>
+              </div>
+              <div>
+                <span>◫</span>
+                <strong>
+                  {{ property.bathrooms }}
+                  {{ property.bathrooms === 1 ? "bathroom" : "bathrooms" }}
+                </strong>
+              </div>
+              <div>
+                <span>⌑</span>
+                <strong>
+                  {{ property.furnished ? "Furnished" : "Unfurnished" }}
+                </strong>
+              </div>
+            </div>
+            <section class="info-section room-info">
+              <h2>This room</h2>
+              @if (room.status === "available") {
+                <span class="room-status free">
+                  Free from {{ room.availableFrom | date: "d MMMM y" }}
+                </span>
+              } @else {
+                <span class="room-status taken">
+                  Booked ·
+                  {{ room.tenant?.gender === "female" ? "♀ Woman" : "♂ Man" }}
+                  from {{ flagFor(room.tenant?.country ?? "") }}
+                  {{ room.tenant?.country }}
+                </span>
+              }
+              <div class="amenity-list">
+                @for (feature of room.features; track feature) {
+                  <div>
+                    <span>✓</span>
+                    {{ feature }}
+                  </div>
+                }
+              </div>
+              @if (flatmates.women + flatmates.men) {
+                <div class="flatmates">
+                  <span class="eyebrow">YOUR FLATMATES</span>
+                  <strong>
+                    {{ flatmates.women }}
+                    {{ flatmates.women === 1 ? "woman" : "women" }} ·
+                    {{ flatmates.men }}
+                    {{ flatmates.men === 1 ? "man" : "men" }}
+                  </strong>
+                  <span class="flags">
+                    @for (country of flatmates.countries; track country) {
+                      <span [title]="country">
+                        {{ flagFor(country) }} {{ country }}
+                      </span>
+                    }
+                  </span>
+                </div>
+              }
+              @if (auth.isAdmin()) {
+                <app-room-admin [room]="room" />
+              }
+              <a class="all-rooms" [routerLink]="['/properties', property.id]">
+                See all {{ property.rooms!.length }} rooms in
+                {{ property.title }} →
+              </a>
+            </section>
+          } @else {
+            <div class="title-row">
+              <div>
+                <span class="type-label">
+                  {{
+                    property.rooms
+                      ? "Whole flat · " + property.rooms.length + " rooms"
+                      : property.propertyType
+                  }}
+                  · {{ property.neighborhood }}
+                </span>
+                <h1>{{ property.title }}</h1>
+                <p class="address">⌖ {{ property.address }}, Sevilla</p>
+              </div>
+              <div class="detail-price">
+                @if (property.rooms) {
+                  <span>rooms from</span>
+                }
+                <strong>€{{ property.monthlyRent }}</strong>
+                <span>{{ priceUnit }}</span>
+              </div>
+            </div>
+            <div class="facts">
+              <div>
+                <span>⌂</span>
+                <strong>
+                  @if (property.rooms) {
+                    {{ property.rooms.length }} rooms ·
+                    {{ property.rooms.length - 1 }} flatmates
+                  } @else {
+                    {{ property.bedrooms }}
+                    {{ property.bedrooms === 1 ? "bedroom" : "bedrooms" }}
+                  }
+                </strong>
+              </div>
+              <div>
+                <span>◫</span>
+                <strong>
+                  {{ property.bathrooms }}
+                  {{ property.bathrooms === 1 ? "bathroom" : "bathrooms" }}
+                </strong>
+              </div>
+              <div>
+                <span>↗</span>
+                <strong>{{ property.area }} m²</strong>
+              </div>
+              <div>
+                <span>⌑</span>
+                <strong>
+                  {{ property.furnished ? "Furnished" : "Unfurnished" }}
+                </strong>
+              </div>
+            </div>
+            @if (property.rooms) {
+              <section class="info-section rooms-section" id="rooms">
+                <div class="rooms-head">
+                  <h2>Rooms in this flat</h2>
+                  <p>
+                    {{
+                      property.household === "women"
+                        ? "A women-only flat share. "
+                        : property.household === "men"
+                          ? "A men-only flat share. "
+                          : "A mixed flat share. "
+                    }}Each room can be rented on its own — open a room to see
+                    its photos and details.
+                  </p>
+                </div>
+                @if (flatmates.women + flatmates.men) {
+                  <div class="flatmates">
+                    <span class="eyebrow">WHO LIVES HERE</span>
+                    <strong>
+                      {{ flatmates.women }}
+                      {{ flatmates.women === 1 ? "woman" : "women" }} ·
+                      {{ flatmates.men }}
+                      {{ flatmates.men === 1 ? "man" : "men" }}
+                    </strong>
+                    <span class="flags">
+                      @for (country of flatmates.countries; track country) {
+                        <span [title]="country">
+                          {{ flagFor(country) }} {{ country }}
+                        </span>
+                      }
+                    </span>
+                  </div>
+                }
+                <div class="room-grid">
+                  @for (item of property.rooms; track item.id) {
+                    <app-room-tile [propertyId]="property.id" [room]="item" />
+                  }
+                </div>
+              </section>
+            }
+          }
+          <section class="info-section">
+            <h2>{{ room ? "About the flat" : "A little about this place" }}</h2>
+            <p>{{ property.description }}</p>
+            <p class="data-note">
+              This listing uses sample information for the prototype. Confirm
+              details and terms directly with the host before making
+              arrangements.
+            </p>
+          </section>
+          <section class="info-section">
+            <h2>What’s included</h2>
+            <div class="amenity-list">
+              @for (amenity of property.amenities; track amenity) {
+                <div>
+                  <span>✓</span>
+                  {{ amenity }}
+                </div>
+              }
+              @if (property.furnished) {
+                <div>
+                  <span>✓</span>
+                  Furnished
+                </div>
+              }
+            </div>
+          </section>
+          <section class="info-section rental-info">
+            <h2>Rental details</h2>
+            <div class="rental-grid">
+              <div>
+                <span>
+                  Monthly rent{{
+                    room
+                      ? " · " + room.name
+                      : property.rooms
+                        ? " · rooms from"
+                        : ""
+                  }}
+                </span>
+                <strong>
+                  €{{ rent }}
+                  <small>{{ priceUnit }}</small>
+                </strong>
+              </div>
+              <div>
+                <span>Deposit</span>
+                <strong>
+                  €{{ room ? room.monthlyRent : property.deposit
+                  }}{{ property.rooms && !room ? " · one month’s rent" : "" }}
+                </strong>
+              </div>
+              <div>
+                <span>Move-in</span>
+                <strong>
+                  {{
+                    room?.availableFrom ?? property.availableFrom
+                      | date: "MMMM d, y"
+                  }}
+                </strong>
+              </div>
+              <div>
+                <span>Minimum stay</span>
+                <strong>
+                  {{ property.minimumStayMonths }} months
+                  <small>per semester</small>
+                </strong>
+              </div>
+              <div>
+                <span>Semester start</span>
+                <strong>1 September or 1 February</strong>
+              </div>
+              <div>
+                <span>Summer</span>
+                <strong>July &amp; August bookable individually</strong>
+              </div>
+              <div>
+                <span>Utilities</span>
+                <strong>
+                  {{
+                    property.utilitiesIncluded
+                      ? "Included in rent"
+                      : "Paid separately"
+                  }}
+                </strong>
+              </div>
+              <div>
+                <span>Occupancy</span>
+                <strong>
+                  {{
+                    property.rooms
+                      ? property.rooms.length + " rooms, one person each"
+                      : "Up to " + property.occupants + " people"
+                  }}
+                </strong>
+              </div>
+            </div>
+            <p class="contract-note">
+              Contract terms, fees and utility arrangements should be confirmed
+              with the host. Sample listing details shown for demonstration.
+            </p>
+          </section>
+          <section class="info-section location-section">
+            <h2>Find your bearings</h2>
+            <p>
+              {{ property.neighborhood }}
+              <span>·</span>
+              Sevilla, Spain
+            </p>
+            <div class="detail-map">
+              <app-sevilla-map [properties]="[property]" />
+            </div>
+            <small class="map-hint">
+              Approximate area, not an exact address · Map data © OpenStreetMap
+            </small>
+          </section>
+          <section class="host-card">
+            <div class="host-copy">
+              <span>YOUR CONTACTS AT VIVERASMUS</span>
+              <app-team-profiles />
+              <small>{{ office.response }}</small>
+            </div>
+            <button
+              type="button"
+              class="button-outline"
+              (click)="contactOpen = true">
+              Contact the viverasmus team
+            </button>
+          </section>
+        </div>
+        <aside class="contact-aside">
+          <div class="aside-sticky">
+            <span class="eyebrow">
+              {{ room ? room.name.toUpperCase() : "A PLACE TO START" }}
+            </span>
+            <strong>
+              @if (property.rooms && !room) {
+                <small>from</small>
+              }
+              €{{ rent }}
+              <small>{{ priceUnit }}</small>
+            </strong>
+            <p>
+              @if (room) {
+                {{
+                  room.status === "available"
+                    ? "Free from " + (room.availableFrom | date: "d MMM y")
+                    : "Already booked"
+                }}
+              } @else if (property.rooms) {
+                {{ freeRooms }} of {{ property.rooms.length }} rooms free
+              } @else {
+                Monthly rent · {{ property.neighborhood }}
+              }
+            </p>
+            <button
+              class="contact-button"
+              type="button"
+              (click)="contactOpen = true">
+              Contact the viverasmus team
+              <span>↗</span>
+            </button>
+            <div class="contact-team">
+              <app-team-profiles [compact]="true" />
+            </div>
+            <div class="response-note">↳ {{ office.response }}</div>
+            <p class="no-fee">No booking fee to send an enquiry.</p>
+          </div>
+        </aside>
+      </div>
+      <section class="similar">
+        <div class="similar-head">
+          <div>
+            <span class="eyebrow">MORE AROUND THE CITY</span>
+            <h2>Other places you might like</h2>
+          </div>
+          <a routerLink="/properties">View all homes ↗</a>
+        </div>
+        <div class="similar-grid">
+          @for (item of similar; track item.id) {
+            <app-property-card [property]="item" />
+          }
+        </div>
+      </section>
+    </div>
+  </section>
+  @if (contactOpen) {
+    <div class="modal-backdrop" (click)="contactOpen = false">
+      <section
+        class="contact-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contact-title"
+        (click)="$event.stopPropagation()">
+        <button
+          class="modal-close"
+          type="button"
+          aria-label="Close"
+          (click)="contactOpen = false">
+          ×
+        </button>
+        @if (!sent) {
+          <span class="eyebrow">SAY HOLA</span>
+          <h2 id="contact-title">Ask about this place.</h2>
+          <p class="modal-intro">
+            Send the viverasmus team a note about
+            {{ room ? room.name + " in " + property.title : property.title }}.
+          </p>
+          <form (ngSubmit)="sendMessage()">
+            <label>
+              Your name
+              <input
+                required
+                [(ngModel)]="guestName"
+                name="guestName"
+                autocomplete="name" />
+            </label>
+            <label>
+              Email address
+              <input
+                required
+                type="email"
+                [(ngModel)]="guestEmail"
+                name="guestEmail"
+                autocomplete="email" />
+            </label>
+            <label>
+              Your message
+              <textarea
+                required
+                [(ngModel)]="message"
+                name="message"
+                rows="4"></textarea>
+            </label>
+            <button class="contact-button" type="submit">
+              Send enquiry
+              <span>↗</span>
+            </button>
+          </form>
+          <small class="prototype-note">
+            Prototype only — no message will be sent.
+          </small>
+        } @else {
+          <div class="sent-state">
+            <span>✓</span>
+            <h2>Message ready.</h2>
+            <p>
+              Your enquiry has been noted in this prototype. The viverasmus team
+              would be in touch here.
+            </p>
+            <button
+              class="contact-button"
+              type="button"
+              (click)="contactOpen = false">
+              Done
+            </button>
+          </div>
+        }
+      </section>
+    </div>
+  }
+} @else {
+  <section class="not-found">
+    <h1>This place is no longer here.</h1>
+    <p>Browse the homes currently available in Sevilla.</p>
+    <a class="contact-button" routerLink="/properties">Explore homes ↗</a>
+  </section>
+}

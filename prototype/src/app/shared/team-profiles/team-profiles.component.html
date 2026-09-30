@@ -1,0 +1,17 @@
+<div class="team" [class.compact]="compact">
+  @for (member of team; track member.name) {
+    <div class="member">
+      @if (member.photo) {
+        <img [src]="member.photo" [alt]="member.name" />
+      } @else {
+        <span class="initial" aria-hidden="true">{{ member.name[0] }}</span>
+      }
+      <div>
+        <strong>{{ member.name }}</strong>
+        <small>
+          {{ office.name }} · {{ flagFor(member.country) }} {{ member.country }}
+        </small>
+      </div>
+    </div>
+  }
+</div>

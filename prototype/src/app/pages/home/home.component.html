@@ -1,59 +1,111 @@
-
 <section class="hero">
-  <div class="hero-photo" role="img" aria-label="Sunny street in Sevilla with orange trees">
-    <div class="photo-caption">A new city. A place that feels like yours.</div>
-  </div>
-
-  <div class="hero-copy">
-    <div class="eyebrow">
-      <span class="eyebrow-dot"></span> YOUR ERASMUS STARTS HERE
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        SEVILLA, SPAIN
+      </div>
+      <h1>Welcome to Viverasmus Sevilla</h1>
+      <p>
+        Find a place to land, meet your city and feel at home from day one.
+        Homes for Erasmus students, all in one place.
+      </p>
+      <div class="stats">
+        <div>
+          <strong>{{ total }}</strong>
+          <span>Homes listed</span>
+        </div>
+        <div>
+          <strong>100%</strong>
+          <span>Erasmus-friendly</span>
+        </div>
+      </div>
     </div>
-    <h1>Make room for<br><em>Sevilla.</em></h1>
-    <p>Find a place to land, meet your city and feel at home from day one. Homes for Erasmus students, all in one place.</p>
-
-    <form class="search-box" (ngSubmit)="search()" aria-label="Search student rentals">
-      <label>
-        <span>Where in Sevilla?</span>
-        <select aria-label="Choose a neighborhood" [(ngModel)]="neighborhood" name="neighborhood">
-          <option value="">Any neighborhood</option>
-          @for (area of areas; track area) {
-            <option [value]="area">{{ area }}</option>
-          }
-        </select>
-      </label>
-      <i></i>
-
-      <label>
-        <span>Move-in</span>
-        <input type="month" aria-label="Move-in month" [(ngModel)]="moveIn" name="moveIn">
-      </label>
-      <i></i>
-
-      <label class="budget-field">
-        <span>Monthly budget</span>
-        <select aria-label="Maximum monthly budget" [(ngModel)]="budget" name="budget">
-          <option value="">Any budget</option>
-          <option value="400">Up to €400</option>
-          <option value="600">Up to €600</option>
-          <option value="800">Up to €800</option>
-          <option value="1000">Up to €1,000</option>
-        </select>
-      </label>
-
-      <button class="search-button" type="submit"><span>⌕</span> Find my place</button>
-    </form>
+    <div class="hero-photo" role="img" aria-label="Plaza de España in Sevilla">
+      <div class="photo-caption">
+        A new city. A place that feels like yours.
+      </div>
+    </div>
   </div>
 
+  <form
+    class="search-box"
+    (ngSubmit)="search()"
+    aria-label="Search student rentals">
+    <div class="search-title">FIND YOUR PLACE</div>
+    <div class="search-fields">
+      <label>
+        <span class="field-icon" aria-hidden="true">⌖</span>
+        <span class="field-text">
+          <span>Neighborhood</span>
+          <select
+            aria-label="Choose a neighborhood"
+            [(ngModel)]="neighborhood"
+            name="neighborhood">
+            <option value="">Any neighborhood</option>
+            @for (area of areas; track area) {
+              <option [value]="area">{{ area }}</option>
+            }
+          </select>
+        </span>
+      </label>
+
+      <label>
+        <span class="field-icon" aria-hidden="true">◷</span>
+        <span class="field-text">
+          <span>Move-in</span>
+          <select aria-label="Move-in date" [(ngModel)]="moveIn" name="moveIn">
+            <option value="">Any date</option>
+            @for (option of moveInOptions; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </span>
+      </label>
+
+      <label>
+        <span class="field-icon" aria-hidden="true">€</span>
+        <span class="field-text">
+          <span>Monthly budget</span>
+          <select
+            aria-label="Maximum monthly budget"
+            [(ngModel)]="budget"
+            name="budget">
+            <option value="">Any budget</option>
+            <option value="400">Up to €400</option>
+            <option value="600">Up to €600</option>
+            <option value="800">Up to €800</option>
+            <option value="1000">Up to €1,000</option>
+          </select>
+        </span>
+      </label>
+
+      <button class="search-button" type="submit">
+        <span>⌕</span>
+        Search
+      </button>
+    </div>
+    <p class="search-note">
+      Move-in on 1 September or 1 February for at least 5 months · July and
+      August can be rented individually.
+    </p>
+  </form>
 </section>
 
 <section class="featured section-wrap">
   <div class="section-heading">
     <div>
-      <div class="eyebrow">A GOOD PLACE TO BEGIN</div>
-      <h2>Spaces with a little <em>something.</em></h2>
+      <div class="eyebrow">POPULAR PLACES</div>
+      <h2>
+        Spaces with a little
+        <em>something.</em>
+      </h2>
       <p>Furnished, welcoming homes picked for the way students really live.</p>
     </div>
-    <a class="text-link" routerLink="/properties">Explore all places <span>↗</span></a>
+    <a class="text-link" routerLink="/properties">
+      Explore all places
+      <span>↗</span>
+    </a>
   </div>
 
   <div class="property-grid">
@@ -63,15 +115,25 @@
   </div>
 </section>
 
-<section class="how-section" id="how-it-works" style="background-color: #f5f5f5;">
-  <div class="how-photo" role="img" aria-label="Welcoming furnished apartment interior">
+<section class="how-section section-wrap" id="how-it-works">
+  <div
+    class="how-photo"
+    role="img"
+    aria-label="Welcoming furnished apartment interior">
     <span>SEVILLA, AT YOUR PACE</span>
   </div>
 
   <div class="how-copy">
     <div class="eyebrow">BUILT AROUND YOUR SEARCH</div>
-    <h2>Browse homes.<br><em>Then contact the team.</em></h2>
-    <p>Explore the homes, check the details that matter, and reach out to the viverasmus team when something feels right.</p>
+    <h2>
+      Browse homes.
+      <br />
+      <em>Then contact the team.</em>
+    </h2>
+    <p>
+      Explore the homes, check the details that matter, and reach out to the
+      viverasmus team when something feels right.
+    </p>
 
     <div class="benefit">
       <span class="benefit-icon">01</span>
@@ -85,7 +147,9 @@
       <span class="benefit-icon">02</span>
       <div>
         <strong>Review the details before you decide</strong>
-        <small>Compare rent, amenities, and what's included in each home.</small>
+        <small>
+          Compare rent, amenities, and what's included in each home.
+        </small>
       </div>
     </div>
 
@@ -97,13 +161,24 @@
       </div>
     </div>
 
-    <a class="button button-dark" routerLink="/properties">Browse homes <span>↗</span></a>
+    <a class="button button-dark" routerLink="/properties">
+      Browse homes
+      <span>↗</span>
+    </a>
   </div>
 </section>
 
-<section class="closing-cta">
+<section class="closing-cta section-wrap">
   <div>
     <div class="eyebrow">YOUR PLACE IS OUT THERE</div>
-    <h2>Come for the semester.<br><em>Stay for the feeling.</em></h2>
+    <h2>
+      Come for the semester.
+      <br />
+      <em>Stay for the feeling.</em>
+    </h2>
   </div>
+  <a class="button button-light" routerLink="/properties">
+    Start exploring
+    <span>↗</span>
+  </a>
 </section>

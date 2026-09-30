@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { PropertyService } from '../../core/property.service';
+import { PropertyService } from '../../core/services/property.service';
 import { PropertyCardComponent } from '../../shared/property-card/property-card.component';
+import { MOVE_IN_OPTIONS } from '../../core/config/move-in';
 
 @Component({
   standalone: true, imports: [FormsModule, RouterLink, PropertyCardComponent],
@@ -13,20 +14,16 @@ export class HomeComponent {
   private service = inject(PropertyService);
   private router = inject(Router);
   areas = ['Alameda', 'Centro', 'Los Remedios', 'Macarena', 'Nervión', 'San Bernardo', 'Triana'];
-  featured = this.service.getProperties().filter(property => ['triana-sunlit-room','alameda-artists-studio','nervion-shared-flat','san-bernardo-balcony-room'].includes(property.id));
+  total = this.service.getProperties().length;
+  featured = this.service.getProperties().filter(property => ['paris','tores-studio','amsterdam','torre-del-oro'].includes(property.id));
+  moveInOptions = MOVE_IN_OPTIONS;
   neighborhood = ''; moveIn = ''; budget = '';
-  areaCards = [
-    { name:'Triana', note:'Across the river', no:'01', image:'/assets/brigde%20sunset.png' },
-    { name:'Alameda', note:'A lively local scene', no:'02', image:'/assets/setas.png' },
-    { name:'Nervión', note:'Everyday city living', no:'03', image:'/assets/Plaza%20de%20espana.png' },
-    { name:'Centro', note:'Historic streets', no:'04', image:'/assets/setas.png' }
-  ];
   search() { void this.router.navigateByUrl(this.searchUrl()); }
   private searchUrl(): string {
     const params = new URLSearchParams();
     if (this.neighborhood) params.set('neighborhood', this.neighborhood);
     if (this.budget) params.set('maxRent', this.budget);
-    if (this.moveIn) params.set('availableFrom', `${this.moveIn}-01`);
+    if (this.moveIn) params.set('availableFrom', this.moveIn);
     return `/properties${params.size ? '?' + params.toString() : ''}`;
   }
 }

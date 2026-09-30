@@ -40,3 +40,9 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Listing photos stay local, while the folders are kept in Git.
+/src/assets/flats/*
+!/src/assets/flats/.gitkeep
+/src/assets/rooms/*
+!/src/assets/rooms/.gitkeep

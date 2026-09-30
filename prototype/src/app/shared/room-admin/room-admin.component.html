@@ -1,0 +1,38 @@
+<div class="room-admin" (click)="$event.stopPropagation()">
+  <div
+    class="status-toggle"
+    role="group"
+    [attr.aria-label]="'Status of ' + room.name">
+    <button
+      type="button"
+      [class.chosen]="room.status === 'available'"
+      (click)="setStatus('available')">
+      Free
+    </button>
+    <button
+      type="button"
+      [class.chosen]="room.status === 'booked'"
+      (click)="setStatus('booked')">
+      Booked
+    </button>
+  </div>
+  @if (room.tenant) {
+    <select
+      [ngModel]="room.tenant.gender"
+      (ngModelChange)="setGender($event)"
+      [attr.aria-label]="'Gender of tenant in ' + room.name">
+      <option value="female">Woman</option>
+      <option value="male">Man</option>
+    </select>
+    <select
+      [ngModel]="room.tenant.country"
+      (ngModelChange)="setCountry($event)"
+      [attr.aria-label]="'Home country of tenant in ' + room.name">
+      @for (country of countries; track country.name) {
+        <option [value]="country.name">
+          {{ country.flag }} {{ country.name }}
+        </option>
+      }
+    </select>
+  }
+</div>

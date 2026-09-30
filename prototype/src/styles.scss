@@ -8,6 +8,16 @@
   --ink: #293253;
   --muted: #667392;
   --line: #dce3f0;
+  --card: #ffffff;
+  --gold: #d9a54a;
+  --gold-hover: #e6b660;
+  --gold-ink: #9a6a1c;
+  --gold-soft: #f8eedb;
+  --radius-sm: 12px;
+  --radius: 20px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 12px 40px #20206014;
   font-family: 'Avenir Next', Avenir, 'Segoe UI', sans-serif;
   color: var(--ink);
   background: var(--surface);
@@ -20,3 +30,4 @@ body { margin:0; min-width:320px; min-height:100vh; display: flex; flex-directio
 button, input, select, textarea { font-family:inherit; }
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline:3px solid var(--brand-accent); outline-offset:3px; }
 ::selection { background:#dce4f8; color:var(--brand-navy); }
+h1 em, h2 em, h3 em { font-style: normal; }

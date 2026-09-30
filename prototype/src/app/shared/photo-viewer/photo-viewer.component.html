@@ -1,0 +1,49 @@
+<div
+  class="viewer"
+  role="dialog"
+  aria-modal="true"
+  [attr.aria-label]="title + ' photos'"
+  (click)="closed.emit()">
+  <div class="viewer-top" (click)="$event.stopPropagation()">
+    <strong>{{ title }}</strong>
+    <span>{{ index + 1 }} / {{ photos.length }}</span>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close photos"
+      (click)="closed.emit()">
+      ×
+    </button>
+  </div>
+  <div class="stage" (click)="$event.stopPropagation()">
+    <button
+      type="button"
+      class="nav prev"
+      aria-label="Previous photo"
+      (click)="step(-1)"
+      [disabled]="photos.length < 2">
+      ‹
+    </button>
+    <img [src]="photos[index]" [alt]="title + ' photo ' + (index + 1)" />
+    <button
+      type="button"
+      class="nav next"
+      aria-label="Next photo"
+      (click)="step(1)"
+      [disabled]="photos.length < 2">
+      ›
+    </button>
+  </div>
+  <div class="thumbs" (click)="$event.stopPropagation()">
+    @for (url of photos; track url; let i = $index) {
+      <button
+        type="button"
+        [class.active]="i === index"
+        [attr.aria-label]="'Show photo ' + (i + 1)"
+        [attr.aria-current]="i === index"
+        (click)="index = i">
+        <img [src]="url" alt="" />
+      </button>
+    }
+  </div>
+</div>

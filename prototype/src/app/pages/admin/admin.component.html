@@ -1,0 +1,121 @@
+<section class="admin-page">
+  <div class="admin-wrap">
+    <div class="admin-head">
+      <div>
+        <span class="eyebrow">VIVERASMUS OFFICE</span>
+        <h1>Rooms &amp; bookings</h1>
+        <p>
+          Mark rooms as booked and note who booked them. Changes show up
+          straight away on the listings.
+        </p>
+        <a class="add-flat" routerLink="/admin/new-flat">+ Add a flat</a>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div>
+        <span>Flat shares</span>
+        <strong>{{ flats.length }}</strong>
+      </div>
+      <div>
+        <span>Rooms</span>
+        <strong>{{ rooms.length }}</strong>
+      </div>
+      <div>
+        <span>Booked</span>
+        <strong>{{ bookedCount }}</strong>
+      </div>
+      <div>
+        <span>Free</span>
+        <strong>{{ rooms.length - bookedCount }}</strong>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input
+        type="search"
+        [(ngModel)]="search"
+        placeholder="Search flat or neighborhood"
+        aria-label="Search flats" />
+      <div class="segmented" role="group" aria-label="Filter by status">
+        <button
+          type="button"
+          [class.chosen]="statusFilter === ''"
+          (click)="statusFilter = ''">
+          All rooms
+        </button>
+        <button
+          type="button"
+          [class.chosen]="statusFilter === 'available'"
+          (click)="statusFilter = 'available'">
+          Free
+        </button>
+        <button
+          type="button"
+          [class.chosen]="statusFilter === 'booked'"
+          (click)="statusFilter = 'booked'">
+          Booked
+        </button>
+      </div>
+    </div>
+
+    @for (flat of visibleFlats; track flat.id) {
+      <section class="flat-block">
+        <div class="flat-head">
+          <div>
+            <h2>
+              <a [routerLink]="['/properties', flat.id]">{{ flat.title }}</a>
+            </h2>
+            <small>{{ flat.neighborhood }} · {{ flat.address }}</small>
+          </div>
+          <div class="flat-tools">
+            <select
+              [ngModel]="flat.household"
+              (ngModelChange)="setHousehold(flat, $event)"
+              [attr.aria-label]="'Who ' + flat.title + ' is for'">
+              <option value="mixed">Everyone</option>
+              <option value="women">Women only</option>
+              <option value="men">Men only</option>
+            </select>
+            <span class="occupancy">
+              {{ bookedIn(flat) }} / {{ flat.rooms!.length }} booked
+            </span>
+            @if (flat.custom) {
+              <button type="button" class="remove" (click)="remove(flat)">
+                Remove
+              </button>
+            }
+          </div>
+        </div>
+        <div class="room-rows">
+          @for (room of visibleRooms(flat); track room.id) {
+            <div class="room-row">
+              <div class="room-info">
+                <a [routerLink]="['/properties', flat.id, 'rooms', room.id]">
+                  <strong>{{ room.name }}</strong>
+                </a>
+                <span>
+                  €{{ room.monthlyRent }} · {{ room.area }} m² · from
+                  {{ room.availableFrom | date: "d MMM y" }}
+                </span>
+              </div>
+              <span class="who">
+                @if (room.tenant) {
+                  {{ room.tenant.gender === "female" ? "♀" : "♂" }}
+                  {{ flagFor(room.tenant.country) }} {{ room.tenant.country }}
+                } @else {
+                  —
+                }
+              </span>
+              <app-room-admin [room]="room" />
+            </div>
+          } @empty {
+            <p class="none">No rooms with this status.</p>
+          }
+        </div>
+      </section>
+    } @empty {
+      <p class="none">No flat matches “{{ search }}”.</p>
+    }
+  </div>
+</section>

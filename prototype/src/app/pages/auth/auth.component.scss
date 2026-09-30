@@ -28,7 +28,6 @@
 
   p {
     margin: 13px 0 0;
-    font-family: Georgia, serif;
     font-size: 42px;
     line-height: 1.15;
   }
@@ -71,9 +70,9 @@
 
   input {
     min-height: 45px;
-    padding: 0 12px;
+    padding: 0 18px;
     border: 1px solid #dddcd4;
-    border-radius: 3px;
+    border-radius: var(--radius-pill);
     outline-color: #58618f;
     background: #fff;
     color: #2d334d;
@@ -115,16 +114,16 @@
   margin-top: 10px;
   padding: 0 15px;
   border: 0;
-  border-radius: 3px;
-  background: var(--brand-navy);
-  color: #fff;
+  border-radius: var(--radius-pill);
+  background: var(--gold);
+  color: var(--brand-navy);
   font: inherit;
   font-size: 12px;
   font-weight: 650;
   cursor: pointer;
 
   &:hover {
-    background: var(--brand-cobalt);
+    background: var(--gold-hover);
   }
 
   &:focus-visible {
@@ -141,6 +140,7 @@
   margin-top: 24px;
   padding: 16px;
   border: 1px solid #e1e3ed;
+  border-radius: var(--radius);
   background: #f5f6fa;
   color: var(--brand-navy);
   font-size: 11px;
@@ -170,6 +170,7 @@
   margin: 0 0 15px;
   padding: 11px 12px;
   border: 1px solid #cfd2e2;
+  border-radius: var(--radius-sm);
   background: #eceef7;
   color: #434a6e;
   font-size: 11px;

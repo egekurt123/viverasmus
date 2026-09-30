@@ -1,0 +1,16 @@
+<section class="cover-picker">
+  <span class="eyebrow">OFFICE · {{ label }}</span>
+  <p>{{ hint }}</p>
+  <div class="cover-list">
+    @for (url of photos; track url; let first = $first) {
+      <figure [class.cover]="first">
+        <img [src]="url" alt="Photo option" />
+        @if (first) {
+          <span>★ Cover</span>
+        } @else {
+          <button type="button" (click)="cover.emit(url)">Make cover</button>
+        }
+      </figure>
+    }
+  </div>
+</section>

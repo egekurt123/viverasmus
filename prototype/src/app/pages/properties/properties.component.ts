@@ -2,43 +2,62 @@ import { Component, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { PropertyService } from '../../core/property.service';
-import { Property, PropertyFilters } from '../../core/property.model';
+import { PropertyService } from '../../core/services/property.service';
+import { Property, PropertyFilters, Room } from '../../core/models/property.model';
 import { PropertyCardComponent } from '../../shared/property-card/property-card.component';
+import { MOVE_IN_OPTIONS } from '../../core/config/move-in';
+import { SevillaMapComponent } from '../../shared/sevilla-map/sevilla-map.component';
+import { FLATMATE_OPTIONS } from '../../core/config/flatmates';
 
 @Component({
-  standalone: true, imports: [FormsModule, RouterLink, DatePipe, PropertyCardComponent],
+  standalone: true, imports: [FormsModule, RouterLink, DatePipe, PropertyCardComponent, SevillaMapComponent],
   templateUrl: './properties.component.html',
   styleUrl: './properties.component.scss'
 })
 export class PropertiesComponent {
   private service = inject(PropertyService); private route = inject(ActivatedRoute); private router = inject(Router);
-  properties = this.service.getProperties(); areas = ['Alameda','Centro','Los Remedios','Macarena','Nervión','San Bernardo','Triana'];
-  types = ['Private room','Shared room','Studio','Apartment','House'];
-  amenityOptions = ['Wi-Fi','Air conditioning','Washing machine','Desk','Balcony','Dishwasher','Elevator'];
-  neighborhood = ''; maxRent: number | null = null; propertyType = ''; bedrooms: number | null = null; furnished: boolean | null = null; selectedAmenities: string[] = []; availableFrom = ''; sortBy = 'recommended'; mobileFilters = false; selectedPin = '';
+  areas = ['Alameda','Centro','Los Remedios','Macarena','Nervión','San Bernardo','Triana'];
+  moveInOptions = MOVE_IN_OPTIONS;
+  types = [{ value:'Private room', label:'Room in a flat share' }, { value:'Studio', label:'Studio' }];
+  flatmateOptions = FLATMATE_OPTIONS;
+  query = ''; household: '' | 'women' | 'men' = ''; neighborhood = ''; maxRent: number | null = null; propertyType = ''; flatmates = ''; furnished: boolean | null = null; availableFrom = ''; sortBy = 'recommended'; mobileFilters = false;
   constructor() {
     this.route.queryParamMap.subscribe(params => {
+      this.query = params.get('q') ?? '';
+      const household = params.get('household');
+      this.household = household === 'women' || household === 'men' ? household : '';
       this.neighborhood = params.get('neighborhood') ?? '';
       this.maxRent = params.get('maxRent') ? Number(params.get('maxRent')) : null;
       this.propertyType = params.get('propertyType') ?? '';
-      this.bedrooms = params.get('bedrooms') ? Number(params.get('bedrooms')) : null;
+      this.flatmates = params.get('flatmates') ?? '';
       this.availableFrom = params.get('availableFrom') ?? '';
       this.furnished = params.get('furnished') === 'true' ? true : params.get('furnished') === 'false' ? false : null;
-      this.selectedAmenities = params.get('amenities')?.split(',').filter(Boolean) ?? [];
     });
   }
-  get activeFilterCount(): number { return [this.neighborhood, this.maxRent, this.propertyType, this.bedrooms, this.furnished !== null, this.availableFrom, ...this.selectedAmenities].filter(Boolean).length; }
-  get results(): Property[] {
-    const filtered = this.service.searchProperties({ neighborhood:this.neighborhood, maxRent:this.maxRent, propertyType:this.propertyType, bedrooms:this.bedrooms, furnished:this.furnished, amenities:this.selectedAmenities, availableFrom:this.availableFrom } satisfies PropertyFilters);
-    return [...filtered].sort((a,b) => this.sortBy === 'low' ? a.monthlyRent-b.monthlyRent : this.sortBy === 'high' ? b.monthlyRent-a.monthlyRent : this.sortBy === 'newest' ? a.availableFrom.localeCompare(b.availableFrom) : 0);
+  get activeFilterCount(): number { return [this.household, this.neighborhood, this.maxRent, this.propertyType, this.flatmates, this.furnished !== null, this.availableFrom].filter(Boolean).length; }
+  get flatmateLabel(): string { return this.flatmateOptions.find(option => option.value === this.flatmates)?.label ?? ''; }
+  get filters(): PropertyFilters { return { query:this.query.trim(), household:this.household, neighborhood:this.neighborhood, maxRent:this.maxRent, propertyType:this.propertyType, flatmates:this.flatmates, furnished:this.furnished, availableFrom:this.availableFrom }; }
+  private cache?: { key: string; results: Property[]; rents: Record<string, number>; rooms: Record<string, Room[]> };
+  /** Memoised so the map and cards only re-render when the search actually changes. */
+  private get search(): { results: Property[]; rents: Record<string, number>; rooms: Record<string, Room[]> } {
+    const filters = this.filters;
+    const key = JSON.stringify([filters, this.sortBy, this.service.version]);
+    if (this.cache?.key !== key) {
+      const rent = (property: Property) => this.service.fromRent(property, filters);
+      const results = [...this.service.searchProperties(filters)].sort((a,b) => this.sortBy === 'low' ? rent(a)-rent(b) : this.sortBy === 'high' ? rent(b)-rent(a) : this.sortBy === 'newest' ? a.availableFrom.localeCompare(b.availableFrom) : 0);
+      this.cache = { key, results, rents:Object.fromEntries(results.map(property => [property.id, rent(property)])), rooms:Object.fromEntries(results.map(property => [property.id, this.service.matchingRooms(property, filters)])) };
+    }
+    return this.cache;
   }
-  pin(index: number): {x:number;y:number} { const points = [{x:25,y:40},{x:55,y:27},{x:71,y:49},{x:38,y:63},{x:63,y:70},{x:46,y:34},{x:21,y:61},{x:79,y:36}]; return points[index % points.length]; }
+  get results(): Property[] { return this.search.results; }
+  get rents(): Record<string, number> { return this.search.rents; }
+  /** Free rooms of a flat share that fit the current rent and move-in filters. */
+  roomsFor(property: Property): Room[] | undefined { return property.rooms ? this.search.rooms[property.id] : undefined; }
   applyFilters(): void {
-      void this.router.navigate([], { relativeTo:this.route, queryParams:{ neighborhood:this.neighborhood||null, maxRent:this.maxRent, propertyType:this.propertyType||null, bedrooms:this.bedrooms, furnished:this.furnished, availableFrom:this.availableFrom||null, amenities:this.selectedAmenities.length ? this.selectedAmenities.join(',') : null }, queryParamsHandling:'merge', replaceUrl:true });
+      void this.router.navigate([], { relativeTo:this.route, queryParams:{ q:this.query.trim()||null, household:this.household||null, neighborhood:this.neighborhood||null, maxRent:this.maxRent, propertyType:this.propertyType||null, flatmates:this.flatmates||null, furnished:this.furnished, availableFrom:this.availableFrom||null }, replaceUrl:true });
   }
   toggleType(type: string): void { this.propertyType = this.propertyType === type ? '' : type; this.applyFilters(); }
+  setHousehold(value: '' | 'women' | 'men'): void { this.household = value; this.applyFilters(); }
   setFurnished(value: boolean | null): void { this.furnished = value; this.applyFilters(); }
-  toggleAmenity(amenity: string): void { this.selectedAmenities = this.selectedAmenities.includes(amenity) ? this.selectedAmenities.filter(item => item !== amenity) : [...this.selectedAmenities, amenity]; this.applyFilters(); }
-  clearFilters(): void { this.neighborhood=''; this.maxRent=null; this.propertyType=''; this.bedrooms=null; this.furnished=null; this.availableFrom=''; this.selectedAmenities=[]; this.applyFilters(); }
+  clearFilters(): void { this.query=''; this.household=''; this.neighborhood=''; this.maxRent=null; this.propertyType=''; this.flatmates=''; this.furnished=null; this.availableFrom=''; this.applyFilters(); }
 }

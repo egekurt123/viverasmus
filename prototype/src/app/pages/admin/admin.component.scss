@@ -1,0 +1,49 @@
+:host { display: block; background: var(--surface); }
+.admin-page { padding: 34px 0 80px; }
+.admin-wrap { width: min(1100px, calc(100% - 32px)); margin: 0 auto; }
+.eyebrow { color: var(--gold-ink); font-size: 10px; font-weight: 750; letter-spacing: 1.6px; }
+.admin-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+.office { display: grid; gap: 6px; width: min(340px, 100%); }
+.office > span { color: var(--muted); font-size: 10px; }
+.add-flat { display: inline-block; margin-top: 14px; padding: 10px 18px; border-radius: var(--radius-pill); background: var(--gold); color: var(--brand-navy); text-decoration: none; font-size: 13px; font-weight: 700; }
+.add-flat:hover { background: var(--gold-hover); }
+.flat-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.flat-tools select { padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: #ffffff; color: var(--ink); font-size: 11px; }
+.remove { padding: 5px 12px; border: 1px solid #e3b7b3; border-radius: var(--radius-pill); background: #ffffff; color: #b3261e; font-size: 11px; font-weight: 650; cursor: pointer; }
+.admin-head h1 { margin: 8px 0 6px; color: var(--brand-navy); font-size: 34px; letter-spacing: -.6px; }
+.admin-head p { margin: 0; color: var(--muted); font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 24px 0; }
+.stats div { display: grid; gap: 4px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.stats span { color: var(--muted); font-size: 11px; }
+.stats strong { color: var(--brand-navy); font-size: 26px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; margin-bottom: 16px; }
+.toolbar input { flex: 1 1 220px; max-width: 360px; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: #ffffff; font-size: 13px; }
+.segmented { display: inline-flex; padding: 4px; border-radius: var(--radius-pill); background: #ffffff; border: 1px solid var(--line); }
+.segmented button { padding: 7px 14px; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--muted); font-size: 12px; font-weight: 650; cursor: pointer; }
+.segmented button.chosen { background: var(--brand-navy); color: #ffffff; }
+.flat-block { margin-bottom: 14px; padding: 18px 20px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.flat-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+.flat-head h2 { margin: 0; font-size: 18px; }
+.flat-head h2 a { color: var(--brand-navy); text-decoration: none; }
+.flat-head small { color: var(--muted); font-size: 11px; }
+.occupancy { flex-shrink: 0; padding: 5px 12px; border-radius: var(--radius-pill); background: var(--brand-soft); color: var(--brand-cobalt); font-size: 11px; font-weight: 700; }
+.room-rows { display: grid; gap: 6px; }
+.room-row { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(120px, 180px) auto; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line); }
+.room-info { display: grid; gap: 2px; }
+.room-info a { text-decoration: none; }
+.room-info strong { color: var(--brand-navy); font-size: 13px; }
+.room-info span, .who { color: var(--muted); font-size: 11px; }
+.none { margin: 6px 0; color: var(--muted); font-size: 12px; }
+@media (max-width: 720px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .room-row { grid-template-columns: 1fr; gap: 6px; }
+  .admin-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+.office { display: grid; gap: 6px; width: min(340px, 100%); }
+.office > span { color: var(--muted); font-size: 10px; }
+.add-flat { display: inline-block; margin-top: 14px; padding: 10px 18px; border-radius: var(--radius-pill); background: var(--gold); color: var(--brand-navy); text-decoration: none; font-size: 13px; font-weight: 700; }
+.add-flat:hover { background: var(--gold-hover); }
+.flat-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.flat-tools select { padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: #ffffff; color: var(--ink); font-size: 11px; }
+.remove { padding: 5px 12px; border: 1px solid #e3b7b3; border-radius: var(--radius-pill); background: #ffffff; color: #b3261e; font-size: 11px; font-weight: 650; cursor: pointer; }
+.admin-head h1 { font-size: 26px; }
+}

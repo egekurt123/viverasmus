@@ -15,8 +15,8 @@
 .contact-card label { display:grid; gap: 7px; color: var(--ink); font-size: 13px; font-weight: 650; }
 .contact-card input, .contact-card textarea { width:100%; padding: 12px 14px; border:1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font: inherit; resize: vertical; }
 .error { color:#b44e4e; font-size: 12px; font-weight: 500; }
-.submit-button { min-height: 48px; display:inline-flex; align-items:center; justify-content:center; gap: 12px; padding: 0 18px; border:0; border-radius: 12px; background: var(--brand-navy); color:#fff; font: inherit; font-weight: 700; cursor:pointer; text-decoration:none; }
-.submit-button:hover { background: var(--brand-cobalt); }
+.submit-button { min-height: 48px; display:inline-flex; align-items:center; justify-content:center; gap: 12px; padding: 0 18px; border:0; border-radius: var(--radius-pill); background: var(--gold); color: var(--brand-navy); font: inherit; font-weight: 700; cursor:pointer; text-decoration:none; }
+.submit-button:hover { background: var(--gold-hover); }
 .submit-button span { font-size: 16px; }
 .prototype-note { display:block; margin-top: 14px; color: var(--muted); font-size: 12px; text-align:center; }
 .sent-state { display:grid; gap: 12px; place-items:center; padding: 28px 8px; text-align:center; }

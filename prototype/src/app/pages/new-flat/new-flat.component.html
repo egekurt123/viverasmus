@@ -1,0 +1,301 @@
+<section class="new-flat-page">
+  <div class="form-wrap">
+    <a class="back" routerLink="/admin">← Rooms &amp; bookings</a>
+    <span class="eyebrow">TEAM AREA</span>
+    <h1>Add a flat</h1>
+    <p class="intro">
+      Fill in the flat, choose how many rooms it has and give each room its
+      price and photos.
+    </p>
+
+    <form (ngSubmit)="save()" novalidate>
+      <section class="panel">
+        <h2>The flat</h2>
+        <div class="grid">
+          <label class="wide">
+            Flat name
+            <input
+              name="title"
+              [(ngModel)]="title"
+              placeholder="e.g. Paris"
+              required />
+            @if (submitted && !title.trim()) {
+              <small class="error">Give the flat a name.</small>
+            }
+          </label>
+          <label>
+            Neighborhood
+            <select name="neighborhood" [(ngModel)]="neighborhood">
+              @for (area of areas; track area) {
+                <option [value]="area">{{ area }}</option>
+              }
+            </select>
+          </label>
+          <label>
+            Street
+            <input
+              name="address"
+              [(ngModel)]="address"
+              placeholder="e.g. Calle San Jacinto"
+              required />
+            @if (submitted && !address.trim()) {
+              <small class="error">Add the street.</small>
+            }
+          </label>
+          <label>
+            Total size (m²)
+            <input
+              name="area"
+              type="number"
+              min="1"
+              [(ngModel)]="area"
+              placeholder="optional" />
+          </label>
+          <label>
+            Bathrooms
+            <input
+              name="bathrooms"
+              type="number"
+              min="1"
+              max="6"
+              [(ngModel)]="bathrooms" />
+          </label>
+          <label class="wide">
+            Description
+            <textarea
+              name="description"
+              rows="3"
+              [(ngModel)]="description"
+              placeholder="What is the flat like? What is nearby?"></textarea>
+          </label>
+        </div>
+
+        <span class="label">Flat share for</span>
+        <div class="segmented">
+          <button
+            type="button"
+            [class.chosen]="household === 'mixed'"
+            (click)="household = 'mixed'">
+            Everyone
+          </button>
+          <button
+            type="button"
+            [class.chosen]="household === 'women'"
+            (click)="household = 'women'">
+            Women only
+          </button>
+          <button
+            type="button"
+            [class.chosen]="household === 'men'"
+            (click)="household = 'men'">
+            Men only
+          </button>
+        </div>
+
+        <span class="label">Included</span>
+        <div class="checks">
+          <label>
+            <input type="checkbox" name="furnished" [(ngModel)]="furnished" />
+            Furnished
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="utilities"
+              [(ngModel)]="utilitiesIncluded" />
+            Utilities included in rent
+          </label>
+          @for (amenity of amenityOptions; track amenity) {
+            <label>
+              <input
+                type="checkbox"
+                [checked]="amenities.includes(amenity)"
+                (change)="toggle(amenities, amenity)" />
+              {{ amenity }}
+            </label>
+          }
+        </div>
+
+        <span class="label">
+          Photos of the flat
+          <small>
+            kitchen, living room, building… · the cover is shown first
+          </small>
+        </span>
+        <div class="photos">
+          @for (photo of photos; track photo.ref; let first = $first) {
+            <figure [class.cover]="first">
+              <img [src]="photo.url" alt="Flat photo" />
+              <button
+                type="button"
+                class="remove"
+                aria-label="Remove photo"
+                (click)="removePhoto(photos, photo)">
+                ×
+              </button>
+              @if (first) {
+                <span class="cover-tag">★ Cover</span>
+              } @else {
+                <button
+                  type="button"
+                  class="cover-button"
+                  (click)="makeCover(photos, photo)">
+                  Make cover
+                </button>
+              }
+            </figure>
+          }
+          <label class="add-photo">
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              (change)="addPhotos($event, photos)" />
+            <span>+</span>
+            Add photos
+          </label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="rooms-head">
+          <h2>Rooms</h2>
+          <div class="stepper" role="group" aria-label="Number of rooms">
+            <button
+              type="button"
+              (click)="roomCount = roomCount - 1"
+              [disabled]="roomCount <= 1"
+              aria-label="One room fewer">
+              −
+            </button>
+            <strong>
+              {{ roomCount }} {{ roomCount === 1 ? "room" : "rooms" }}
+            </strong>
+            <button
+              type="button"
+              (click)="roomCount = roomCount + 1"
+              [disabled]="roomCount >= maxRooms"
+              aria-label="One room more">
+              +
+            </button>
+          </div>
+        </div>
+        @for (room of rooms; track room; let i = $index) {
+          <div class="room-card">
+            <h3>Room {{ i + 1 }}</h3>
+            <div class="grid">
+              <label>
+                Rent per month (€)
+                <input
+                  type="number"
+                  min="1"
+                  [name]="'rent' + i"
+                  [(ngModel)]="room.monthlyRent"
+                  placeholder="e.g. 400" />
+                @if (submitted && !(room.monthlyRent! > 0)) {
+                  <small class="error">Add the rent.</small>
+                }
+              </label>
+              <label>
+                Size (m²)
+                <input
+                  type="number"
+                  min="1"
+                  [name]="'area' + i"
+                  [(ngModel)]="room.area"
+                  placeholder="e.g. 12" />
+                @if (submitted && !(room.area! > 0)) {
+                  <small class="error">Add the size.</small>
+                }
+              </label>
+              <label>
+                Free from
+                <select [name]="'from' + i" [(ngModel)]="room.availableFrom">
+                  @for (option of moveInOptions; track option.value) {
+                    <option [value]="option.value">{{ option.label }}</option>
+                  }
+                </select>
+              </label>
+              <label>
+                Bed
+                <select [name]="'bed' + i" [(ngModel)]="room.bed">
+                  <option>Single bed</option>
+                  <option>Double bed</option>
+                </select>
+              </label>
+            </div>
+            <div class="checks">
+              @for (extra of roomExtras; track extra) {
+                <label>
+                  <input
+                    type="checkbox"
+                    [checked]="room.extras.includes(extra)"
+                    (change)="toggle(room.extras, extra)" />
+                  {{ extra }}
+                </label>
+              }
+            </div>
+            <div class="photos">
+              @for (photo of room.photos; track photo.ref; let first = $first) {
+                <figure [class.cover]="first">
+                  <img [src]="photo.url" [alt]="'Photo of room ' + (i + 1)" />
+                  <button
+                    type="button"
+                    class="remove"
+                    aria-label="Remove photo"
+                    (click)="removePhoto(room.photos, photo)">
+                    ×
+                  </button>
+                  @if (first) {
+                    <span class="cover-tag">★ First</span>
+                  } @else {
+                    <button
+                      type="button"
+                      class="cover-button"
+                      (click)="makeCover(room.photos, photo)">
+                      Show first
+                    </button>
+                  }
+                </figure>
+              }
+              <label class="add-photo">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  (change)="addPhotos($event, room.photos)" />
+                <span>+</span>
+                Room photos
+              </label>
+            </div>
+          </div>
+        }
+      </section>
+
+      @if (error) {
+        <p class="error" role="alert">{{ error }}</p>
+      }
+      @if (submitted && !valid) {
+        <p class="error" role="alert">
+          Some details are still missing — see the fields marked above.
+        </p>
+      }
+      <div class="actions">
+        <a routerLink="/admin">Cancel</a>
+        <button type="submit" [disabled]="saving || uploading > 0">
+          {{
+            uploading
+              ? "Uploading photos…"
+              : saving
+                ? "Saving…"
+                : "Publish flat"
+          }}
+          <span>↗</span>
+        </button>
+      </div>
+      <p class="note">
+        Prototype: flats and photos you add are saved in this browser only.
+      </p>
+    </form>
+  </div>
+</section>

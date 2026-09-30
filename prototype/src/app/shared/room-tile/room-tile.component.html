@@ -1,0 +1,39 @@
+<div class="room-tile" [class.booked]="room.status === 'booked'">
+  <a
+    class="room-link"
+    [routerLink]="['/properties', propertyId, 'rooms', room.id]"
+    [attr.aria-label]="'Open ' + room.name">
+    @if (room.images?.length) {
+      <img
+        class="room-photo"
+        [src]="room.images![0]"
+        [alt]="'Photo of ' + room.name" />
+    }
+    <div class="room-top">
+      <strong>{{ room.name }}</strong>
+      <span class="room-price">
+        €{{ room.monthlyRent }}
+        <small>/ month</small>
+      </span>
+    </div>
+    <p class="room-meta">
+      {{ room.area }} m² · {{ room.features.join(" · ") }}
+    </p>
+    @if (room.status === "available") {
+      <span class="room-status free">
+        Free from {{ room.availableFrom | date: "d MMM y" }}
+      </span>
+    } @else {
+      <span class="room-status taken">
+        Booked ·
+        {{ room.tenant?.gender === "female" ? "♀ Woman" : "♂ Man" }} from
+        {{ flagFor(room.tenant?.country ?? "") }}
+        {{ room.tenant?.country }}
+      </span>
+    }
+    <span class="open-room">View room →</span>
+  </a>
+  @if (auth.isAdmin()) {
+    <app-room-admin [room]="room" />
+  }
+</div>
