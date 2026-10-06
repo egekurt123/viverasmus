@@ -19,23 +19,24 @@
 
   <div class="header-actions">
     @if (auth.isAdmin()) {
-      <a class="login-link" routerLink="/admin" routerLinkActive="active">
+      <a class="button button-dark header-action" routerLink="/admin" routerLinkActive="active">
         Rooms &amp; bookings
       </a>
     }
 
     @if (auth.account()) {
-      <button type="button" class="login-link logout" (click)="logout()">
+      <button type="button" class="button button-dark header-action logout" (click)="logout()">
         Log out
       </button>
     } @else {
-      <a class="login-link" routerLink="/login">Log in</a>
+      <a class="button button-dark header-action" routerLink="/login">Log in</a>
     }
-
-    <a class="button button-dark header-contact" routerLink="/contact">
-      Contact
-      <span>↗</span>
-    </a>
+      @if(!auth.isAdmin()) {
+      <a class="button button-dark header-contact" routerLink="/contact">
+        Contact
+        <span>↗</span>
+      </a>
+      }
   </div>
 </header>
 

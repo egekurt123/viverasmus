@@ -6,10 +6,9 @@
 .main-nav a { padding: 9px 16px; border-radius: var(--radius-pill); color: #53617f; text-decoration: none; font-size: 13px; font-weight: 600; transition: background .16s ease, color .16s ease; }
 .main-nav a:hover { color: var(--brand-navy); }
 .main-nav a.active { color: var(--brand-navy); background: #ffffff; box-shadow: 0 2px 8px #20206014; }
-.login-link { color: #53617f; text-decoration: none; font-size: 13px; font-weight: 600; }
-.header-actions { display: flex; align-items: center; gap: 20px; }
-.logout { padding: 0; border: 0; background: none; cursor: pointer; font: inherit; }
-.login-link.active { color: var(--brand-navy); }
+.header-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.header-action { min-height: 42px; padding: 0 18px; }
+.logout { cursor: pointer; }
 .button { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 0 22px; border-radius: var(--radius-pill); text-decoration: none; font-size: 14px; font-weight: 650; transition: transform .16s ease, background .16s ease; }
 .button:hover { transform: translateY(-1px); }
 .button-dark { color: #ffffff; background: var(--brand-navy); }
