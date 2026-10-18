@@ -14,13 +14,22 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## Run with Docker
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Build and start the production app with Docker Compose:
 
-## Running end-to-end tests
+```sh
+docker compose up --build
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Open [http://localhost:8080](http://localhost:8080). Angular routes are served through the app shell, so direct links and page refreshes work. Stop the container with `Ctrl+C`, or run `docker compose down` from another terminal.
+
+To build and run the image without Compose:
+
+```sh
+docker build -t viverasmus .
+docker run --rm -p 8080:80 viverasmus
+```
 
 ## Further help
 
