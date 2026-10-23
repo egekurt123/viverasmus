@@ -14,8 +14,6 @@ export class HomeComponent {
   private service = inject(PropertyService);
   private router = inject(Router);
   areas = ['Alameda', 'Centro', 'Los Remedios', 'Macarena', 'Nervión', 'San Bernardo', 'Triana'];
-  totalApartments = this.service.getProperties().length;
-  totalRooms = this.service.getProperties().flatMap(flat => flat.rooms ?? []).length;
   get featured() { return this.service.getPopularProperties(); }
   moveInOptions = MOVE_IN_OPTIONS;
   neighborhood = ''; moveIn = ''; budget = '';
