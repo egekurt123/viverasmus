@@ -11,10 +11,14 @@
     }
     <div class="room-top">
       <strong>{{ room.name }}</strong>
-      <span class="room-price">
-        €{{ room.monthlyRent }}
-        <small>/ month</small>
-      </span>
+      @if (room.status === "available") {
+        <span class="room-price">
+          €{{ room.monthlyRent }}
+          <small>/ month</small>
+        </span>
+      } @else {
+        <span class="room-status taken">Rented out</span>
+      }
     </div>
     <p class="room-meta">
       {{ room.area }} m² · {{ room.features.join(" · ") }}

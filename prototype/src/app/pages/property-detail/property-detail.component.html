@@ -80,8 +80,12 @@
                 <p class="address">⌖ {{ property.address }}, Sevilla</p>
               </div>
               <div class="detail-price">
-                <strong>€{{ room.monthlyRent }}</strong>
-                <span>/ month</span>
+                @if (room.status === "available") {
+                  <strong>€{{ room.monthlyRent }}</strong>
+                  <span>/ month</span>
+                } @else {
+                  <strong>Rented out</strong>
+                }
               </div>
             </div>
             <div class="facts">
@@ -288,18 +292,24 @@
                         : ""
                   }}
                 </span>
-                <strong>
-                  €{{ rent }}
-                  <small>{{ priceUnit }}</small>
-                </strong>
+                @if (room?.status === "booked") {
+                  <strong>Rented out</strong>
+                } @else {
+                  <strong>
+                    €{{ rent }}
+                    <small>{{ priceUnit }}</small>
+                  </strong>
+                }
               </div>
-              <div>
-                <span>Deposit</span>
-                <strong>
-                  €{{ room ? room.monthlyRent : property.deposit
-                  }}{{ property.rooms && !room ? " · one month’s rent" : "" }}
-                </strong>
-              </div>
+              @if (room?.status !== "booked") {
+                <div>
+                  <span>Deposit</span>
+                  <strong>
+                    €{{ room ? room.monthlyRent : property.deposit
+                    }}{{ property.rooms && !room ? " · one month’s rent" : "" }}
+                  </strong>
+                </div>
+              }
               <div>
                 <span>Move-in</span>
                 <strong>
@@ -382,11 +392,15 @@
               {{ room ? room.name.toUpperCase() : "A PLACE TO START" }}
             </span>
             <strong>
-              @if (property.rooms && !room) {
-                <small>from</small>
+              @if (room?.status === "booked") {
+                Rented out
+              } @else {
+                @if (property.rooms && !room) {
+                  <small>from</small>
+                }
+                €{{ rent }}
+                <small>{{ priceUnit }}</small>
               }
-              €{{ rent }}
-              <small>{{ priceUnit }}</small>
             </strong>
             <p>
               @if (room) {
