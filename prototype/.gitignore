@@ -41,8 +41,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Listing photos stay local, while the folders are kept in Git.
-/src/assets/flats/*
-!/src/assets/flats/.gitkeep
-/src/assets/rooms/*
-!/src/assets/rooms/.gitkeep
+# Listing photos stay local, while the folder is kept in Git.
+/src/assets/Viverasmus Real Photos/*
+!/src/assets/Viverasmus Real Photos/.gitkeep
