@@ -1,6 +1,6 @@
 import { Household, Room } from '../../core/models/property.model';
 
-const asset = (path: string): string => `/assets/Viverasmus Real Photos/${path}`;
+const asset = (path: string): string => `/assets/apartments/${path}`;
 
 const REAL_ROOM_IMAGES: Record<string, string[][]> = {
   paris: [
