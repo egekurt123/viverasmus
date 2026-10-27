@@ -1,5 +1,81 @@
 import { Household, Room } from '../../core/models/property.model';
 
+const asset = (path: string): string => `/assets/Viverasmus Real Photos/${path}`;
+
+const REAL_ROOM_IMAGES: Record<string, string[][]> = {
+  paris: [
+    [asset('PARIS/HAB1/HAB1-1.jpg'), asset('PARIS/HAB1/HAB1-2.jpg')],
+    [asset('PARIS/HAB2/HAB2-1.jpg'), asset('PARIS/HAB2/HAB2-2.jpg')],
+    [asset('PARIS/HAB3/HAB3-1.jpg'), asset('PARIS/HAB3/HAB3-2.jpg')],
+    [asset('PARIS/HAB4/HAB4-1.jpg'), asset('PARIS/HAB4/HAB4-2.jpg')],
+    [asset('PARIS/HAB5/HAB5-1.jpg'), asset('PARIS/HAB5/HAB5-2.jpg')]
+  ],
+  helsinki: [
+    [asset('HELSINKI/HAB1/HAB 1-1.jpg'), asset('HELSINKI/HAB1/HAB 1-2.jpg')],
+    [asset('HELSINKI/HAB2/HAB 2-1.jpg'), asset('HELSINKI/HAB2/HAB 2-2.jpg')],
+    [asset('HELSINKI/HAB3/HAB 3-1.jpg'), asset('HELSINKI/HAB3/HAB 3-2.jpg')],
+    [asset('HELSINKI/HAB4/HAB 4-1.jpg'), asset('HELSINKI/HAB4/HAB 4-2.jpg')]
+  ],
+  zagreb: [
+    [asset('ZAGREB/HAB1/HAB1-1 (1).jpg'), asset('ZAGREB/HAB1/HAB1-2.jpg')],
+    [asset('ZAGREB/HAB2/HAB2-1.jpg'), asset('ZAGREB/HAB2/HAB2-2.jpg')],
+    [asset('ZAGREB/HAB3/HAB3-1.jpg'), asset('ZAGREB/HAB3/HAB3-2.jpg')],
+    [asset('ZAGREB/HAB4/HAB4-1.jpg'), asset('ZAGREB/HAB4/HAB4-2 (1).jpg')]
+  ],
+  tallin: [
+    [asset('TALINN/HABI1/HAB1-1.jpg'), asset('TALINN/HABI1/HAB1-2.jpg')],
+    [asset('TALINN/HAB2/HAB2-1.jpg'), asset('TALINN/HAB2/HAB2-2.jpg')],
+    [asset('TALINN/HAB3/HAB3-1.jpg'), asset('TALINN/HAB3/HAB3-2.jpg')],
+    [asset('TALINN/HAB4/HAB4-1.jpg'), asset('TALINN/HAB4/HAB4-2.jpg')]
+  ],
+  oslo: [
+    [asset('OSLO/HAB1/HAB 1-1.jpg'), asset('OSLO/HAB1/HAB 1-2.jpg')],
+    [asset('OSLO/HAB2/HAB 2-1.jpg'), asset('OSLO/HAB2/HAB 2-2.jpg')],
+    [asset('OSLO/HAB3/HAB 3-1.jpg'), asset('OSLO/HAB3/HAB 3-2.jpg')],
+    [asset('OSLO/HAB4 /HAB 4-1.jpg'), asset('OSLO/HAB4 /HAB 4-2.jpg')],
+    [asset('OSLO/HAB5/HAB 5-1.jpg'), asset('OSLO/HAB5/HAB 5-2.jpg')]
+  ],
+  amsterdam: [
+    [asset('AMSTERDAM/HAB1/HAB1-1.jpg'), asset('AMSTERDAM/HAB1/HAB1-2.jpg')],
+    [asset('AMSTERDAM/HAB2/HAB2-4.jpg'), asset('AMSTERDAM/HAB2/HAB2-5.jpg')],
+    [asset('AMSTERDAM/HAB3/HAB3-2.jpg'), asset('AMSTERDAM/HAB3/HAB3-4.jpg')],
+    [asset('AMSTERDAM/HAB4/HAB4-1.jpg'), asset('AMSTERDAM/HAB4/HAB4-2.jpg')],
+    [asset('AMSTERDAM/HAB5/HAB5-1.jpg'), asset('AMSTERDAM/HAB5/HAB5-2.jpg')],
+    [asset('AMSTERDAM/HAB6/HAB6-1.jpg'), asset('AMSTERDAM/HAB6/HAB6-2.jpg')],
+    [asset('AMSTERDAM/HAB7/HAB7-1.jpg'), asset('AMSTERDAM/HAB7/HAB7-2.jpg')]
+  ],
+  ottawa: [
+    [asset('OTTAWA/HAB1/HAB1-1.jpg'), asset('OTTAWA/HAB1/HAB1-2.jpg')],
+    [asset('OTTAWA/HAB2/HAB2-1.jpg'), asset('OTTAWA/HAB2/HAB2-2.jpg')],
+    [asset('OTTAWA/HAB3/HAB3-1.jpg'), asset('OTTAWA/HAB3/HAB3-2.jpg')],
+    [asset('OTTAWA/HAB4/HAB4-1.jpg'), asset('OTTAWA/HAB4/HAB4-2.jpg')],
+    [asset('OTTAWA/HAB5/HAB5-1.jpg'), asset('OTTAWA/HAB5/HAB5-2.jpg')],
+    [asset('OTTAWA/HAB6/HAB 6-1.jpg'), asset('OTTAWA/HAB6/HAB 6-2.jpg')],
+    [asset('OTTAWA/HAB7/HAB7-1.jpg'), asset('OTTAWA/HAB7/HAB7-2.jpg')],
+    [asset('OTTAWA/HAB8/HAB8-1.jpg'), asset('OTTAWA/HAB8/HAB8-2.jpg')],
+    [asset('OTTAWA/HAB9/HAB9-1.jpg'), asset('OTTAWA/HAB9/HAB9-2.jpg')]
+  ],
+  berlin: [
+    [asset('BERLIN/HAB1/HAB 1-1.jpg'), asset('BERLIN/HAB1/HAB 1-2.jpg')],
+    [asset('BERLIN/HAB2/HAB2-1.jpg'), asset('BERLIN/HAB2/HAB2-2.jpg')],
+    [asset('BERLIN/HAB3/HAB3-1.jpg'), asset('BERLIN/HAB3/HAB3-2.jpg')],
+    [asset('BERLIN/HAB4/HAB4-1.jpg'), asset('BERLIN/HAB4/HAB4-2.jpg')],
+    [asset('BERLIN/HAB5/HAB5-1.jpg'), asset('BERLIN/HAB5/HAB5-2.jpg')],
+    [asset('BERLIN/HAB6/HAB6-1.jpg'), asset('BERLIN/HAB6/HAB6-2.jpg')],
+    [asset('BERLIN/HAB7/HAB7-1.jpg'), asset('BERLIN/HAB7/HAB7-2.jpg')],
+    [asset('BERLIN/HAB8/HAB8-1.jpg'), asset('BERLIN/HAB8/HAB8-2.jpg')],
+    [asset('BERLIN/HAB9/HAB9-1.jpg'), asset('BERLIN/HAB9/HAB9-2.jpg')],
+    [asset('BERLIN/HAB10/HAB10-1.jpg'), asset('BERLIN/HAB10/HAB10-2.jpg')],
+    [asset('BERLIN/HAB11/HAB11-1.jpg'), asset('BERLIN/HAB11/HAB11-2.jpg')]
+  ],
+  'torre-del-oro': Array.from({ length: 20 }, (_, index) => {
+    const room = index + 1;
+    const folder = room === 20 ? 'HAB20' : `HAB${room}`;
+    const filenameRoom = room === 20 ? 19 : room;
+    return [asset(`TORRE DEL ORO/${folder}/HAB${filenameRoom}-1.jpg`), asset(`TORRE DEL ORO/${folder}/HAB${filenameRoom}-2.jpg`)];
+  })
+};
+
 /** [monthly rent, m², free from, booked by ('f' | 'm') + ':' + country] */
 type RoomRow = [number, number, string, string?];
 
@@ -24,6 +100,7 @@ export const ROOMS: Record<string, Room[]> = Object.fromEntries(Object.entries(R
   return {
     id:`${propertyId}-room-${index + 1}`, name:`Room ${index + 1}`, monthlyRent, area, availableFrom, features:featuresFor(area),
     status: booked ? 'booked' : 'available',
-    tenant: booked ? { gender: gender === 'f' ? 'female' : 'male', country } : undefined
+    tenant: booked ? { gender: gender === 'f' ? 'female' : 'male', country } : undefined,
+    images: REAL_ROOM_IMAGES[propertyId]?.[index] ?? []
   } satisfies Room;
 })]));
