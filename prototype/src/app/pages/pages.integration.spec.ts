@@ -23,9 +23,9 @@ describe('rental platform routes and interactions', () => {
 
   it('applies location, rent and type query filters and sorts the results', async () => {
     const harness = await RouterTestingHarness.create();
-    const page = await harness.navigateByUrl('/properties?neighborhood=Nervi%C3%B3n&maxRent=600&propertyType=Private%20room', PropertiesComponent);
+    const page = await harness.navigateByUrl('/properties?neighborhood=Los%20Remedios&maxRent=600&propertyType=Private%20room', PropertiesComponent);
     expect(page.results.length).toBeGreaterThan(1);
-    expect(page.results.every(property => property.neighborhood === 'Nervión' && property.propertyType === 'Private room')).toBeTrue();
+    expect(page.results.every(property => property.neighborhood === 'Los Remedios' && property.propertyType === 'Private room')).toBeTrue();
     expect(page.results.every(property => page.roomsFor(property)!.every(room => room.monthlyRent <= 600))).toBeTrue();
     page.sortBy = 'low';
     expect(page.rents[page.results[0].id]).toBeLessThanOrEqual(page.rents[page.results[1].id]);

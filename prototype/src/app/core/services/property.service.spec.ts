@@ -9,10 +9,10 @@ describe('PropertyService', () => {
   });
 
   it('filters by neighborhood, maximum rent and property type together', () => {
-    const filters = { neighborhood:'Triana', maxRent:400, propertyType:'Private room' };
+    const filters = { neighborhood:'Centro', maxRent:400, propertyType:'Private room' };
     const results = service.searchProperties(filters);
     expect(results.length).toBeGreaterThan(0);
-    expect(results.every(property => property.neighborhood === 'Triana' && property.propertyType === 'Private room')).toBeTrue();
+    expect(results.every(property => property.neighborhood === 'Centro' && property.propertyType === 'Private room')).toBeTrue();
     expect(results.every(property => service.matchingRooms(property, filters).every(room => room.monthlyRent <= 400))).toBeTrue();
   });
 
