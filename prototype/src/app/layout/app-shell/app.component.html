@@ -32,9 +32,12 @@
       <a class="button button-dark header-action" routerLink="/login">Log in</a>
     }
       @if(!auth.isAdmin()) {
-      <a class="button button-dark header-contact" routerLink="/contact">
-        Contact
-        <span>↗</span>
+      <a
+        class="button button-dark header-contact mail-link"
+        routerLink="/contact"
+        aria-label="Contact viverasmus by email"
+        title="Contact viverasmus by email">
+        <fa-icon [icon]="faEnvelope"></fa-icon>
       </a>
       <a
         class="button button-dark header-contact whatsapp-link"

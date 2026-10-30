@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faWhatsapp as faWhatsappIcon } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope as faEnvelopeIcon } from '@fortawesome/free-solid-svg-icons';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -11,6 +12,7 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class AppComponent {
   faWhatsapp = faWhatsappIcon;
+  faEnvelope = faEnvelopeIcon;
   auth = inject(AuthService); private router = inject(Router);
   logout(): void { this.auth.logout(); void this.router.navigateByUrl('/'); }
 }
