@@ -5,17 +5,17 @@ h1, h2, p { margin-top: 0; }
 h1 em, h2 em { color: var(--brand-accent); font-style: normal; }
 
 /* Hero */
-.hero { position: relative; padding: 56px 0 0; background: linear-gradient(180deg, #ffffff calc(100% - 48px), var(--surface) calc(100% - 48px)); }
-.hero-inner { width: min(1240px, calc(100% - 64px)); margin: 0 auto; display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: clamp(28px, 5vw, 72px); }
-.badge { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: var(--radius-pill); background: var(--brand-soft); color: var(--brand-cobalt); font-size: 10px; font-weight: 760; letter-spacing: 1.4px; }
+.hero { position: relative; background: var(--surface); }
+.hero-stage { position: relative; width: 100%; min-height: clamp(460px, 40vw, 560px); padding: clamp(48px, 5vw, 72px) 0 clamp(88px, 8vw, 112px); display: flex; align-items: center; overflow: hidden; }
+.hero-photo { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(32, 32, 96, 0.06) 0%, rgba(32, 32, 96, 0.16) 100%), url('/assets/Plaza%20de%20espana.png') center 49%/cover no-repeat; }
+.hero-inner { position: relative; z-index: 1; width: min(1240px, calc(100% - 64px)); margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; }
+.hero-copy { max-width: 580px; padding: clamp(26px, 3vw, 38px) clamp(24px, 3.2vw, 42px); border-radius: var(--radius-lg); background: rgba(255, 255, 255, 0.66); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid rgba(255, 255, 255, 0.55); box-shadow: 0 16px 44px rgba(32, 32, 96, 0.12); }
+.badge { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: var(--radius-pill); background: rgba(233, 237, 248, 0.88); color: var(--brand-cobalt); font-size: 10px; font-weight: 760; letter-spacing: 1.4px; }
 .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
-h1 { margin: 22px 0 18px; color: var(--brand-navy); font-size: clamp(42px, 5.2vw, 70px); line-height: 1.04; letter-spacing: -1.5px; font-weight: 700; }
-.hero-copy > p { max-width: 500px; margin: 0 0 30px; color: var(--muted); font-size: 16px; line-height: 1.7; }
-.hero-photo { position: relative; aspect-ratio: 1.3; border-radius: var(--radius-lg); overflow: hidden; background: url('/assets/Plaza%20de%20espana.png') center 49%/cover; box-shadow: var(--shadow-soft); }
-.photo-caption { position: absolute; left: 16px; bottom: 16px; padding: 9px 16px; border-radius: var(--radius-pill); background: #ffffffe0; backdrop-filter: blur(6px); color: var(--brand-navy); font-size: 12px; font-weight: 600; }
-
+h1 { margin: 18px 0 14px; color: var(--brand-navy); font-size: clamp(38px, 4.6vw, 62px); line-height: 1.04; letter-spacing: -1.5px; font-weight: 700; }
+.hero-copy > p { max-width: 500px; margin: 0; color: var(--ink); font-size: 16px; line-height: 1.65; }
 /* Search card */
-.search-box { position: relative; z-index: 1; width: min(980px, calc(100% - 64px)); margin: 48px auto 0; padding: 18px 20px 20px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); }
+.search-box { position: relative; z-index: 2; width: min(980px, calc(100% - 64px)); margin: -52px auto 0; padding: 18px 20px 20px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); }
 .search-title { margin: 0 0 12px 6px; color: var(--brand-navy); font-size: 10px; font-weight: 760; letter-spacing: 1.4px; }
 .search-fields { display: flex; align-items: stretch; gap: 10px; }
 .search-fields label { flex: 1; min-width: 0; display: flex; align-items: center; gap: 11px; padding: 9px 16px 9px 10px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-pill); cursor: pointer; transition: border-color .16s ease, background .16s ease; }
@@ -63,6 +63,7 @@ h1 { margin: 22px 0 18px; color: var(--brand-navy); font-size: clamp(42px, 5.2vw
 .button-light span { font-size: 17px; font-weight: 400; }
 
 @media (max-width: 1000px) {
+  .hero-inner { flex-direction: column; align-items: flex-start; gap: 18px; }
   .property-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .search-fields { flex-wrap: wrap; }
   .search-fields label { flex: 1 1 40%; }
@@ -70,12 +71,13 @@ h1 { margin: 22px 0 18px; color: var(--brand-navy); font-size: clamp(42px, 5.2vw
   .how-photo { min-height: 420px; }
 }
 @media (max-width: 760px) {
-  .hero { padding-top: 32px; }
+  .hero-stage { min-height: 0; padding: 28px 0 64px; }
   .hero-inner, .section-wrap, .search-box { width: calc(100% - 32px); }
-  .hero-inner { grid-template-columns: 1fr; gap: 28px; }
-  h1 { font-size: clamp(36px, 10vw, 50px); letter-spacing: -1px; }
+  .hero-copy { max-width: 100%; padding: 22px 20px; border-radius: var(--radius); }
+  h1 { margin: 14px 0 10px; font-size: clamp(32px, 9vw, 46px); letter-spacing: -1px; }
   .hero-copy > p { font-size: 14px; }
-  .search-box { margin-top: 28px; padding: 14px; border-radius: var(--radius); }
+  .photo-caption { font-size: 11px; padding: 7px 14px; white-space: normal; }
+  .search-box { margin-top: -36px; padding: 14px; border-radius: var(--radius); }
   .search-fields label { flex: 1 1 100%; }
   .featured { padding: 56px 0 60px; }
   .section-heading { align-items: flex-start; flex-direction: column; gap: 14px; }
