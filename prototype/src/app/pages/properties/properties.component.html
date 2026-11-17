@@ -88,11 +88,20 @@
           id="flatmate-filter"
           [(ngModel)]="flatmates"
           (ngModelChange)="applyFilters()">
-          <option value="">Doesn’t matter</option>
+          <option value="">Any</option>
           @for (option of flatmateOptions; track option.value) {
             <option [value]="option.value">{{ option.label }}</option>
           }
         </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">
+          <input
+            type="checkbox"
+            [(ngModel)]="privateBathroom"
+            (ngModelChange)="applyFilters()" />
+          Private bathroom
+        </label>
       </div>
       <div class="filter-group">
         <label class="filter-label" for="date-filter">Move-in</label>
@@ -189,6 +198,12 @@
         @if (flatmates) {
           <button (click)="flatmates = ''; applyFilters()">
             {{ flatmateLabel }}
+            <span>×</span>
+          </button>
+        }
+        @if (privateBathroom) {
+          <button (click)="privateBathroom = false; applyFilters()">
+            Private bathroom
             <span>×</span>
           </button>
         }

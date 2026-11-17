@@ -20,7 +20,7 @@ export class PropertiesComponent {
   moveInOptions = MOVE_IN_OPTIONS;
   types = [{ value:'Private room', label:'Room in a flat share' }, { value:'Studio', label:'Studio' }];
   flatmateOptions = FLATMATE_OPTIONS;
-  query = ''; household: '' | 'women' | 'men' = ''; neighborhood = ''; maxRent: number | null = null; propertyType = ''; flatmates = ''; availableFrom = ''; sortBy = 'recommended'; mobileFilters = false;
+  query = ''; household: '' | 'women' | 'men' = ''; neighborhood = ''; maxRent: number | null = null; propertyType = ''; flatmates = ''; privateBathroom = false; availableFrom = ''; sortBy = 'recommended'; mobileFilters = false;
   constructor() {
     this.route.queryParamMap.subscribe(params => {
       this.query = params.get('q') ?? '';
@@ -30,12 +30,13 @@ export class PropertiesComponent {
       this.maxRent = params.get('maxRent') ? Number(params.get('maxRent')) : null;
       this.propertyType = params.get('propertyType') ?? '';
       this.flatmates = params.get('flatmates') ?? '';
+      this.privateBathroom = params.get('privateBathroom') === 'true';
       this.availableFrom = params.get('availableFrom') ?? '';
     });
   }
-  get activeFilterCount(): number { return [this.household, this.neighborhood, this.maxRent, this.propertyType, this.flatmates, this.availableFrom].filter(Boolean).length; }
+  get activeFilterCount(): number { return [this.household, this.neighborhood, this.maxRent, this.propertyType, this.flatmates, this.privateBathroom, this.availableFrom].filter(Boolean).length; }
   get flatmateLabel(): string { return this.flatmateOptions.find(option => option.value === this.flatmates)?.label ?? ''; }
-  get filters(): PropertyFilters { return { query:this.query.trim(), household:this.household, neighborhood:this.neighborhood, maxRent:this.maxRent, propertyType:this.propertyType, flatmates:this.flatmates, availableFrom:this.availableFrom }; }
+  get filters(): PropertyFilters { return { query:this.query.trim(), household:this.household, neighborhood:this.neighborhood, maxRent:this.maxRent, propertyType:this.propertyType, flatmates:this.flatmates, privateBathroom:this.privateBathroom, availableFrom:this.availableFrom }; }
   private cache?: { key: string; results: Property[]; rents: Record<string, number>; rooms: Record<string, Room[]> };
   /** Memoised so the map and cards only re-render when the search actually changes. */
   private get search(): { results: Property[]; rents: Record<string, number>; rooms: Record<string, Room[]> } {
@@ -53,9 +54,9 @@ export class PropertiesComponent {
   /** Free rooms of a flat share that fit the current rent and move-in filters. */
   roomsFor(property: Property): Room[] | undefined { return property.rooms ? this.search.rooms[property.id] : undefined; }
   applyFilters(): void {
-      void this.router.navigate([], { relativeTo:this.route, queryParams:{ q:this.query.trim()||null, household:this.household||null, neighborhood:this.neighborhood||null, maxRent:this.maxRent, propertyType:this.propertyType||null, flatmates:this.flatmates||null, availableFrom:this.availableFrom||null }, replaceUrl:true });
+      void this.router.navigate([], { relativeTo:this.route, queryParams:{ q:this.query.trim()||null, household:this.household||null, neighborhood:this.neighborhood||null, maxRent:this.maxRent, propertyType:this.propertyType||null, flatmates:this.flatmates||null, privateBathroom:this.privateBathroom ? 'true' : null, availableFrom:this.availableFrom||null }, replaceUrl:true });
   }
   toggleType(type: string): void { this.propertyType = this.propertyType === type ? '' : type; this.applyFilters(); }
   setHousehold(value: '' | 'women' | 'men'): void { this.household = value; this.applyFilters(); }
-  clearFilters(): void { this.query=''; this.household=''; this.neighborhood=''; this.maxRent=null; this.propertyType=''; this.flatmates=''; this.availableFrom=''; this.applyFilters(); }
+  clearFilters(): void { this.query=''; this.household=''; this.neighborhood=''; this.maxRent=null; this.propertyType=''; this.flatmates=''; this.privateBathroom=false; this.availableFrom=''; this.applyFilters(); }
 }

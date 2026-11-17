@@ -43,6 +43,7 @@ figure .remove { position: absolute; top: 4px; right: 4px; width: 24px; height: 
 .stepper strong { min-width: 70px; color: var(--brand-navy); font-size: 13px; text-align: center; }
 .room-card { padding: 16px 0; border-top: 1px solid var(--line); }
 .error { color: #b3261e; font-size: 11px; font-weight: 500; }
+.date-selects { display: flex; gap: 6px; }
 p.error { margin: 0; font-size: 12px; }
 .actions { display: flex; justify-content: flex-end; align-items: center; gap: 18px; }
 .actions a { color: var(--muted); font-size: 13px; }

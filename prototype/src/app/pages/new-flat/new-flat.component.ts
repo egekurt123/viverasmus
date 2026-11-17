@@ -3,11 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { PropertyService } from '../../core/services/property.service';
 import { Household } from '../../core/models/property.model';
-import { MOVE_IN_OPTIONS } from '../../core/config/move-in';
+import { ADMIN_DATE_YEARS, AVAILABLE_DATE_OPTIONS, adminDateValue } from '../../core/config/admin-dates';
 import { deleteImages, resolveImage, saveImage } from '../../core/storage/image-store';
 
 interface Photo { ref: string; url: string; }
-interface RoomDraft { monthlyRent: number | null; area: number | null; availableFrom: string; bed: 'Single bed' | 'Double bed'; extras: string[]; photos: Photo[]; }
+interface RoomDraft { monthlyRent: number | null; area: number | null; availableFrom: string; availableMonthDay: string; availableYear: number; bed: 'Single bed' | 'Double bed'; extras: string[]; photos: Photo[]; }
 
 const MAX_ROOMS = 10;
 
@@ -22,7 +22,8 @@ export class NewFlatComponent implements OnDestroy {
   areas = ['Alameda','Centro','Los Remedios','Macarena','Nervión','San Bernardo','Triana'];
   amenityOptions = ['Wi-Fi','Air conditioning','Heating','Washing machine','Dishwasher','Balcony','Elevator'];
   roomExtras = ['Desk','Wardrobe','Balcony access','Private bathroom'];
-  moveInOptions = MOVE_IN_OPTIONS;
+  availableDateOptions = AVAILABLE_DATE_OPTIONS;
+  dateYears = ADMIN_DATE_YEARS;
   maxRooms = MAX_ROOMS;
 
   title = ''; neighborhood = 'Triana'; address = ''; description = ''; area: number | null = null; bathrooms = 1;
@@ -75,7 +76,7 @@ export class NewFlatComponent implements OnDestroy {
       description:this.description.trim() || `A furnished flat share in ${this.neighborhood} with ${this.rooms.length} rooms.`,
       area:this.area ?? roomsArea, bathrooms:this.bathrooms, furnished:this.furnished, utilitiesIncluded:this.utilitiesIncluded,
       household:this.household, amenities:[...this.amenities], images:this.photos.map(photo => photo.ref),
-      rooms:this.rooms.map(room => ({ monthlyRent:room.monthlyRent!, area:room.area!, availableFrom:room.availableFrom, features:[room.bed, ...room.extras], images:room.photos.map(photo => photo.ref) }))
+      rooms:this.rooms.map(room => ({ monthlyRent:room.monthlyRent!, area:room.area!, availableFrom:adminDateValue(room.availableMonthDay, room.availableYear), features:[room.bed, ...room.extras], images:room.photos.map(photo => photo.ref) }))
     });
     this.saved = true;
     void this.router.navigate(['/properties', id]);
@@ -84,6 +85,10 @@ export class NewFlatComponent implements OnDestroy {
   /** Photos uploaded for a flat that was never saved are removed again. */
   ngOnDestroy(): void { if (!this.saved) void this.discard([...this.photos, ...this.rooms.flatMap(room => room.photos)]); }
 
-  private newRoom(): RoomDraft { return { monthlyRent:null, area:null, availableFrom:MOVE_IN_OPTIONS[0].value, bed:'Double bed', extras:['Desk','Wardrobe'], photos:[] }; }
+  private newRoom(): RoomDraft {
+    const [monthDay] = AVAILABLE_DATE_OPTIONS;
+    const year = new Date().getFullYear();
+    return { monthlyRent:null, area:null, availableFrom:adminDateValue(monthDay.value, year), availableMonthDay:monthDay.value, availableYear:year, bed:'Double bed', extras:['Desk','Wardrobe'], photos:[] };
+  }
   private async discard(photos: Photo[]): Promise<void> { photos.forEach(photo => URL.revokeObjectURL(photo.url)); await deleteImages(photos.map(photo => photo.ref)); }
 }

@@ -19,10 +19,18 @@
   <div class="availability-date">
     <label>
       <span>Available from</span>
-      <input
-        type="date"
-        [(ngModel)]="availableFrom"
-        [attr.aria-label]="'Availability date of ' + room.name" />
+      <span class="date-selects">
+        <select [(ngModel)]="availableMonthDay" (ngModelChange)="availableFrom = ''" [attr.aria-label]="'Availability date of ' + room.name">
+          @for (option of availableDateOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+        <select [(ngModel)]="availableYear" [attr.aria-label]="'Availability year of ' + room.name">
+          @for (year of dateYears; track year) {
+            <option [ngValue]="year">{{ year }}</option>
+          }
+        </select>
+      </span>
     </label>
     <button type="button" class="save-occupancy" (click)="saveAvailability()">Save date</button>
     @if (availabilityError) {
@@ -50,19 +58,33 @@
     <div class="occupancy-dates">
       <label>
         <span>Occupied from</span>
-        <input
-          type="date"
-          [(ngModel)]="occupiedFrom"
-          [attr.max]="occupiedUntil || null"
-          [attr.aria-label]="'Occupancy start of ' + room.name" />
+        <span class="date-selects">
+          <select [(ngModel)]="occupiedFromMonthDay" [attr.aria-label]="'Occupancy start of ' + room.name">
+            @for (option of availableDateOptions; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          <select [(ngModel)]="occupiedFromYear" [attr.aria-label]="'Occupancy start year of ' + room.name">
+            @for (year of dateYears; track year) {
+              <option [ngValue]="year">{{ year }}</option>
+            }
+          </select>
+        </span>
       </label>
       <label>
         <span>Occupied until</span>
-        <input
-          type="date"
-          [(ngModel)]="occupiedUntil"
-          [attr.min]="occupiedFrom || null"
-          [attr.aria-label]="'Occupancy end of ' + room.name" />
+        <span class="date-selects">
+          <select [(ngModel)]="occupiedUntilMonthDay" [attr.aria-label]="'Occupancy end of ' + room.name">
+            @for (option of occupiedUntilOptions; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          <select [(ngModel)]="occupiedUntilYear" [attr.aria-label]="'Occupancy end year of ' + room.name">
+            @for (year of dateYears; track year) {
+              <option [ngValue]="year">{{ year }}</option>
+            }
+          </select>
+        </span>
       </label>
       <button type="button" class="save-occupancy" (click)="saveOccupancy()">Save dates</button>
       @if (occupancyError) {

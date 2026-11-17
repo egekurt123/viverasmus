@@ -17,16 +17,40 @@ export class AdminComponent {
   private service = inject(PropertyService);
   flagFor = flagFor;
   statusFilter: '' | Room['status'] = '';
+  dateFilter = '';
   search = '';
   /** Read live so flats added or removed by the office show up straight away. */
   get flats(): Property[] { return this.service.getProperties().filter(property => property.rooms); }
   get rooms(): Room[] { return this.flats.flatMap(flat => flat.rooms!); }
   get bookedCount(): number { return this.rooms.filter(room => room.status === 'booked').length; }
-  get visibleFlats(): Property[] { const term = this.search.trim().toLowerCase(); return this.flats.filter(flat => !term || `${flat.title} ${flat.neighborhood}`.toLowerCase().includes(term)); }
-  visibleRooms(flat: Property): Room[] { return flat.rooms!.filter(room => !this.statusFilter || room.status === this.statusFilter); }
+  get visibleFlats(): Property[] {
+    const term = this.search.trim().toLowerCase();
+    return this.flats.filter(flat =>
+      (!term || `${flat.title} ${flat.neighborhood}`.toLowerCase().includes(term)) &&
+      (!this.dateFilter || this.visibleRooms(flat).length > 0)
+    );
+  }
+  visibleRooms(flat: Property): Room[] {
+    return flat.rooms!.filter(room =>
+      (!this.statusFilter || this.roomMatchesStatus(room, this.statusFilter)) &&
+      (!this.dateFilter || this.roomMatchesDate(room, this.dateFilter))
+    );
+  }
   isPopular(flat: Property): boolean { return this.service.isPopular(flat.id); }
   togglePopular(flat: Property): void { this.service.togglePopular(flat.id); }
   setHousehold(flat: Property, household: Household): void { this.service.setHousehold(flat.id, household); }
   remove(flat: Property): void { if (confirm(`Remove “${flat.title}” and its photos? This can’t be undone.`)) void this.service.removeFlat(flat.id); }
   bookedIn(flat: Property): number { return flat.rooms!.filter(room => room.status === 'booked').length; }
+
+  private roomMatchesStatus(room: Room, status: Room['status']): boolean {
+    return this.dateFilter ? this.roomMatchesDate(room, this.dateFilter) === (status === 'booked') : room.status === status;
+  }
+
+  private roomMatchesDate(room: Room, date: string): boolean {
+    const booked = room.status === 'booked' &&
+      (!room.occupiedFrom || !room.occupiedUntil || (date >= room.occupiedFrom && date <= room.occupiedUntil));
+    if (this.statusFilter === 'booked') return booked;
+    if (this.statusFilter === 'available') return !booked && date >= room.availableFrom;
+    return booked || date >= room.availableFrom;
+  }
 }

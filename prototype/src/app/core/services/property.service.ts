@@ -67,6 +67,7 @@ export class PropertyService {
       if (room.status !== 'available') return false;
       if (filters.maxRent && room.monthlyRent > filters.maxRent) return false;
       if (filters.availableFrom && room.availableFrom > filters.availableFrom) return false;
+      if (filters.privateBathroom && !room.features.includes('Private bathroom')) return false;
       return true;
     });
   }
@@ -86,6 +87,7 @@ export class PropertyService {
       const flatmates = FLATMATE_OPTIONS.find(option => option.value === filters.flatmates);
       if (flatmates && (flatmateCount(property) < flatmates.min || flatmateCount(property) > flatmates.max)) return false;
       if (property.rooms) return this.matchingRooms(property, filters).length > 0;
+      if (filters.privateBathroom && property.propertyType !== 'Studio') return false;
       if (filters.maxRent && property.monthlyRent > filters.maxRent) return false;
       if (filters.availableFrom && property.availableFrom > filters.availableFrom) return false;
       return true;

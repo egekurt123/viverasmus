@@ -209,12 +209,19 @@
                 }
               </label>
               <label>
-                Free from
-                <select [name]="'from' + i" [(ngModel)]="room.availableFrom">
-                  @for (option of moveInOptions; track option.value) {
-                    <option [value]="option.value">{{ option.label }}</option>
-                  }
-                </select>
+                Available
+                <span class="date-selects">
+                  <select [name]="'from-date' + i" [(ngModel)]="room.availableMonthDay">
+                    @for (option of availableDateOptions; track option.value) {
+                      <option [value]="option.value">{{ option.label }}</option>
+                    }
+                  </select>
+                  <select [name]="'from-year' + i" [(ngModel)]="room.availableYear">
+                    @for (year of dateYears; track year) {
+                      <option [ngValue]="year">{{ year }}</option>
+                    }
+                  </select>
+                </span>
               </label>
               <label>
                 Bed

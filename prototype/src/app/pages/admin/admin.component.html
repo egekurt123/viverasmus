@@ -37,6 +37,13 @@
         [(ngModel)]="search"
         placeholder="Search flat or neighborhood"
         aria-label="Search flats" />
+      <label class="date-filter">
+        <span>Check date</span>
+        <input type="date" [(ngModel)]="dateFilter" aria-label="Check room availability on date" />
+      </label>
+      @if (dateFilter) {
+        <button type="button" class="clear-date" (click)="dateFilter = ''">Clear date</button>
+      }
       <div class="segmented" role="group" aria-label="Filter by status">
         <button
           type="button"

@@ -66,6 +66,10 @@ describe('PropertyService', () => {
     expect(men.every(property => property.household === 'men')).toBeTrue();
   });
 
+  it('filters for a private bathroom', () => {
+    expect(service.searchProperties({ privateBathroom:true }).map(property => property.title)).toEqual(['Tores Studio']);
+  });
+
   it('lets the office add a flat with its own number of rooms and remove it again', async () => {
     const id = await service.addFlat({ title:'Madrid', neighborhood:'Triana', address:'Calle Pureza', description:'', area:90, bathrooms:2, furnished:true, utilitiesIncluded:false, household:'women', amenities:['Wi-Fi'], images:[],
       rooms:[300, 350, 420, 500].map(monthlyRent => ({ monthlyRent, area:12, availableFrom:'2027-09-01', features:['Desk'], images:[] })) });
@@ -79,10 +83,10 @@ describe('PropertyService', () => {
   });
 
   it('filters by number of flatmates', () => {
-    expect(service.searchProperties({ flatmates:'none' }).map(property => property.title)).toEqual(['Tores Studio']);
-    expect(service.searchProperties({ flatmates:'few' }).map(property => property.title)).toEqual(['Paris','Helsinki','Zagreb','Tallin','Oslo']);
-    expect(service.searchProperties({ flatmates:'some' }).map(property => property.title)).toEqual(['Amsterdam','Ottawa','Berlin']);
-    expect(service.searchProperties({ flatmates:'many' }).map(property => property.title)).toEqual(['Torre del Oro']);
+    expect(service.searchProperties({ flatmates:'3-5' }).map(property => property.title)).toEqual(['Paris','Helsinki','Zagreb','Tallin','Oslo']);
+    expect(service.searchProperties({ flatmates:'6-10' }).map(property => property.title)).toEqual(['Amsterdam','Ottawa','Berlin']);
+    expect(service.searchProperties({ flatmates:'11-15' })).toEqual([]);
+    expect(service.searchProperties({ flatmates:'16-20' }).map(property => property.title)).toEqual(['Torre del Oro']);
   });
 
   it('returns a listing by id', () => {

@@ -20,6 +20,9 @@
 .stats strong { color: var(--brand-navy); font-size: 26px; }
 .toolbar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; margin-bottom: 16px; }
 .toolbar input { flex: 1 1 220px; max-width: 360px; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: #ffffff; font-size: 13px; }
+.date-filter { display: grid; gap: 3px; color: var(--muted); font-size: 10px; font-weight: 650; }
+.date-filter input { min-width: 145px; padding: 9px 10px; }
+.clear-date { align-self: end; padding: 9px 12px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: #ffffff; color: var(--brand-cobalt); font-size: 11px; cursor: pointer; }
 .segmented { display: inline-flex; padding: 4px; border-radius: var(--radius-pill); background: #ffffff; border: 1px solid var(--line); }
 .segmented button { padding: 7px 14px; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--muted); font-size: 12px; font-weight: 650; cursor: pointer; }
 .segmented button.chosen { background: var(--brand-navy); color: #ffffff; }

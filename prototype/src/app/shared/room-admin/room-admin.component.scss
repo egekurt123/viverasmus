@@ -5,6 +5,7 @@
 select { min-width: 0; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #ffffff; color: var(--ink); font-size: 11px; }
 .availability-date { display: flex; flex-wrap: wrap; align-items: end; gap: 6px; width: 100%; }
 .availability-date label { display: grid; gap: 3px; color: var(--muted); font-size: 10px; }
+.date-selects { display: flex; gap: 4px; }
 .availability-date input { padding: 5px 6px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); font: inherit; }
 .occupancy-dates { display: flex; flex-wrap: wrap; align-items: end; gap: 6px; width: 100%; }
 .occupancy-dates label { display: grid; gap: 3px; color: var(--muted); font-size: 10px; }

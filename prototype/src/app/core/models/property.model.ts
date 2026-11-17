@@ -63,5 +63,6 @@ export interface PropertyFilters {
   propertyType?: string;
   /** A FLATMATE_OPTIONS value. */
   flatmates?: string;
+  privateBathroom?: boolean;
   availableFrom?: string;
 }
