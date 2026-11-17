@@ -84,7 +84,7 @@ export class SevillaMapComponent implements AfterViewInit, OnChanges, OnDestroy 
 
     for (const property of this.properties) {
       const rent = this.rents[property.id] ?? property.monthlyRent;
-      const label = property.rooms ? `from €${rent}` : `€${rent}`;
+      const label = property.rooms ? `from ${rent} € *` : `${rent} € *`;
       const icon = L.divIcon({ className: 'sevilla-pin', html: `<span>${label}</span>`, iconSize: undefined });
       L.marker([property.latitude, property.longitude], { icon, title: property.title, zIndexOffset: 100 })
         .bindPopup(this.propertyPopup(property), { closeButton: false })

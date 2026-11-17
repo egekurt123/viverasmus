@@ -39,7 +39,7 @@
           <li>
             <a [routerLink]="['/properties', property.id, 'rooms', room.id]">
               <span>{{ room.name }} · {{ room.area }} m²</span>
-              <strong>€{{ room.monthlyRent }}</strong>
+              <strong>{{ room.monthlyRent }} € *</strong>
             </a>
           </li>
         }
@@ -74,7 +74,7 @@
     <div class="card-footer">
       <span class="price">
         <small>{{ property.rooms ? "Rooms from" : "Rent" }}</small>
-        €{{ fromRent }}
+        {{ fromRent }} € *
         <em>{{ property.rooms ? " / room / month" : " / month" }}</em>
       </span>
       <a class="view-button" [routerLink]="['/properties', property.id]">

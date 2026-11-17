@@ -81,7 +81,7 @@
               </div>
               <div class="detail-price">
                 @if (room.status === "available") {
-                  <strong>€{{ room.monthlyRent }}</strong>
+                  <strong>{{ room.monthlyRent }} € *</strong>
                   <span>/ month</span>
                 } @else {
                   <strong>Rented out</strong>
@@ -177,7 +177,7 @@
                 @if (property.rooms) {
                   <span>rooms from</span>
                 }
-                <strong>€{{ property.monthlyRent }}</strong>
+                <strong>{{ property.monthlyRent }} € *</strong>
                 <span>{{ priceUnit }}</span>
               </div>
             </div>
@@ -296,7 +296,7 @@
                   <strong>Rented out</strong>
                 } @else {
                   <strong>
-                    €{{ rent }}
+                    {{ rent }} € *
                     <small>{{ priceUnit }}</small>
                   </strong>
                 }
@@ -305,8 +305,9 @@
                 <div>
                   <span>Deposit</span>
                   <strong>
-                    €{{ room ? room.monthlyRent : property.deposit
-                    }}{{ property.rooms && !room ? " · one month’s rent" : "" }}
+                    {{ room ? room.monthlyRent : property.deposit }} € *{{
+                      property.rooms && !room ? " · one month’s rent" : ""
+                    }}
                   </strong>
                 </div>
               }
@@ -398,7 +399,7 @@
                 @if (property.rooms && !room) {
                   <small>from</small>
                 }
-                €{{ rent }}
+                {{ rent }} € *
                 <small>{{ priceUnit }}</small>
               }
             </strong>
@@ -439,6 +440,9 @@
           }
         </div>
       </section>
+      <p class="contract-note">
+        * Approximate price. The final price will be confirmed after booking.
+      </p>
     </div>
   </section>
   @if (contactOpen) {

@@ -13,7 +13,7 @@
       <strong>{{ room.name }}</strong>
       @if (room.status === "available") {
         <span class="room-price">
-          €{{ room.monthlyRent }}
+          {{ room.monthlyRent }} € *
           <small>/ month</small>
         </span>
       } @else {
