@@ -105,6 +105,12 @@
                   €{{ room.monthlyRent }} · {{ room.area }} m² · from
                   {{ room.availableFrom | date: "d MMM y" }}
                 </span>
+                @if (room.occupiedFrom && room.occupiedUntil) {
+                  <span class="occupied-period">
+                    Occupied {{ room.occupiedFrom | date: "d MMM y" }} to
+                    {{ room.occupiedUntil | date: "d MMM y" }}
+                  </span>
+                }
               </div>
               <span class="who">
                 @if (room.tenant) {

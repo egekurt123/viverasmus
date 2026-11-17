@@ -32,6 +32,26 @@ describe('PropertyService', () => {
     expect(room.tenant).toBeUndefined();
   });
 
+  it('stores an occupancy date range for a booked room', () => {
+    const room = service.getProperty('paris')!.rooms![0];
+    service.updateRoom(room.id, 'booked');
+    expect(service.updateRoomOccupancy(room.id, '2027-02-01', '2027-06-30')).toBeTrue();
+    expect(room.occupiedFrom).toBe('2027-02-01');
+    expect(room.occupiedUntil).toBe('2027-06-30');
+    expect(service.updateRoomOccupancy(room.id, '2027-07-01', '2027-06-30')).toBeFalse();
+    service.updateRoom(room.id, 'available');
+    expect(room.occupiedFrom).toBeUndefined();
+    expect(room.occupiedUntil).toBeUndefined();
+  });
+
+  it('lets the team adjust when a room becomes available', () => {
+    const room = service.getProperty('paris')!.rooms![0];
+    const originalDate = room.availableFrom;
+    expect(service.updateRoomAvailability(room.id, '2027-09-01')).toBeTrue();
+    expect(room.availableFrom).toBe('2027-09-01');
+    service.updateRoomAvailability(room.id, originalDate);
+  });
+
   it('finds a flat by its name, ignoring case and accents', () => {
     expect(service.searchProperties({ query:'paris' }).map(property => property.title)).toEqual(['Paris']);
     expect(service.searchProperties({ query:'nervion' }).length).toBeGreaterThan(1);

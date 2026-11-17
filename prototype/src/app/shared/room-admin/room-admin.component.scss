@@ -3,3 +3,11 @@
 .status-toggle button { padding: 5px 12px; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--muted); font-size: 11px; font-weight: 650; cursor: pointer; }
 .status-toggle button.chosen { background: var(--brand-navy); color: #ffffff; }
 select { min-width: 0; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #ffffff; color: var(--ink); font-size: 11px; }
+.availability-date { display: flex; flex-wrap: wrap; align-items: end; gap: 6px; width: 100%; }
+.availability-date label { display: grid; gap: 3px; color: var(--muted); font-size: 10px; }
+.availability-date input { padding: 5px 6px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); font: inherit; }
+.occupancy-dates { display: flex; flex-wrap: wrap; align-items: end; gap: 6px; width: 100%; }
+.occupancy-dates label { display: grid; gap: 3px; color: var(--muted); font-size: 10px; }
+.occupancy-dates input { padding: 5px 6px; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); font: inherit; }
+.save-occupancy { padding: 6px 9px; border: 0; border-radius: var(--radius-sm); background: var(--brand-cobalt); color: #ffffff; font-size: 10px; font-weight: 650; cursor: pointer; }
+.occupancy-error { color: #b3261e; font-size: 10px; }

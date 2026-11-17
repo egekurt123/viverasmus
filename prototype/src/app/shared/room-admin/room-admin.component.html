@@ -16,6 +16,19 @@
       Booked
     </button>
   </div>
+  <div class="availability-date">
+    <label>
+      <span>Available from</span>
+      <input
+        type="date"
+        [(ngModel)]="availableFrom"
+        [attr.aria-label]="'Availability date of ' + room.name" />
+    </label>
+    <button type="button" class="save-occupancy" (click)="saveAvailability()">Save date</button>
+    @if (availabilityError) {
+      <span class="occupancy-error" role="alert">{{ availabilityError }}</span>
+    }
+  </div>
   @if (room.tenant) {
     <select
       [ngModel]="room.tenant.gender"
@@ -34,5 +47,27 @@
         </option>
       }
     </select>
+    <div class="occupancy-dates">
+      <label>
+        <span>Occupied from</span>
+        <input
+          type="date"
+          [(ngModel)]="occupiedFrom"
+          [attr.max]="occupiedUntil || null"
+          [attr.aria-label]="'Occupancy start of ' + room.name" />
+      </label>
+      <label>
+        <span>Occupied until</span>
+        <input
+          type="date"
+          [(ngModel)]="occupiedUntil"
+          [attr.min]="occupiedFrom || null"
+          [attr.aria-label]="'Occupancy end of ' + room.name" />
+      </label>
+      <button type="button" class="save-occupancy" (click)="saveOccupancy()">Save dates</button>
+      @if (occupancyError) {
+        <span class="occupancy-error" role="alert">{{ occupancyError }}</span>
+      }
+    </div>
   }
 </div>

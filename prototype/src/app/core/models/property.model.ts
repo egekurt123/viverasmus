@@ -16,6 +16,9 @@ export interface Room {
   area: number;
   availableFrom: string;
   status: RoomStatus;
+  /** The period reserved by the current tenant, when the room is booked. */
+  occupiedFrom?: string;
+  occupiedUntil?: string;
   tenant?: Tenant;
   features: string[];
   /** Room-specific photos, shown first when the room is selected. */

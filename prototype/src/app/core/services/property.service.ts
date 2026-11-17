@@ -24,7 +24,7 @@ export interface NewFlat {
   title: string; neighborhood: string; address: string; description: string; area: number; bathrooms: number;
   furnished: boolean; utilitiesIncluded: boolean; household: Household; amenities: string[]; images: string[]; rooms: NewRoom[];
 }
-type RoomOverride = Pick<Room, 'status' | 'tenant'>;
+type RoomOverride = Pick<Room, 'status' | 'tenant' | 'availableFrom' | 'occupiedFrom' | 'occupiedUntil'>;
 
 @Injectable({ providedIn: 'root' })
 export class PropertyService {
@@ -104,9 +104,36 @@ export class PropertyService {
     if (!found) return;
     found.room.status = status;
     found.room.tenant = status === 'booked' ? tenant ?? found.room.tenant ?? { gender:'female', country:'Germany' } : undefined;
+    if (status === 'available') {
+      delete found.room.occupiedFrom;
+      delete found.room.occupiedUntil;
+    }
     this.version++;
     this.saveRoomChanges();
     if (found.property.custom) this.saveCustomFlats();
+  }
+
+  /** Admin: set when a room is available to rent. */
+  updateRoomAvailability(roomId: string, availableFrom: string): boolean {
+    const found = this.findRoom(roomId);
+    if (!found || !availableFrom) return false;
+    found.room.availableFrom = availableFrom;
+    this.version++;
+    this.saveRoomChanges();
+    if (found.property.custom) this.saveCustomFlats();
+    return true;
+  }
+
+  /** Admin: set the inclusive occupancy period for a booked room. */
+  updateRoomOccupancy(roomId: string, occupiedFrom: string, occupiedUntil: string): boolean {
+    const found = this.findRoom(roomId);
+    if (!found || found.room.status !== 'booked' || !occupiedFrom || !occupiedUntil || occupiedFrom > occupiedUntil) return false;
+    found.room.occupiedFrom = occupiedFrom;
+    found.room.occupiedUntil = occupiedUntil;
+    this.version++;
+    this.saveRoomChanges();
+    if (found.property.custom) this.saveCustomFlats();
+    return true;
   }
 
   /** The flat's own photos (not its rooms'), in display order — the first one is the cover. */
@@ -232,7 +259,15 @@ export class PropertyService {
 
   private saveRoomChanges(): void {
     const overrides: Record<string, RoomOverride> = {};
-    for (const room of PROPERTIES.flatMap(property => property.rooms ?? [])) overrides[room.id] = { status:room.status, tenant:room.tenant };
+    for (const room of PROPERTIES.flatMap(property => property.rooms ?? [])) {
+      overrides[room.id] = {
+        status:room.status,
+        tenant:room.tenant,
+        availableFrom:room.availableFrom,
+        occupiedFrom:room.occupiedFrom,
+        occupiedUntil:room.occupiedUntil
+      };
+    }
     this.writeJson(ROOM_STORAGE_KEY, overrides);
   }
 
