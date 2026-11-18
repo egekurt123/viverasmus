@@ -1,6 +1,16 @@
 services:
+  backend:
+    build: ./backend
+    environment:
+      VIVERASMUS_UPLOAD_DIR: /data/uploads
+    volumes:
+      - ./apartment-photos:/data/uploads
+    restart: unless-stopped
+
   app:
     build: .
     ports:
       - "8080:80"
+    depends_on:
+      - backend
     restart: unless-stopped

@@ -1,6 +1,6 @@
 import { Household, Room } from '../../core/models/property.model';
 
-const asset = (path: string): string => `/assets/apartments/${path}`;
+const asset = (path: string): string => `/api/photos/files/${path.split('/').map(encodeURIComponent).join('/')}`;
 
 const REAL_ROOM_IMAGES: Record<string, string[][]> = {
   paris: [

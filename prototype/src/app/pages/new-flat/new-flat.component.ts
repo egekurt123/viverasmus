@@ -44,16 +44,25 @@ export class NewFlatComponent implements OnDestroy {
 
   async addPhotos(event: Event, target: Photo[]): Promise<void> {
     const input = event.target as HTMLInputElement;
+    if (!this.title.trim()) {
+      this.error = 'Enter the flat name before uploading its photos.';
+      input.value = '';
+      return;
+    }
     const files = Array.from(input.files ?? []).filter(file => file.type.startsWith('image/'));
     input.value = '';
     this.error = '';
     this.uploading += files.length;
     for (const file of files) {
       try {
-        const ref = await saveImage(file);
+        const roomNumber = this.rooms.findIndex(room => room.photos === target);
+        const ref = await saveImage(file, this.title, roomNumber >= 0 ? roomNumber + 1 : undefined);
         const url = await resolveImage(ref);
         if (url) target.push({ ref, url });
-      } catch { this.error = `“${file.name}” could not be read. Try a JPG or PNG.`; }
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : 'Check that the file is a valid image.';
+        this.error = `“${file.name}” could not be uploaded. ${reason}`;
+      }
       this.uploading--;
     }
   }

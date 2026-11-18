@@ -16,13 +16,33 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Run with Docker
 
-Build and start the production app with Docker Compose:
+Build and start the Angular app and Spring Boot photo API with Docker Compose:
 
 ```sh
 docker compose up --build
 ```
 
 Open [http://localhost:8080](http://localhost:8080). Angular routes are served through the app shell, so direct links and page refreshes work. Stop the container with `Ctrl+C`, or run `docker compose down` from another terminal.
+
+Apartment photos are kept as regular files in `prototype/apartment-photos/`, organized by property, room, and shared-space folders. Existing listing photos are served from this folder through `/api/photos/files/...`. New uploads use uppercase property folders, room folders such as `HAB1/` with names like `HAB1-1.jpg`, and `ZONA COMUNES/COMUN-1.jpg` for flat photos. The upload API accepts JPG, PNG, GIF, and WebP files up to 15 MB. Listing data itself still lives in browser local storage.
+
+If you already have uploads in the previous Docker storage, copy them into the new photo folder before recreating the containers:
+
+```sh
+docker compose cp backend:/data/uploads/. ./apartment-photos/
+docker compose up -d --build
+```
+
+For local development, start the backend first:
+
+```sh
+cd backend
+mvn spring-boot:run
+```
+
+Then, in another terminal, start Angular from `prototype` with `npm start`. Angular's dev-server proxy forwards `/api` requests to the backend at `localhost:8081`.
+
+The current backend covers photo upload, retrieval, and deletion. Listings, room edits, and the demo login still use the existing browser-side mock/local-storage implementation. The photo endpoints do not yet require authentication, so add Spring Security before exposing this prototype publicly.
 
 To build and run the image without Compose:
 

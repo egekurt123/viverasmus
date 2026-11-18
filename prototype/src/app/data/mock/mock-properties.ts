@@ -1,7 +1,7 @@
 import { Property } from '../../core/models/property.model';
 import { HOUSEHOLDS, ROOMS } from './mock-rooms';
 
-const asset = (path: string): string => `/assets/apartments/${path}`;
+const asset = (path: string): string => `/api/photos/files/${path.split('/').map(encodeURIComponent).join('/')}`;
 const commonPhotos: Record<string, string[]> = {
   paris: ['PARIS/ZONA COMUNES/COC-SAL-1.jpg', 'PARIS/ZONA COMUNES/COC-SAL-2.jpg', 'PARIS/ZONA COMUNES/BAÑO-1.jpg'],
   helsinki: ['HELSINKI/ZONA COMUNES/COCINA1.jpg', 'HELSINKI/ZONA COMUNES/COCINA2.jpg', 'HELSINKI/ZONA COMUNES/BAÑO-1.jpg'],
