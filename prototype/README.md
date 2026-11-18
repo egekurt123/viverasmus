@@ -22,7 +22,7 @@ Build and start the Angular app and Spring Boot photo API with Docker Compose:
 docker compose up --build
 ```
 
-Open [http://localhost:8080](http://localhost:8080). Angular routes are served through the app shell, so direct links and page refreshes work. Stop the container with `Ctrl+C`, or run `docker compose down` from another terminal.
+Open [http://localhost:8080](http://localhost:8080). Angular routes are served through the app shell, so direct links and page refreshes work. PostgreSQL is available on `localhost:5432` with database/user `viverasmus`. Copy `.env.example` to `.env` and change `POSTGRES_PASSWORD` to set a local password. The database survives `docker compose down`; `docker compose down -v` removes its data volume. Stop the containers with `Ctrl+C`, or run `docker compose down` from another terminal.
 
 Apartment photos are kept as regular files in `prototype/apartment-photos/`, organized by property, room, and shared-space folders. Existing listing photos are served from this folder through `/api/photos/files/...`. New uploads use uppercase property folders, room folders such as `HAB1/` with names like `HAB1-1.jpg`, and `ZONA COMUNES/COMUN-1.jpg` for flat photos. The upload API accepts JPG, PNG, GIF, and WebP files up to 15 MB. Listing data itself still lives in browser local storage.
 
@@ -36,13 +36,14 @@ docker compose up -d --build
 For local development, start the backend first:
 
 ```sh
+docker compose up -d db
 cd backend
 mvn spring-boot:run
 ```
 
 Then, in another terminal, start Angular from `prototype` with `npm start`. Angular's dev-server proxy forwards `/api` requests to the backend at `localhost:8081`.
 
-The current backend covers photo upload, retrieval, and deletion. Listings, room edits, and the demo login still use the existing browser-side mock/local-storage implementation. The photo endpoints do not yet require authentication, so add Spring Security before exposing this prototype publicly.
+The backend connects to PostgreSQL through Spring Data JPA, and Hibernate is configured to create/update tables when entities are added. The current API still covers photo upload, retrieval, and deletion; listings, room edits, and the demo login continue to use the existing browser-side mock/local-storage implementation. The photo endpoints do not yet require authentication, so add Spring Security before exposing this prototype publicly.
 
 To build and run the image without Compose:
 

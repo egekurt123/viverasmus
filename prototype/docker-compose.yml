@@ -1,10 +1,33 @@
 services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-viverasmus}
+      POSTGRES_USER: ${POSTGRES_USER:-viverasmus}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-viverasmus_dev_password}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
   backend:
     build: ./backend
     environment:
       VIVERASMUS_UPLOAD_DIR: /data/uploads
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-viverasmus}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-viverasmus}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-viverasmus_dev_password}
     volumes:
       - ./apartment-photos:/data/uploads
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
 
   app:
@@ -14,3 +37,6 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+
+volumes:
+  postgres-data:
