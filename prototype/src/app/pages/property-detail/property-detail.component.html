@@ -520,6 +520,17 @@
       </section>
     </div>
   }
+} @else if (loading) {
+  <section class="not-found" aria-live="polite">
+    <h1>Loading this home…</h1>
+    <p>Getting the latest details from viverasmus.</p>
+  </section>
+} @else if (loadError) {
+  <section class="not-found" aria-live="polite">
+    <h1>Homes could not be loaded.</h1>
+    <p>{{ loadError }}</p>
+    <button class="contact-button" type="button" (click)="retryLoad()">Try again ↗</button>
+  </section>
 } @else {
   <section class="not-found">
     <h1>This place is no longer here.</h1>

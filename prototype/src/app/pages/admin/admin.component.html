@@ -78,10 +78,10 @@
           <div class="flat-tools">
             <button
               type="button"
-              class="popular-toggle"
-              [attr.aria-pressed]="isPopular(flat)"
-              (click)="togglePopular(flat)">
-              {{ isPopular(flat) ? "Remove from popular" : "Add to popular" }}
+              class="featured-toggle"
+              [attr.aria-pressed]="isFeatured(flat)"
+              (click)="toggleFeatured(flat)">
+              {{ isFeatured(flat) ? "Remove from featured" : "Add to featured" }}
             </button>
             <select
               [ngModel]="flat.household"

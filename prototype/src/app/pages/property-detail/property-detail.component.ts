@@ -25,6 +25,9 @@ export class PropertyDetailComponent {
   private propertyId = ''; private roomId = '';
   /** Looked up live, so flats the office added appear once their photos have loaded. */
   get property(): Property | undefined { return this.service.getProperty(this.propertyId); }
+  get loading(): boolean { return this.service.loading(); }
+  get loadError(): string { return this.service.loadError(); }
+  retryLoad(): void { void this.service.reload(); }
   /** Set on a room page (/properties/:id/rooms/:roomId); undefined on the flat overview. */
   get room(): Room | undefined { return this.property?.rooms?.find(room => room.id === this.roomId); }
   /** Index of the photo open in the full-screen viewer, or null when it is closed. */

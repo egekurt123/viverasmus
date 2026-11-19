@@ -50,8 +50,12 @@ export interface Property {
   /** Present for flat shares: the rooms that can be rented individually. */
   rooms?: Room[];
   household?: Household;
-  /** Added by the office in the admin area (stored in this browser). */
+  /** Added by the office in the admin area. */
   custom?: boolean;
+  /** Comes from the database and is checked before a listing can be removed. */
+  deletable?: boolean;
+  /** Whether the office has featured this property. */
+  featured?: boolean;
 }
 
 export interface PropertyFilters {

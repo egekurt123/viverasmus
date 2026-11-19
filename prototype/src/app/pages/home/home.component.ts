@@ -14,7 +14,7 @@ export class HomeComponent {
   private service = inject(PropertyService);
   private router = inject(Router);
   areas = ['Alameda', 'Centro', 'Los Remedios', 'Macarena', 'Nervión', 'San Bernardo', 'Triana'];
-  get featured() { return this.service.getPopularProperties(); }
+  get featured() { return this.service.getFeaturedProperties(); }
   moveInOptions = MOVE_IN_OPTIONS;
   neighborhood = ''; moveIn = ''; budget = '';
   search() { void this.router.navigateByUrl(this.searchUrl()); }

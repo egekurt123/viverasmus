@@ -36,8 +36,8 @@ export class AdminComponent {
       (!this.dateFilter || this.roomMatchesDate(room, this.dateFilter))
     );
   }
-  isPopular(flat: Property): boolean { return this.service.isPopular(flat.id); }
-  togglePopular(flat: Property): void { this.service.togglePopular(flat.id); }
+  isFeatured(flat: Property): boolean { return this.service.isFeatured(flat.id); }
+  toggleFeatured(flat: Property): void { this.service.toggleFeatured(flat.id); }
   setHousehold(flat: Property, household: Household): void { this.service.setHousehold(flat.id, household); }
   remove(flat: Property): void { if (confirm(`Remove “${flat.title}” and its photos? This can’t be undone.`)) void this.service.removeFlat(flat.id); }
   bookedIn(flat: Property): number { return flat.rooms!.filter(room => room.status === 'booked').length; }

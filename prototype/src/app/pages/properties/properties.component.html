@@ -208,7 +208,18 @@
           </button>
         }
       </div>
-      @if (results.length) {
+      @if (loading) {
+        <div class="empty-state" aria-live="polite">
+          <h2>Loading homes…</h2>
+          <p>Getting current availability from viverasmus.</p>
+        </div>
+      } @else if (loadError) {
+        <div class="empty-state" aria-live="polite">
+          <h2>Homes could not be loaded</h2>
+          <p>{{ loadError }}</p>
+          <button type="button" class="button button-dark" (click)="retryLoad()">Try again</button>
+        </div>
+      } @else if (results.length) {
         <div class="property-grid">
           @for (property of results; track property.id) {
             <app-property-card

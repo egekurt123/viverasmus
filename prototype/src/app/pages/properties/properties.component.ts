@@ -50,6 +50,9 @@ export class PropertiesComponent {
     return this.cache;
   }
   get results(): Property[] { return this.search.results; }
+  get loading(): boolean { return this.service.loading(); }
+  get loadError(): string { return this.service.loadError(); }
+  retryLoad(): void { void this.service.reload(); }
   get rents(): Record<string, number> { return this.search.rents; }
   /** Free rooms of a flat share that fit the current rent and move-in filters. */
   roomsFor(property: Property): Room[] | undefined { return property.rooms ? this.search.rooms[property.id] : undefined; }
