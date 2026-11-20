@@ -18,6 +18,8 @@ services:
 
   backend:
     build: ./backend
+    ports:
+      - "127.0.0.1:8081:8081"
     environment:
       VIVERASMUS_UPLOAD_DIR: /data/uploads
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-viverasmus}

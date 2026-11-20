@@ -201,7 +201,7 @@ export class PropertyService {
         const body = await response.json() as ApiError;
         detail = body.detail ?? body.message ?? '';
       } catch { /* status is enough when the API has no JSON error body */ }
-      throw new Error(detail || `Request failed (HTTP ${response.status}).`);
+      throw new Error(detail || 'Our service is temporarily unavailable. Please try again later.');
     }
     if (response.status === 204) return undefined as T;
     return await response.json() as T;
