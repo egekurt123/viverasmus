@@ -18,10 +18,23 @@ h1 em, h2 em { color:var(--brand-accent); font-weight:400; }
 .values-copy { align-self:center; max-width:600px; padding:65px clamp(28px,7vw,100px); }.values-copy h2 { max-width:430px; margin:13px 0 25px; }
 .values-copy ul { display:grid; gap:17px; margin:0 0 26px; padding:0; list-style:none; }.values-copy li { display:flex; gap:13px; align-items:flex-start; }.values-copy li>span { display:grid; place-items:center; flex:0 0 27px; height:27px; border-radius:50%; background:#e6ebf9; color:var(--brand-cobalt); font-size:13px; font-weight:700; }.values-copy li div { display:grid; gap:4px; }.values-copy li strong { color:#313a60; font-size:12px; font-weight:650; }.values-copy li small { color:var(--muted); font-size:11px; line-height:1.5; }
 .about-cta { display:flex; align-items:center; justify-content:space-between; gap:25px; padding:52px clamp(30px,10vw,150px); background:var(--brand-navy); color:white; }.about-cta .eyebrow { color:#c2ccef; }.about-cta h2 { margin:9px 0 7px; font-size:clamp(30px,3.7vw,42px); font-weight:530; letter-spacing:-1.1px; }.about-cta p { margin:0; color:#d0d6ec; font-size:12px; }.light-button { flex-shrink:0; background:white; color:var(--brand-navy); }.light-button:hover { background:#e9edf8; }
+.faq-section { display:grid; grid-template-columns:minmax(220px,.75fr) minmax(0,1.25fr); gap:clamp(38px,8vw,110px); width:min(1030px,calc(100% - 64px)); margin:0 auto; padding:20px 0 105px; }
+.faq-intro h2 { max-width:360px; margin:13px 0 13px; color:var(--brand-navy); font-size:clamp(30px,3.5vw,42px); font-weight:540; letter-spacing:-1.5px; line-height:1.16; }
+.faq-intro p { max-width:320px; margin:0 0 19px; color:var(--muted); font-size:13px; line-height:1.75; }
+.faq-contact { display:inline-flex; align-items:center; gap:10px; color:var(--brand-cobalt); font-size:12px; font-weight:700; text-decoration:none; }
+.faq-contact:hover { color:var(--brand-accent); }.faq-contact span { font-size:16px; }
+.faq-list { border-top:1px solid var(--line); }
+.faq-list details { border-bottom:1px solid var(--line); }
+.faq-list summary { position:relative; padding:21px 38px 21px 0; color:var(--brand-navy); cursor:pointer; font-size:14px; font-weight:650; list-style:none; }
+.faq-list summary::-webkit-details-marker { display:none; }
+.faq-list summary::after { position:absolute; top:50%; right:5px; color:var(--brand-accent); content:'+'; font-size:22px; font-weight:400; transform:translateY(-50%); }
+.faq-list details[open] summary::after { content:'−'; }
+.faq-list details p { max-width:580px; margin:-3px 35px 20px 0; color:var(--muted); font-size:12px; line-height:1.75; }
 @media(max-width:800px) { .about-hero { grid-template-columns:1fr 0.8fr; }.hero-copy { padding-left:6vw; }.story-section { grid-template-columns:100px minmax(0,1fr); gap:30px; }.story-mark { width:86px;height:86px;font-size:40px; }.values-copy { padding:50px 35px; } }
 @media(max-width:640px) {
   .about-hero { display:flex; flex-direction:column; min-height:0; }.hero-copy { padding:48px 22px 27px; }.hero-copy h1 { font-size:clamp(46px,13vw,62px); letter-spacing:-2.5px; }.hero-copy>p { font-size:13px; }.hero-image { min-height:245px; width:100%; background:linear-gradient(180deg,var(--brand-soft) 0%,rgba(233,237,248,.08) 25%,transparent 50%),url('/assets/setas.png') center/cover; }
   .story-section { display:block; width:calc(100% - 44px); padding:62px 0 68px; }.story-mark { width:66px;height:66px;margin:0 0 22px;font-size:32px; }.story-copy h2,.values-copy h2 { font-size:33px; }.story-copy p { font-size:12px; }
   .about-values { grid-template-columns:1fr; }.values-image { min-height:270px; }.values-copy { padding:48px 23px 55px; }.values-copy h2 { margin-bottom:20px; }
+  .faq-section { display:block; width:calc(100% - 44px); padding:12px 0 68px; }.faq-intro { margin-bottom:29px; }.faq-intro h2 { max-width:320px; font-size:33px; }.faq-list summary { padding:18px 34px 18px 0; font-size:13px; }
   .about-cta { align-items:flex-start; flex-direction:column; padding:43px 23px; }.about-cta h2 { font-size:33px; }.about-cta p { line-height:1.6; }
 }
