@@ -28,12 +28,7 @@
         Free from {{ room.availableFrom | date: "d MMM y" }}
       </span>
     } @else {
-      <span class="room-status taken">
-        Booked ·
-        {{ room.tenant?.gender === "female" ? "♀ Woman" : "♂ Man" }} from
-        {{ flagFor(room.tenant?.country ?? "") }}
-        {{ room.tenant?.country }}
-      </span>
+      <span class="room-status taken">Rented out</span>
     }
     <span class="open-room">View room →</span>
   </a>

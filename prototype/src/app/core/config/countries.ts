@@ -1,4 +1,3 @@
-/** Home countries students can be tagged with, shown next to a booked room. */
 export interface Country { name: string; flag: string; }
 
 export const COUNTRIES: Country[] = [

@@ -118,12 +118,7 @@
                   Free from {{ room.availableFrom | date: "d MMMM y" }}
                 </span>
               } @else {
-                <span class="room-status taken">
-                  Booked ·
-                  {{ room.tenant?.gender === "female" ? "♀ Woman" : "♂ Man" }}
-                  from {{ flagFor(room.tenant?.country ?? "") }}
-                  {{ room.tenant?.country }}
-                </span>
+                <span class="room-status taken">Rented out</span>
               }
               <div class="amenity-list">
                 @for (feature of room.features; track feature) {
