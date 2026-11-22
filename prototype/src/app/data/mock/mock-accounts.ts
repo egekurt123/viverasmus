@@ -1,6 +1,6 @@
 export interface Account {
   email: string;
-  password: string;
+  password?: string;
   role: 'admin' | 'tenant';
 }
 

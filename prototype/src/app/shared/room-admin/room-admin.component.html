@@ -91,5 +91,30 @@
         <span class="occupancy-error" role="alert">{{ occupancyError }}</span>
       }
     </div>
+    <section class="tenant-settings" aria-label="Tenant account">
+      <h3>Tenant</h3>
+      <div class="tenant-fields">
+        <label>Email<input type="email" [(ngModel)]="tenantEmail" autocomplete="off" /></label>
+        <label>Password<input type="password" [(ngModel)]="tenantPassword" [placeholder]="hasTenantAccount() ? 'Leave blank to keep current password' : 'At least 8 characters'" autocomplete="new-password" /></label>
+      </div>
+      <div class="payment-flags">
+        <strong>Payment status · deposit €{{ room.monthlyRent }} (one month’s rent)</strong>
+        <label><input type="checkbox" [(ngModel)]="reservationPaid" /> €400 down payment paid</label>
+        <label><input type="checkbox" [(ngModel)]="depositPaid" /> Deposit paid</label>
+        <div class="monthly-payments">
+          <strong>Monthly rent</strong>
+          @for (month of paymentMonths; track month) {
+            <label><input type="checkbox" [ngModel]="paidMonths.includes(month)" (ngModelChange)="setMonthPaid(month, $event)" /> {{ monthLabel(month) }}</label>
+          } @empty {
+            <span>Set the occupied-from and occupied-until dates to track monthly rent.</span>
+          }
+        </div>
+      </div>
+      <button type="button" class="save-occupancy" [disabled]="tenantSaving" (click)="saveTenant()">
+        {{ tenantSaving ? 'Saving…' : hasTenantAccount() ? 'Save tenant' : 'Create tenant account' }}
+      </button>
+      @if (tenantSaveError) { <span class="occupancy-error" role="alert">{{ tenantSaveError }}</span> }
+      @if (tenantSaved) { <span class="tenant-saved" role="status">Tenant details saved.</span> }
+    </section>
   }
 </div>

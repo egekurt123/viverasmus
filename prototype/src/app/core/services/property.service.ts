@@ -12,11 +12,16 @@ export interface NewFlat {
 }
 
 interface ApiError { message?: string; detail?: string; }
+export interface TenantAccountSettings {
+  roomId: string; email: string; reservationPaid: boolean; depositPaid: boolean; paidMonths: string[];
+}
+export type TenantAccountUpdate = Omit<TenantAccountSettings, 'roomId'> & { password: string };
 
 /** Listing and room data are loaded from and saved to the Spring Boot API. */
 @Injectable({ providedIn: 'root' })
 export class PropertyService {
   private readonly listingState = signal<Property[]>([]);
+  private readonly tenantAccountState = signal<Record<string, TenantAccountSettings>>({});
   readonly loading = signal(true);
   readonly loadError = signal('');
   /** Bumped after API refreshes or optimistic edits so cached searches are recalculated. */
@@ -29,6 +34,7 @@ export class PropertyService {
     try {
       const properties = await this.request<Property[]>(`${API}/properties`);
       this.listingState.set(properties);
+      await this.reloadTenantAccounts();
       this.loadError.set('');
       this.version++;
     } catch (error) {
@@ -40,6 +46,21 @@ export class PropertyService {
 
   getProperties(): Property[] { return this.listingState(); }
   getProperty(id: string): Property | undefined { return this.listingState().find(property => property.id === id); }
+  getTenantAccount(roomId: string): TenantAccountSettings | undefined { return this.tenantAccountState()[roomId]; }
+
+  async saveTenantAccount(roomId: string, update: TenantAccountUpdate): Promise<void> {
+    await this.request<void>(`${API}/rooms/${encodeURIComponent(roomId)}/tenant-account`, {
+      method: 'PUT', body: JSON.stringify(update)
+    });
+    await this.reloadTenantAccounts();
+  }
+
+  async reloadTenantAccounts(): Promise<void> {
+    try {
+      const accounts = await this.request<TenantAccountSettings[]>(`${API}/admin/tenant-accounts`);
+      this.tenantAccountState.set(Object.fromEntries(accounts.map(account => [account.roomId, account])));
+    } catch { /* tenant account settings are available after backend migration V3 */ }
+  }
   getFeaturedProperties(): Property[] { return this.listingState().filter(property => property.featured); }
   isFeatured(propertyId: string): boolean { return this.getProperty(propertyId)?.featured ?? false; }
 

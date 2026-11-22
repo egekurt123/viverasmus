@@ -7,14 +7,13 @@
   </a>
 
   <nav class="main-nav" aria-label="Main navigation">
-    <a
-      routerLink="/"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }">
-      Home
-    </a>
-    <a routerLink="/properties" routerLinkActive="active">Find a place</a>
-    <a routerLink="/about" routerLinkActive="active">About</a>
+    @if (auth.isTenant()) {
+      <a routerLink="/my-apartment" routerLinkActive="active">My Apartment</a>
+    } @else {
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/properties" routerLinkActive="active">Find a place</a>
+      <a routerLink="/about" routerLinkActive="active">About</a>
+    }
   </nav>
 
   <div class="header-actions">
@@ -31,7 +30,7 @@
     } @else {
       <a class="button button-dark header-action" routerLink="/login">Log in</a>
     }
-      @if(!auth.isAdmin()) {
+      @if(!auth.account()) {
       <a
         class="button button-dark header-contact mail-link"
         routerLink="/contact"

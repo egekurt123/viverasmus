@@ -1,0 +1,88 @@
+<section class="apartment-page">
+  <div class="apartment-wrap">
+    <header class="page-heading">
+      <span class="eyebrow">TENANT PORTAL</span>
+      <h1>My Apartment</h1>
+      @if (home) { <p>Private room details for {{ home.email }}</p> }
+    </header>
+
+    @if (loading) {
+      <p class="notice">Loading your apartment…</p>
+    } @else if (error) {
+      <p class="notice error" role="alert">{{ error }}</p>
+    } @else if (home) {
+      <article class="room-card">
+        <div class="room-image" [style.background-image]="home.room.images?.[0] ? 'url(' + home.room.images![0] + ')' : (home.property.images[0] ? 'url(' + home.property.images[0] + ')' : null)"></div>
+        <div class="room-copy">
+          <span class="eyebrow">{{ home.property.title }}</span>
+          <h2>{{ home.room.name }}</h2>
+          <p>{{ home.property.address }}</p>
+          <div class="room-facts">
+            <span>{{ home.room.monthlyRent | currency:'EUR':'symbol':'1.0-0' }} / month</span>
+            <span>{{ home.room.area }} m²</span>
+            @if (home.room.occupiedFrom) { <span>From {{ home.room.occupiedFrom | date:'d MMM y' }}</span> }
+            @if (home.room.occupiedUntil) { <span>Until {{ home.room.occupiedUntil | date:'d MMM y' }}</span> }
+          </div>
+          @if (home.room.features.length) {
+            <ul class="features">@for (feature of home.room.features; track feature) { <li>{{ feature }}</li> }</ul>
+          }
+        </div>
+      </article>
+
+      <div class="sections">
+          <section class="info-card">
+            <span class="eyebrow">BOOKING</span><h2>Reservation</h2>
+            <div class="data-row"><span>Down payment</span><strong>€400</strong></div>
+            <div class="data-row"><span>Paid</span><strong [class.paid]="home.payments.reservationPaid">{{ home.payments.reservationPaid ? 'Yes' : 'No' }}</strong></div>
+          </section>
+          <section class="info-card">
+            <span class="eyebrow">BOOKING</span><h2>Deposit</h2>
+            <div class="data-row"><span>Amount</span><strong>{{ home.payments.depositAmount | currency:'EUR':'symbol':'1.0-0' }}</strong></div>
+            <div class="data-row"><span>Paid</span><strong [class.paid]="home.payments.depositPaid">{{ home.payments.depositPaid ? 'Yes' : 'No' }}</strong></div>
+          </section>
+          <section class="info-card wide-card">
+            <span class="eyebrow">YOUR ACCOUNT</span><h2>Payments</h2>
+            <div class="table-wrap"><table><thead><tr><th>Name</th><th>Amount</th><th>Date</th><th>Description</th><th>Paid</th></tr></thead>
+              <tbody>
+                <tr><td>Reservation</td><td>€400</td><td>—</td><td>Down payment</td><td>{{ home.payments.reservationPaid ? 'Yes' : 'No' }}</td></tr>
+                <tr><td>Deposit</td><td>{{ home.room.monthlyRent | currency:'EUR':'symbol':'1.0-0' }}</td><td>—</td><td>One month’s rent</td><td>{{ home.payments.depositPaid ? 'Yes' : 'No' }}</td></tr>
+                @for (month of rentMonths; track month) {
+                  <tr><td>Monthly rent</td><td>{{ home.room.monthlyRent | currency:'EUR':'symbol':'1.0-0' }}</td><td>{{ monthLabel(month) }}</td><td>Rent for {{ monthLabel(month) }}</td><td>{{ monthPaid(month) ? 'Yes' : 'No' }}</td></tr>
+                } @empty {
+                  <tr><td colspan="5" class="empty-cell">Monthly rent dates are not set yet.</td></tr>
+                }
+              </tbody>
+            </table></div>
+          </section>
+          <section class="info-card wide-card">
+            <span class="eyebrow">APARTMENT</span><h2>Incidents</h2>
+            <div class="table-wrap"><table><thead><tr><th>Title</th><th>Description</th><th>Date</th><th>Accepted</th></tr></thead>
+              <tbody><tr><td colspan="4" class="empty-cell">There are no incidents to show.</td></tr></tbody>
+            </table></div>
+          </section>
+          <section class="info-card wide-card">
+            <span class="eyebrow">HELPFUL DETAILS</span><h2>Information</h2>
+            <div class="table-wrap"><table><thead><tr><th>Question</th><th>Answer</th></tr></thead>
+              <tbody><tr><td colspan="2" class="empty-cell">There is no additional information to show.</td></tr></tbody>
+            </table></div>
+          </section>
+          <section class="info-card wide-card contact-card">
+            <span class="eyebrow">VIVERASMUS TEAM</span><h2>Get in Contact</h2>
+            @if (sent) {
+              <p class="success-message" role="status">Your message is ready. This prototype captures it locally; delivery is not configured.</p>
+            } @else {
+              <form (ngSubmit)="sendContact()">
+                <label>Name<input name="name" [(ngModel)]="name" required autocomplete="name" /></label>
+                @if (submitted && !name.trim()) { <small class="form-error">Enter your name.</small> }
+                <label>Subject<input name="subject" [(ngModel)]="subject" required /></label>
+                @if (submitted && !subject.trim()) { <small class="form-error">Enter a subject.</small> }
+                <label>Message<textarea name="message" [(ngModel)]="message" rows="5" required></textarea></label>
+                @if (submitted && !message.trim()) { <small class="form-error">Enter a message.</small> }
+                <button type="submit">Send message ↗</button>
+              </form>
+            }
+          </section>
+      </div>
+    }
+  </div>
+</section>

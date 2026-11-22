@@ -172,6 +172,7 @@ public class ListingService {
     public boolean updateRoomStatus(String id, String status, TenantResponse tenant) {
         if (!List.of("available", "booked").contains(status)) throw new IllegalArgumentException("Invalid room status.");
         if ("available".equals(status)) {
+            jdbc.update("DELETE FROM tenant_accounts WHERE room_id = ?", id);
             return jdbc.update("""
                     UPDATE rooms SET status = 'available', tenant_gender = NULL, tenant_country = NULL,
                         occupied_from = NULL, occupied_until = NULL WHERE id = ?

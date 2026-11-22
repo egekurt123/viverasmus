@@ -21,12 +21,12 @@ export class AuthComponent {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email);
   }
 
-  submit(): void {
+  async submit(): Promise<void> {
     this.submitted = true;
     this.errorMessage = '';
     if (!this.validEmail() || this.password.length < 8) return;
-    const account = this.auth.login(this.email, this.password);
+    const account = await this.auth.login(this.email, this.password);
     if (!account) { this.errorMessage = 'These details don’t match an account. Contact the viverasmus team for access help.'; return; }
-    void this.router.navigateByUrl(account.role === 'admin' ? '/admin' : '/');
+    void this.router.navigateByUrl(account.role === 'admin' ? '/admin' : '/my-apartment');
   }
 }

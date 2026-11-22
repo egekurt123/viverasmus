@@ -7,7 +7,8 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { AboutComponent } from './pages/about/about.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { NewFlatComponent } from './pages/new-flat/new-flat.component';
-import { adminGuard } from './core/guards/auth.guard';
+import { MyApartmentComponent } from './pages/my-apartment/my-apartment.component';
+import { adminGuard, tenantGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path:'', component:HomeComponent, title:'viverasmus | Find your home in Sevilla' },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path:'contact', component:ContactComponent, title:'Contact viverasmus' },
   { path:'about', component:AboutComponent, title:'About the viverasmus team' },
   { path:'login', component:AuthComponent, data:{mode:'login'}, title:'Log in | viverasmus' },
+  { path:'my-apartment', component:MyApartmentComponent, canActivate:[tenantGuard], title:'My Apartment | viverasmus' },
   { path:'admin', component:AdminComponent, canActivate:[adminGuard], title:'Rooms & bookings | viverasmus' },
   { path:'admin/new-flat', component:NewFlatComponent, canActivate:[adminGuard], title:'Add a flat | viverasmus' },
   { path:'**', redirectTo:'' }
