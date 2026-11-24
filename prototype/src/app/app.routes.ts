@@ -8,6 +8,7 @@ import { AboutComponent } from './pages/about/about.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { NewFlatComponent } from './pages/new-flat/new-flat.component';
 import { MyApartmentComponent } from './pages/my-apartment/my-apartment.component';
+import { AdminFaqsComponent } from './pages/admin-faqs/admin-faqs.component';
 import { adminGuard, tenantGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
   { path:'login', component:AuthComponent, data:{mode:'login'}, title:'Log in | viverasmus' },
   { path:'my-apartment', component:MyApartmentComponent, canActivate:[tenantGuard], title:'My Apartment | viverasmus' },
   { path:'admin', component:AdminComponent, canActivate:[adminGuard], title:'Rooms & bookings | viverasmus' },
+  { path:'admin/faqs', component:AdminFaqsComponent, canActivate:[adminGuard], title:'Manage FAQs | viverasmus' },
   { path:'admin/new-flat', component:NewFlatComponent, canActivate:[adminGuard], title:'Add a flat | viverasmus' },
   { path:'**', redirectTo:'' }
 ];

@@ -91,29 +91,21 @@
     <a class="faq-contact" routerLink="/contact">Ask about a listing <span>↗</span></a>
   </div>
   <div class="faq-list">
-    <details>
-      <summary>How do I find a room or flat?</summary>
-      <p>Browse student homes in Sevilla and filter by neighborhood, maximum monthly rent, move-in date and home type. Open a listing to compare its price, availability, furnishings and amenities.</p>
-    </details>
-    <details>
-      <summary>How does the renting process work?</summary>
-      <p>Search for a room or flat, review its rent, availability and amenities, then contact the viverasmus team about the listing you’re interested in. The team can answer your questions and explain the next step. Move-in dates are generally 1 September or 1 February for stays of at least five months; July and August can be rented individually.</p>
-    </details>
-    <details>
-      <summary>What’s included in an apartment?</summary>
-      <p>Inclusions vary by home. Each listing shows whether the apartment is furnished, whether utilities are included, and which amenities it has. These can include Wi-Fi, air conditioning, heating, a washing machine, a dishwasher, a balcony or an elevator. Ask the team whether cleaning service is available for the apartment you’re considering.</p>
-    </details>
-    <details>
-      <summary>Are the prices shown final?</summary>
-      <p>The rent shown is approximate; the final price is confirmed after booking. Check the listing details and contact the team if you have a question about a home’s cost.</p>
-    </details>
-    <details>
-      <summary>Can I ask about a specific listing?</summary>
-      <p>Yes. Use the contact page and include the home or room you’re looking at, along with your question about rent, availability or amenities.</p>
-    </details>
-    <details>
-      <summary>Can I get help learning about Sevilla?</summary>
-      <p>Listings include the neighborhood and an approximate map location, so you can explore areas such as Centro, Triana, Nervión, Los Remedios and San Bernardo while you compare homes.</p>
-    </details>
+    @if (faqsLoading) {
+      <p class="faq-state" role="status">Loading questions…</p>
+    } @else {
+      @for (faq of faqs; track faq.id) {
+        <details>
+          <summary>{{ faq.question }}</summary>
+          <p>{{ faq.answer }}</p>
+        </details>
+      } @empty {
+        @if (faqsError) {
+          <p class="faq-state">Questions are temporarily unavailable. Please contact our team if you need help.</p>
+        } @else {
+          <p class="faq-state">There are no questions to show right now. Please contact our team if you need help.</p>
+        }
+      }
+    }
   </div>
 </section>

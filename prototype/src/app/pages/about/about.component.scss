@@ -24,6 +24,7 @@ h1 em, h2 em { color:var(--brand-accent); font-weight:400; }
 .faq-contact { display:inline-flex; align-items:center; gap:10px; color:var(--brand-cobalt); font-size:12px; font-weight:700; text-decoration:none; }
 .faq-contact:hover { color:var(--brand-accent); }.faq-contact span { font-size:16px; }
 .faq-list { border-top:1px solid var(--line); }
+.faq-state { margin:18px 0; color:var(--muted); font-size:12px; line-height:1.7; }
 .faq-list details { border-bottom:1px solid var(--line); }
 .faq-list summary { position:relative; padding:21px 38px 21px 0; color:var(--brand-navy); cursor:pointer; font-size:14px; font-weight:650; list-style:none; }
 .faq-list summary::-webkit-details-marker { display:none; }

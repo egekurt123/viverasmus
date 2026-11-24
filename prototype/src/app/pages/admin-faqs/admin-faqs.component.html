@@ -1,0 +1,60 @@
+<section class="faq-admin-page">
+  <div class="faq-admin-wrap">
+    <a class="back-link" routerLink="/admin">← Back to rooms &amp; bookings</a>
+    <header class="page-heading">
+      <span class="eyebrow">VIVERASMUS OFFICE</span>
+      <h1>Manage FAQs</h1>
+      <p>These questions appear on the public About page. Unpublished items stay visible here only.</p>
+    </header>
+
+    @if (error) { <p class="message error" role="alert">{{ error }}</p> }
+    @if (notice) { <p class="message success" role="status">{{ notice }}</p> }
+
+    <div class="faq-admin-grid">
+      <section class="editor-card" aria-labelledby="editor-title">
+        <span class="eyebrow">{{ editingId ? 'EDIT FAQ' : 'NEW FAQ' }}</span>
+        <h2 id="editor-title">{{ editingId ? 'Update a question' : 'Add a question' }}</h2>
+        <form (ngSubmit)="save()">
+          <label>Question
+            <input name="question" [(ngModel)]="question" maxlength="500" required />
+          </label>
+          <label>Answer
+            <textarea name="answer" [(ngModel)]="answer" rows="7" required></textarea>
+          </label>
+          <label class="published-control">
+            <input type="checkbox" name="published" [(ngModel)]="published" />
+            Show this FAQ on the public page
+          </label>
+          <div class="form-actions">
+            <button class="primary" type="submit" [disabled]="saving || !question.trim() || !answer.trim()">
+              {{ saving ? 'Saving…' : editingId ? 'Save changes' : 'Add FAQ' }}
+            </button>
+            @if (editingId) { <button class="secondary" type="button" (click)="reset()">Cancel</button> }
+          </div>
+        </form>
+      </section>
+
+      <section class="faq-list-card" aria-labelledby="faq-list-title">
+        <div class="list-heading"><div><span class="eyebrow">CONTENT</span><h2 id="faq-list-title">Questions</h2></div><span class="count">{{ faqs.length }}</span></div>
+        @if (loading) { <p class="empty">Loading FAQs…</p> }
+        @else if (!faqs.length) { <p class="empty">No FAQs yet. Add the first one here.</p> }
+        @else {
+          <ol class="faq-items">
+            @for (item of faqs; track item.id; let i = $index) {
+              <li [class.selected]="editingId === item.id">
+                <div class="item-copy"><div class="question-line"><strong>{{ item.question }}</strong><span class="status" [class.unpublished]="!item.published">{{ item.published ? 'Published' : 'Unpublished' }}</span></div><p>{{ item.answer }}</p></div>
+                <div class="item-actions">
+                  <button type="button" (click)="move(i, -1)" [disabled]="i === 0" [attr.aria-label]="'Move ' + item.question + ' up'">↑</button>
+                  <button type="button" (click)="move(i, 1)" [disabled]="i === faqs.length - 1" [attr.aria-label]="'Move ' + item.question + ' down'">↓</button>
+                  <button type="button" (click)="togglePublished(item)">{{ item.published ? 'Unpublish' : 'Publish' }}</button>
+                  <button type="button" (click)="edit(item)">Edit</button>
+                  <button type="button" class="delete" (click)="remove(item)">Delete</button>
+                </div>
+              </li>
+            }
+          </ol>
+        }
+      </section>
+    </div>
+  </div>
+</section>

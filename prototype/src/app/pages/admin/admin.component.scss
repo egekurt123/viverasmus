@@ -7,6 +7,7 @@
 .office > span { color: var(--muted); font-size: 10px; }
 .add-flat { display: inline-block; margin-top: 14px; padding: 10px 18px; border-radius: var(--radius-pill); background: var(--gold); color: var(--brand-navy); text-decoration: none; font-size: 13px; font-weight: 700; }
 .add-flat:hover { background: var(--gold-hover); }
+.manage-faqs { display: inline-block; margin: 14px 0 0 8px; padding: 10px 16px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: #fff; color: var(--brand-cobalt); text-decoration: none; font-size: 13px; font-weight: 700; }
 .flat-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
 .flat-tools select { padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: #ffffff; color: var(--ink); font-size: 11px; }
 .featured-toggle { padding: 5px 12px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: #ffffff; color: var(--brand-cobalt); font-size: 11px; font-weight: 650; cursor: pointer; }
