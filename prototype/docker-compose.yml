@@ -25,6 +25,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-viverasmus}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-viverasmus}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-viverasmus_dev_password}
+      VIVERASMUS_ADMIN_EMAIL: ${VIVERASMUS_ADMIN_EMAIL:-admin@viverasmus.com}
+      VIVERASMUS_ADMIN_PASSWORD: ${VIVERASMUS_ADMIN_PASSWORD:-admin2027}
     volumes:
       - ./apartment-photos:/data/uploads
     depends_on:
